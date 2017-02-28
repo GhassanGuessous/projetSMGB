@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ContexteElementCreateDlg" widgetVar="ContexteElementCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateContexteElementTitle}">
+            <h:form id="ContexteElementCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{contexteElementController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateContexteElementLabel_id}" for="id" />
+                        <p:inputText id="id" value="#{contexteElementController.selected.id}" title="#{bundle.CreateContexteElementTitle_id}" />
+                        <p:outputLabel value="#{bundle.CreateContexteElementLabel_nom}" for="nom" />
+                        <p:inputText id="nom" value="#{contexteElementController.selected.nom}" title="#{bundle.CreateContexteElementTitle_nom}" />
+                        <p:outputLabel value="#{bundle.CreateContexteElementLabel_contexte}" for="contexte" />
+                        <p:selectOneMenu id="contexte" value="#{contexteElementController.selected.contexte}" >
+                            <f:selectItems value="#{contexteController.itemsAvailableSelectOne}"
+                                           var="contexteItem"
+                                           itemValue="#{contexteItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{contexteElementController.create}" value="#{bundle.Save}" update="display,:ContexteElementListForm:datalist,:growl" oncomplete="handleSubmit(args,'ContexteElementCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="ContexteElementCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

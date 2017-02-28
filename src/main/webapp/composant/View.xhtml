@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ComposantViewDlg" widgetVar="ComposantViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewComposantTitle}">
+            <h:form id="ComposantViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{composantController.selected != null}">
+                        <h:outputText value="#{bundle.ViewComposantLabel_id}"/>
+                        <h:outputText value="#{composantController.selected.id}" title="#{bundle.ViewComposantTitle_id}"/>
+                        <h:outputText value="#{bundle.ViewComposantLabel_nom}"/>
+                        <h:outputText value="#{composantController.selected.nom}" title="#{bundle.ViewComposantTitle_nom}"/>
+                        <h:outputText value="#{bundle.ViewComposantLabel_domaineAssocie}"/>
+                        <h:outputText value="#{composantController.selected.domaineAssocie}" title="#{bundle.ViewComposantTitle_domaineAssocie}"/>
+                        <h:outputText value="#{bundle.ViewComposantLabel_provideInterface}"/>
+                        <h:outputText value="#{composantController.selected.provideInterface}" title="#{bundle.ViewComposantTitle_provideInterface}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="ComposantViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="DomaineAssocieEditDlg" widgetVar="DomaineAssocieEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditDomaineAssocieTitle}">
+            <h:form id="DomaineAssocieEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{domaineAssocieController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditDomaineAssocieLabel_id}" for="id" />
+                        <p:inputText id="id" value="#{domaineAssocieController.selected.id}" title="#{bundle.EditDomaineAssocieTitle_id}" />
+                        <p:outputLabel value="#{bundle.EditDomaineAssocieLabel_nom}" for="nom" />
+                        <p:inputText id="nom" value="#{domaineAssocieController.selected.nom}" title="#{bundle.EditDomaineAssocieTitle_nom}" />
+                        <p:outputLabel value="#{bundle.EditDomaineAssocieLabel_domaine}" for="domaine" />
+                        <p:selectOneMenu id="domaine" value="#{domaineAssocieController.selected.domaine}" >
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{domaineController.itemsAvailableSelectOne}"
+                                           var="domaineItem"
+                                           itemValue="#{domaineItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditDomaineAssocieLabel_type}" for="type" />
+                        <p:inputText id="type" value="#{domaineAssocieController.selected.type}" title="#{bundle.EditDomaineAssocieTitle_type}" />
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{domaineAssocieController.update}" value="#{bundle.Save}" update="display,:DomaineAssocieListForm:datalist,:growl" oncomplete="handleSubmit(args, 'DomaineAssocieEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="DomaineAssocieEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

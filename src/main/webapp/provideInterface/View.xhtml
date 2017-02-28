@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ProvideInterfaceViewDlg" widgetVar="ProvideInterfaceViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewProvideInterfaceTitle}">
+            <h:form id="ProvideInterfaceViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{provideInterfaceController.selected != null}">
+                        <h:outputText value="#{bundle.ViewProvideInterfaceLabel_id}"/>
+                        <h:outputText value="#{provideInterfaceController.selected.id}" title="#{bundle.ViewProvideInterfaceTitle_id}"/>
+                        <h:outputText value="#{bundle.ViewProvideInterfaceLabel_nom}"/>
+                        <h:outputText value="#{provideInterfaceController.selected.nom}" title="#{bundle.ViewProvideInterfaceTitle_nom}"/>
+                        <h:outputText value="#{bundle.ViewProvideInterfaceLabel_composant}"/>
+                        <h:outputText value="#{provideInterfaceController.selected.composant}" title="#{bundle.ViewProvideInterfaceTitle_composant}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="ProvideInterfaceViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

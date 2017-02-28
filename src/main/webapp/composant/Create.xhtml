@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ComposantCreateDlg" widgetVar="ComposantCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateComposantTitle}">
+            <h:form id="ComposantCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{composantController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateComposantLabel_id}" for="id" />
+                        <p:inputText id="id" value="#{composantController.selected.id}" title="#{bundle.CreateComposantTitle_id}" />
+                        <p:outputLabel value="#{bundle.CreateComposantLabel_nom}" for="nom" />
+                        <p:inputText id="nom" value="#{composantController.selected.nom}" title="#{bundle.CreateComposantTitle_nom}" />
+                        <p:outputLabel value="#{bundle.CreateComposantLabel_domaineAssocie}" for="domaineAssocie" />
+                        <p:selectOneMenu id="domaineAssocie" value="#{composantController.selected.domaineAssocie}" >
+                            <f:selectItems value="#{domaineAssocieController.itemsAvailableSelectOne}"
+                                           var="domaineAssocieItem"
+                                           itemValue="#{domaineAssocieItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreateComposantLabel_provideInterface}" for="provideInterface" />
+                        <p:selectOneMenu id="provideInterface" value="#{composantController.selected.provideInterface}" >
+                            <f:selectItems value="#{provideInterfaceController.itemsAvailableSelectOne}"
+                                           var="provideInterfaceItem"
+                                           itemValue="#{provideInterfaceItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{composantController.create}" value="#{bundle.Save}" update="display,:ComposantListForm:datalist,:growl" oncomplete="handleSubmit(args,'ComposantCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="ComposantCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

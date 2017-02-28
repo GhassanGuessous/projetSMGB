@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ProvideInterfaceItemCreateDlg" widgetVar="ProvideInterfaceItemCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateProvideInterfaceItemTitle}">
+            <h:form id="ProvideInterfaceItemCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{provideInterfaceItemController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateProvideInterfaceItemLabel_id}" for="id" />
+                        <p:inputText id="id" value="#{provideInterfaceItemController.selected.id}" title="#{bundle.CreateProvideInterfaceItemTitle_id}" />
+                        <p:outputLabel value="#{bundle.CreateProvideInterfaceItemLabel_nom}" for="nom" />
+                        <p:inputText id="nom" value="#{provideInterfaceItemController.selected.nom}" title="#{bundle.CreateProvideInterfaceItemTitle_nom}" />
+                        <p:outputLabel value="#{bundle.CreateProvideInterfaceItemLabel_provideInterface}" for="provideInterface" />
+                        <p:selectOneMenu id="provideInterface" value="#{provideInterfaceItemController.selected.provideInterface}" >
+                            <f:selectItems value="#{provideInterfaceController.itemsAvailableSelectOne}"
+                                           var="provideInterfaceItem"
+                                           itemValue="#{provideInterfaceItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreateProvideInterfaceItemLabel_output}" for="output" />
+                        <p:selectOneMenu id="output" value="#{provideInterfaceItemController.selected.output}" >
+                            <f:selectItems value="#{outputController.itemsAvailableSelectOne}"
+                                           var="outputItem"
+                                           itemValue="#{outputItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{provideInterfaceItemController.create}" value="#{bundle.Save}" update="display,:ProvideInterfaceItemListForm:datalist,:growl" oncomplete="handleSubmit(args,'ProvideInterfaceItemCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="ProvideInterfaceItemCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>
