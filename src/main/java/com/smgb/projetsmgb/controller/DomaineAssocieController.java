@@ -120,6 +120,11 @@ public class DomaineAssocieController implements Serializable {
     public List<DomaineAssocie> getItemsAvailableSelectOne() {
         return getFacade().findAll();
     }
+    
+    public List<DomaineAssocie> findListSubDomaines(){
+        List<DomaineAssocie> domaineAssocies = ejbFacade.findListSubDomaines();
+        return domaineAssocies;
+    }
 
     @FacesConverter(forClass = DomaineAssocie.class)
     public static class DomaineAssocieControllerConverter implements Converter {

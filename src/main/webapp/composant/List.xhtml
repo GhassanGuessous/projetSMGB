@@ -14,56 +14,127 @@
         </ui:define>
 
         <ui:define name="body">
-            <h:form id="ComposantListForm">
-                <p:panel header="#{bundle.ListComposantTitle}">
-                    <p:dataTable id="datalist" value="#{composantController.items}" var="item"
-                                 selectionMode="single" selection="#{composantController.selected}"
+
+            <h:form>
+                <p:panel header="Composant-ProvideIterface-ProvideInterfaceItem">
+                    <h:panelGrid id="grid" columns="8" cellpadding="5" >
+                        <f:facet name="header">
+                            <p:messages id="msgs" showDetail="true" autoUpdate="true" closable="true"/>
+                        </f:facet>
+
+                        <p:outputLabel value="Nom:" for="nom" style="font-weight: bold;" />
+                        <p:inputText id="nom" value="#{composantController.selected.nom}" title="Nom" required="true" />
+
+                        <p:outputLabel value="Path:" for="chemin" style="font-weight: bold;"/>
+                        <p:inputText id="chemin" value="#{composantController.selected.chemin}" title="Path" />
+
+                        <p:outputLabel value="Domaine associé:" for="domaineAssocie" style="font-weight: bold;"/>
+                        <p:selectOneMenu id="domaineAssocie" value="#{composantController.selected.domaineAssocie}" required="true">
+                            <f:selectItem itemValue="#{domaineAssocieItem}" itemLabel="--SELECT--"/>
+                            <f:selectItems value="#{domaineAssocieController.findListSubDomaines()}"
+                                           var="domaineAssocieItem"
+                                           itemValue="#{domaineAssocieItem}" itemLabel="#{domaineAssocieItem.nom}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="ProvideInterfaceItem:" for="provideInterfaceItemNom" style="font-weight: bold;"/>
+                        <p:inputText id="provideInterfaceItemNom" value="#{composantController.provideInterfaceItemNom}" title="ProvideInterfaceItem" required="true"/>
+
+                        <p:outputLabel value="Input:" for="inputNom" style="font-weight: bold;" />
+                        <p:inputText id="inputNom" value="#{composantController.inputNom}" title="Input" required="true"/>
+
+                        <p:outputLabel value="Input Type:" for="inputType" style="font-weight: bold;" />
+                        <p:inputText id="inputType" value="#{composantController.inputType}" title="Type" required="true"/>
+
+                        <p:outputLabel value="Output:" for="outputNom" style="font-weight: bold;" />
+                        <p:inputText id="outputNom" value="#{composantController.outputNom}" title="Output" required="true"/>
+
+                        <p:outputLabel value="Output Type:" for="outputType" style="font-weight: bold;" />
+                        <p:inputText id="outputType" value="#{composantController.outputType}" title="Type" required="true"/>
+
+                        <p:commandButton id="saveButton" process="@all" actionListener="#{composantController.save()}" value="SAVE" icon="ui-icon-disk " update="grid"/>
+
+                        <!--<p:commandButton id="Button" icon="ui-icon-pencil" value="Changer output" actionListener="#{composantController}" update="" disabled="true"/>-->
+
+                    </h:panelGrid>
+                </p:panel>
+            </h:form>
+
+            <h:form id="ProvideInterfaceItemListForm">
+
+                <p:panel header="List ProvideInterfaceItems">
+                    <h:panelGrid id="grid1" columns="3">
+                        <p:outputLabel value="Composant:" for="nomComposant" style="font-weight: bold;" />
+                        <p:inputText id="nomComposant" value="#{composantController.nom}" title="Nom du composant" required="true" />
+                        <p:commandButton id="provideInterfaceItemsButton" icon="ui-icon-search" value="ProvideIterfaceItems" actionListener="#{composantController.findProvideInterfaceItems()}" update=":ProvideInterfaceItemListForm:datalist"/>
+                    </h:panelGrid>
+                    
+                    <p:dataTable id="datalist" value="#{composantController.selected.provideInterface.provideInterfaceItems}" var="item"
+                                 selectionMode="single" selection="#{composantController.provideInterfaceItem}"
                                  paginator="true"
                                  rowKey="#{item.id}"
                                  rows="10"
                                  rowsPerPageTemplate="10,20,30,40,50"
                                  >
 
-                        <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
-                        <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
-
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListComposantTitle_id}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.id}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListComposantTitle_nom}"/>
+                                <h:outputText value="#{bundle.ListProvideInterfaceItemTitle_nom}"/>
                             </f:facet>
                             <h:outputText value="#{item.nom}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListComposantTitle_domaineAssocie}"/>
+                                <h:outputText value="#{bundle.ListProvideInterfaceItemTitle_provideInterface}"/>
                             </f:facet>
-                            <h:outputText value="#{item.domaineAssocie}"/>
+                            <h:outputText value="#{item.provideInterface.nom}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListComposantTitle_provideInterface}"/>
+                                <h:outputText value="#{bundle.ListProvideInterfaceItemTitle_output}"/>
                             </f:facet>
-                            <h:outputText value="#{item.provideInterface}"/>
+                            <h:outputText value="#{item.output.nom}"/>
                         </p:column>
-                        <f:facet name="footer">
-                            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{composantController.prepareCreate}" update=":ComposantCreateForm" oncomplete="PF('ComposantCreateDialog').show()"/>
-                            <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":ComposantViewForm" oncomplete="PF('ComposantViewDialog').show()" disabled="#{empty composantController.selected}"/>
-                            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":ComposantEditForm" oncomplete="PF('ComposantEditDialog').show()" disabled="#{empty composantController.selected}"/>
-                            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{composantController.destroy}" update=":growl,datalist" disabled="#{empty composantController.selected}"/>
-                        </f:facet>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Type"/>
+                            </f:facet>
+                            <h:outputText value="#{item.output.type}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Inputs"/>
+                            </f:facet>
+                            <p:commandButton id="showInputsButton" icon="ui-icon-plus" value="Show Inputs" actionListener="#{composantController.findInputsByProvideInterfaceItem(item)}" update=":InputListForm:datalist"/>
+                        </p:column>
                     </p:dataTable>
                 </p:panel>
             </h:form>
 
-            <ui:include src="Create.xhtml"/>
-            <ui:include src="Edit.xhtml"/>
-            <ui:include src="View.xhtml"/>
+            <h:form id="InputListForm">
+                <p:panel header="List Inputs">
+                    <p:dataTable id="datalist" value="#{composantController.provideInterfaceItem.inputs}" var="item"
+                                 selectionMode="single" selection="#{composantController.input}"
+                                 paginator="true"
+                                 rowKey="#{item.id}"
+                                 rows="10"
+                                 rowsPerPageTemplate="10,20,30,40,50"
+                                 >
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListInputTitle_nom}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.nom}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListInputTitle_type}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.type}"/>
+                        </p:column>
+                    </p:dataTable>
+                </p:panel>
+            </h:form>
         </ui:define>
     </ui:composition>
 

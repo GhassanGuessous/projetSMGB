@@ -25,6 +25,7 @@ public class Composant implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nom;
+    private String chemin;
     @ManyToOne
     private DomaineAssocie domaineAssocie; //de type sous-domaine
     @OneToOne
@@ -46,7 +47,18 @@ public class Composant implements Serializable {
         this.nom = nom;
     }
 
+    public String getChemin() {
+        return chemin;
+    }
+
+    public void setChemin(String chemin) {
+        this.chemin = chemin;
+    }
+    
     public DomaineAssocie getDomaineAssocie() {
+        if(domaineAssocie == null){
+            domaineAssocie = new DomaineAssocie();
+        }
         return domaineAssocie;
     }
 

@@ -6,6 +6,7 @@
 package com.smgb.projetsmgb.service;
 
 import com.smgb.projetsmgb.bean.DomaineAssocie;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -29,4 +30,7 @@ public class DomaineAssocieFacade extends AbstractFacade<DomaineAssocie> {
         super(DomaineAssocie.class);
     }
     
+    public List<DomaineAssocie> findListSubDomaines(){
+        return em.createQuery("SELECT sd FROM DomaineAssocie sd WHERE sd.type = 2").getResultList();
+    }
 }
