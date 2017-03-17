@@ -12,8 +12,15 @@
         <ui:define name="title">
             <h:outputText value="#{bundle.ListContexteElementTitle}"></h:outputText>
         </ui:define>
+        
+        
 
         <ui:define name="body">
+            
+                 <p:panel id="pnl" header="Draggable Panel" style="width :200px;">
+            <h:outputText value="I am actually a regular p:panel." />
+        </p:panel>
+        <p:draggable for="pnl" />
             <h:form id="ContexteElementListForm">
                 <p:panel header="#{bundle.ListContexteElementTitle}">
                     <p:dataTable id="datalist" value="#{contexteElementController.items}" var="item"
@@ -24,8 +31,7 @@
                                  rowsPerPageTemplate="10,20,30,40,50"
                                  >
 
-                        <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
-                        <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
+                    
 
                         <p:column>
                             <f:facet name="header">
@@ -44,6 +50,8 @@
                                 <h:outputText value="#{bundle.ListContexteElementTitle_contexte}"/>
                             </f:facet>
                             <h:outputText value="#{item.contexte}"/>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <p:commandButton id="detailButton" icon="ui-icon-plus"   value="Details" actionListener="#{contexteElementController.findByContexteElement(item)}" update=":SensibleParamListForm:datalistSensibleForm" ajax="true"/>
                         </p:column>
                         <f:facet name="footer">
                             <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{contexteElementController.prepareCreate}" update=":ContexteElementCreateForm" oncomplete="PF('ContexteElementCreateDialog').show()"/>
@@ -54,6 +62,44 @@
                     </p:dataTable>
                 </p:panel>
             </h:form>
+            
+        <h:form id="SensibleParamListForm">
+                <p:panel header="#{bundle.ListSensibleParamTitle}">
+                    <p:dataTable id="datalistSensibleForm" value="#{contexteElementController.selected.sensibleParams}" var="item"
+                                 selectionMode="single" selection="#{contexteElementController.selected}"
+                                 paginator="true"
+                                 rowKey="#{item.id}"
+                                 rows="10"
+                                 rowsPerPageTemplate="10,20,30,40,50"
+                                 >
+
+                   
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListSensibleParamTitle_id}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.id}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListSensibleParamTitle_sensibleValeur}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.sensibleValeur}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListSensibleParamTitle_nom}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.nom}"/>
+                        </p:column>
+                        
+                       
+                    </p:dataTable>
+                </p:panel>
+            </h:form>
+            
+            
 
             <ui:include src="Create.xhtml"/>
             <ui:include src="Edit.xhtml"/>
