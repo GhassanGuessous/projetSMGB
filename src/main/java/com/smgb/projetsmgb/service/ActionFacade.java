@@ -5,7 +5,7 @@
  */
 package com.smgb.projetsmgb.service;
 
-import com.smgb.projetsmgb.bean.Output;
+import com.smgb.projetsmgb.bean.Action;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -15,7 +15,7 @@ import javax.persistence.PersistenceContext;
  * @author Ghassan
  */
 @Stateless
-public class OutputFacade extends AbstractFacade<Output> {
+public class ActionFacade extends AbstractFacade<Action> {
 
     @PersistenceContext(unitName = "com.SMGB_projetSMGB_war_1.0-SNAPSHOTPU")
     private EntityManager em;
@@ -25,19 +25,8 @@ public class OutputFacade extends AbstractFacade<Output> {
         return em;
     }
 
-    public OutputFacade() {
-        super(Output.class);
+    public ActionFacade() {
+        super(Action.class);
     }
-    
-    public void clone(Output outputSource, Output outputDestination){
-        outputDestination.setNom(outputSource.getNom());
-        outputDestination.setType(outputSource.getType());
-        outputDestination.setProvideInterfaceItem(outputSource.getProvideInterfaceItem());
-    }
-    
-    public Output clone(Output output){
-        Output cloned = new Output();
-        clone(output, cloned);
-        return cloned;
-    }
+
 }

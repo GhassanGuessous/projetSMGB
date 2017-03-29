@@ -30,18 +30,39 @@ public class InputFacade extends AbstractFacade<Input> {
     public InputFacade() {
         super(Input.class);
     }
+    
+    public void clone(Input inputSource, Input inputDestination){
+        inputDestination.setNom(inputSource.getNom());
+        inputDestination.setType(inputSource.getType());
+        inputDestination.setProvideInterfaceItem(inputSource.getProvideInterfaceItem());
+    }
+    
+    public Input clone(Input input){
+        Input cloned = new Input();
+        clone(input, cloned);
+        return cloned;
+    }
 
     public Object[] findInputByProvideInterfaceItemAndNomAndType(ProvideInterfaceItem provideInterfaceItem, Input input) {
         String requete = "SELECT i FROM Input i WHERE i.provideInterfaceItem.nom = '" + provideInterfaceItem.getNom() + "'";
         requete += " AND i.nom = '" + input.getNom() + "'";
-        requete += "AND i.type = '" + input.getType() + "'";
+        requete += " AND i.type = '" + input.getType() + "'";
         List<Input> inputs = em.createQuery(requete).getResultList();
         if (!inputs.isEmpty()) {
-            return new Object[]{1, inputs.get(0)};
+            return new Object[]{-1, inputs.get(0)};
         } else {
             input.setProvideInterfaceItem(provideInterfaceItem);
-            return new Object[]{-1, input};
+            return new Object[]{1, input};
         }
+    }
+    
+    public int findInput(List<Input> inputs, Input input) {
+        for (Input input1 : inputs) {
+            if(input.getNom().equals(input1.getNom()) && input.getProvideInterfaceItem().getNom().equals(input1.getProvideInterfaceItem().getNom())){
+                return -1;
+            }
+        }
+        return 1;
     }
     
     public List<Input> findInputsByProvideInterfaceItem(ProvideInterfaceItem provideInterfaceItem){

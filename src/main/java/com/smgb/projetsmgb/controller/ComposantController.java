@@ -10,6 +10,7 @@ import com.smgb.projetsmgb.controller.util.JsfUtil.PersistAction;
 import com.smgb.projetsmgb.service.ComposantFacade;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -34,19 +35,18 @@ public class ComposantController implements Serializable {
     private com.smgb.projetsmgb.service.ProvideInterfaceItemFacade provideInterfaceItemFacade;
     @EJB
     private com.smgb.projetsmgb.service.InputFacade inputFacade;
+    @EJB
+    private com.smgb.projetsmgb.service.OutputFacade outputFacade;
     private List<Composant> items = null;
     private Composant selected;
 
+    private ProvideInterface provideInterface;
     private ProvideInterfaceItem provideInterfaceItem;
-    private String provideInterfaceItemNom;
+    private ProvideInterfaceItem selectedProvideInterfaceItem;
+    private List<ProvideInterfaceItem> provideInterfaceItems = new ArrayList();
     private Input input;
+    private List<Input> inputs = new ArrayList();
     private Output output = new Output();
-    private String inputNom;
-    private String outputNom;
-    private String inputType;
-    private String outputType;
-    private String nom;
-    
 
     public ComposantController() {
     }
@@ -72,38 +72,61 @@ public class ComposantController implements Serializable {
         return ejbFacade;
     }
 
-    public void save() {
-
-        provideInterfaceItem.setNom(provideInterfaceItemNom);
-        input.setNom(inputNom);
-        input.setType(inputType);
-        output.setNom(outputNom);
-        output.setType(outputType);
-        int res = ejbFacade.save(selected, provideInterfaceItem, input, output);
-        if (res < 0) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Cet input existe deja pour cette provideIntefaceItem !"));
+    public void saveComposant() {
+        Object[] res = ejbFacade.findByDomaineAndNom(selected);
+        int res1 = (int) res[0];
+        selected = (Composant) res[1];
+        if (res1 < 0) {
+//            JsfUtil.addSuccessMessage("oui");
+            Message("Composant", "Composant a ete cree avec success");
         } else {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("L'input a été créé avec succes."));
+//            JsfUtil.addErrorMessage("non");
+            Message("Composant", "Composant existant. Voulez vous ajouter d'autre pii ?");
         }
     }
 
-    public void findProvideInterfaceItems() {
-        ProvideInterface provideInterface = new ProvideInterface();
-        selected.setProvideInterface(provideInterface);
-        List<ProvideInterfaceItem> provideInterfaceItems = provideInterfaceItemFacade.findProvideInterfaceItemByComposant(nom);
-        if (provideInterfaceItems != null) {
-            selected.getProvideInterface().setProvideInterfaceItems(provideInterfaceItems);
+    public void addProvideInterfaceItem() {
+        provideInterfaceItem.setProvideInterface(selected.getProvideInterface());
+        provideInterfaceItem.setOutput(outputFacade.clone(output));
+        int res = provideInterfaceItemFacade.findProvideInterfaceItem(provideInterfaceItems, provideInterfaceItem);
+        if (res > 0) {
+            getProvideInterfaceItems().add(provideInterfaceItemFacade.clone(provideInterfaceItem));
+        } else {
+            Message("ProvideInterfaceItem deja ajoutée a la liste", "");
         }
-//        else{
-//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Aucune privideInterfaceItem pour ce composant !"));
-//        }
+    }
+
+    public void addInput() {
+        input.setProvideInterfaceItem(selectedProvideInterfaceItem);
+        int res = inputFacade.findInput(inputs, input);
+        if (res > 0) {
+            getInputs().add(inputFacade.clone(input));
+        }else{
+            Message("Input deja ajouté a la liste", "");
+        }
+    }
+
+    public void save() {
+        provideInterfaceItemFacade.save(provideInterfaceItems, inputs);
+        provideInterfaceItems = new ArrayList<>();
+        inputs = new ArrayList<>();
+        Message("Success", "");
     }
 
     public void findInputsByProvideInterfaceItem(ProvideInterfaceItem provideInterfaceItem) {
         provideInterfaceItem.setInputs(inputFacade.findInputsByProvideInterfaceItem(provideInterfaceItem));
     }
 
-    public Composant prepareCreate() {
+    public void findProvideInterfaceItemByComposant() {
+        selected.getProvideInterface().setProvideInterfaceItems(provideInterfaceItemFacade.findProvideInterfaceItemByComposant(selected));
+    }
+
+    public void Message(String msg1, String msg2) {
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.addMessage(null, new FacesMessage(msg1, msg2));
+    }
+
+    public Composant prepareCreate(ProvideInterfaceItem provideInterfaceItem) {
         selected = new Composant();
         initializeEmbeddableKey();
         return selected;
@@ -227,46 +250,6 @@ public class ComposantController implements Serializable {
         this.provideInterfaceItem = provideInterfaceItem;
     }
 
-    public String getInputNom() {
-        return inputNom;
-    }
-
-    public void setInputNom(String inputNom) {
-        this.inputNom = inputNom;
-    }
-
-    public String getOutputNom() {
-        return outputNom;
-    }
-
-    public void setOutputNom(String outputNom) {
-        this.outputNom = outputNom;
-    }
-
-    public String getInputType() {
-        return inputType;
-    }
-
-    public void setInputType(String inputType) {
-        this.inputType = inputType;
-    }
-
-    public String getOutputType() {
-        return outputType;
-    }
-
-    public void setOutputType(String outputType) {
-        this.outputType = outputType;
-    }
-
-    public String getProvideInterfaceItemNom() {
-        return provideInterfaceItemNom;
-    }
-
-    public void setProvideInterfaceItemNom(String provideInterfaceItemNom) {
-        this.provideInterfaceItemNom = provideInterfaceItemNom;
-    }
-
     public Input getInput() {
         if (input == null) {
             input = new Input();
@@ -289,13 +272,36 @@ public class ComposantController implements Serializable {
         this.output = output;
     }
 
-    public String getNom() {
-        return nom;
+    public List<ProvideInterfaceItem> getProvideInterfaceItems() {
+        return provideInterfaceItems;
     }
 
-    public void setNom(String nom) {
-        this.nom = nom;
+    public void setProvideInterfaceItems(List<ProvideInterfaceItem> provideInterfaceItems) {
+        this.provideInterfaceItems = provideInterfaceItems;
     }
-    
+
+    public List<Input> getInputs() {
+        return inputs;
+    }
+
+    public void setInputs(List<Input> inputs) {
+        this.inputs = inputs;
+    }
+
+    public ProvideInterfaceItem getSelectedProvideInterfaceItem() {
+        return selectedProvideInterfaceItem;
+    }
+
+    public void setSelectedProvideInterfaceItem(ProvideInterfaceItem selectedProvideInterfaceItem) {
+        this.selectedProvideInterfaceItem = selectedProvideInterfaceItem;
+    }
+
+    public ProvideInterface getProvideInterface() {
+        return provideInterface;
+    }
+
+    public void setProvideInterface(ProvideInterface provideInterface) {
+        this.provideInterface = provideInterface;
+    }
 
 }

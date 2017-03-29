@@ -1,0 +1,177 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <!--<ui:composition template="/template.xhtml">-->
+
+    <!--        <ui:define name="title">
+                <h:outputText value="Welcome"></h:outputText>
+            </ui:define>-->
+    <h:head>
+        <title>Facelet Title</title>
+        <h:outputStylesheet name="css/jsfcrud.css"/>
+        <h:outputStylesheet library="css" name="bootstrap.css"/>
+    </h:head>
+
+    <!--<ui:define name="body">-->
+    <h:body style="padding-top: 50px">
+        <div class="navbar navbar-inverse navbar-fixed-top"> <!--navbar-inverse--> <!--navbar-static-top when scrolling, the navbar will desapear-->
+            <div class="container">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+
+                <a class="navbar-brand" href="">HOME</a>
+
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="active"><a href="#">About</a></li>
+                        <li class="active"><a href="#">Contact</a></li>
+                        <li class="active"><a href="#">Help</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="jumbotron">
+            <div class="container">
+                <h1>WELCOME</h1>
+                <p>
+                    hbucelgkzy uezagf ezgfy tev fezgfte cdkcb uyfzarehg riygapre <br></br> befè_ uezyta ètge eytz foez gvycgzo gfzytg'oaehzyrèo_'tgzepfh <br></br>yeg eyotfg OFGR VEGFYFMDHGRHGH RYGRB JHSDGV.B FQU EGFHRIG guyfle efge fvefvq fbqegfkf.
+                </p>
+                <a class="btn btn-primary btn-lg" href="#" role="button">Learn more »</a>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Panel title</h3>
+                    </div>
+                    <div class="panel-body">
+                        <h:form styleClass="form-horizontal form-group" >
+                            <div class="form-group">
+                                <p:outputLabel value="Domaines: " for="domaine" style="font-weight: bold;" styleClass="control-label col-md-2"/>
+                                <div class="col-md-2">
+                                    <h:selectOneMenu id="domaine" value="#{clientView1Controller.domaineSelected}" required="true" styleClass="form-control">
+                                        <f:selectItem itemValue="#{domaineItem}" itemLabel="--SELECT--"/>
+                                        <f:selectItems value="#{clientView1Controller.domaines}"
+                                                       var="domaineItem"
+                                                       itemValue="#{domaineItem}" itemLabel="#{domaineItem.nom}"/>
+
+                                        <p:ajax listener="#{clientView1Controller.findSubDomainesByDomaine()}" process="domaine" update="subDomaine" />
+                                    </h:selectOneMenu>
+                                </div>
+                                <p:outputLabel value="Sous-Domaines: " for="subDomaine" style="font-weight: bold;" styleClass="control-label col-md-2"/>
+                                <div class="col-md-2">
+                                    <h:selectOneMenu id="subDomaine" value="#{clientView1Controller.subDomaineSelected}" required="true" styleClass="form-control">
+                                        <f:selectItem itemValue="#{subDomaineItem}" itemLabel="--SELECT--"/>
+                                        <f:selectItems value="#{clientView1Controller.subdoamaines}"
+                                                       var="subDomaineItem"
+                                                       itemValue="#{subDomaineItem}" itemLabel="#{subDomaineItem.nom}"/>
+                                        <p:ajax listener="#{clientView1Controller.findComposantsBySubDomaine()}" process="subDomaine" update="" />
+                                    </h:selectOneMenu>
+                                </div>
+                                <div class="col-md-2">
+                                    <h:commandButton id="provideInterfaceItemsButton" class="btn btn-primary" value="OK" actionListener="#{clientView1Controller.findProvideInterfaceItemsByComposant()}"  >
+                                        <!--<p:ajax update=":ProvideInterfaceItemForm:datatree"></p:ajax>-->
+                                        <p:ajax update=""></p:ajax>
+                                    </h:commandButton>
+                                </div>
+                            </div>
+                        </h:form>
+                    </div>
+                </div>
+                <!--<p:panel header="">-->
+
+                <!--</p:panel>-->
+            </div>
+        </div>
+
+        <br></br>
+
+                <script type="text/javascript">
+                    function handleDrop(event, ui) {
+                        var droppedProvideInterfaceItem = ui.draggable;
+        
+                        droppedProvideInterfaceItem.fadeOut('fast');
+                    }
+                </script>
+
+        <div class="container-fluid">
+            <div class="row">
+                <h:form id="ProvideInterfaceItemForm">
+                    <div class="col-md-6">
+                        <!--                        <div class="panel panel-primary">
+                                                    <div class="panel-heading">
+                                                        <h3 class="panel-title">Panel title</h3>
+                                                    </div>
+                                                    <div class="panel-body">-->
+                        <!--                                <p:fieldset id="ProvideInterfaceItemField" >
+                                                            <p:treeTable id="datatree" value="#{clientView1Controller.root}" var="item">
+                                                                <p:column>
+                                                                    <f:facet name="header">
+                                                                        <h:outputText value="Services disponibles"/>
+                                                                    </f:facet>
+                                                                    <h:outputText value="#{item.nom}"/>
+                                                                </p:column>
+                                                                <p:column style="width:120px">
+                                                                    <f:facet name="header">
+                                                                        <h:outputText value="Glisser par ici"/>
+                                                                    </f:facet>
+                                                                    <h:outputText id="dragIcon" styleClass="ui-icon ui-icon-arrow-4" />
+                                                                    <p:draggable for="dragIcon" revert="true" helper="clone"/>
+                                                                </p:column>
+                                                            </p:treeTable>
+                                                        </p:fieldset>-->
+                        <!--                            </div>
+                                                </div>-->
+                    </div>
+                    <div class="col-md-6">
+                        <!--                        <div class="panel panel-primary">
+                                                    <div class="panel-heading">
+                                                        <h3 class="panel-title">Panel title</h3>
+                                                    </div>
+                                                    <div class="panel-body">-->
+                        <!--                                <p:fieldset id="selectedProvideInterfaceItem" >
+                                                            <p:outputPanel id="dropArea">
+                                                                <h:outputText value="Drop here" rendered="#{empty clientView1Controller.droppedProvideInterfaceItems}" style="font-size:24px;" />
+                                                                <p:dataTable id="selectedProvideInterfaceItemTable" var="provideInterfaceItem" value="#{clientView1Controller.droppedProvideInterfaceItems}" rendered="#{not empty clientView1Controller.droppedProvideInterfaceItems}">
+                                                                    <p:column headerText="Services sélectionnés">
+                                                                        <h:outputText value="#{provideInterfaceItem.nom}" />
+                                                                    </p:column>
+                                                                </p:dataTable>
+                                                            </p:outputPanel>
+                                                            <p:droppable for="selectedProvideInterfaceItem" tolerance="touch" activeStyleClass="ui-state-highlight" datasource="datatree" onDrop="handleDrop">
+                                                                <p:ajax listener="#{clientView1Controller.onProvideInterfaceItemDrop}" update="dropArea datatree" />
+                                                            </p:droppable>
+                        
+                                                            <h:commandButton id="clientButton" value="OK" class="btn btn-success btn-lg" />
+                                                        </p:fieldset>-->
+                        <!--                            </div>
+                                                </div>-->
+                    </div>
+
+                </h:form>
+            </div>
+        </div>
+
+        <!--        <div class="navbar navbar-inverse navbar-fixed-bottom">
+                    <div class="container">
+                        <div class="navbar-text pull-left">
+                            <p>Copyright GhassanGuessous 2017</p>
+                        </div>
+                    </div>
+                </div>-->
+    </h:body>
+    <!--        </ui:define>
+        </ui:composition>-->
+</html>
+

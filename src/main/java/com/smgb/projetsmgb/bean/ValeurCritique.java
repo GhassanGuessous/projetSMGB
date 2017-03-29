@@ -6,12 +6,10 @@
 package com.smgb.projetsmgb.bean;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 /**
@@ -19,18 +17,16 @@ import javax.persistence.OneToOne;
  * @author Ghassan
  */
 @Entity
-public class Domaine implements Serializable {
-
+public class ValeurCritique implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String nom;
-    @OneToMany(mappedBy = "domaine")
-    private List<DomaineAssocie> domaineAssocies;
-    @OneToOne(mappedBy = "domaine")
-    private Goal goal;
+    private String valeur;
+    private String type;
+    @OneToOne
+    private ContrainteItem contrainteItem;
 
     public Long getId() {
         return id;
@@ -40,28 +36,28 @@ public class Domaine implements Serializable {
         this.id = id;
     }
 
-    public String getNom() {
-        return nom;
+    public String getValeur() {
+        return valeur;
     }
 
-    public void setNom(String nom) {
-        this.nom = nom;
+    public void setValeur(String valeur) {
+        this.valeur = valeur;
     }
 
-    public List<DomaineAssocie> getDomaineAssocies() {
-        return domaineAssocies;
+    public ContrainteItem getContrainteItem() {
+        return contrainteItem;
     }
 
-    public void setDomaineAssocies(List<DomaineAssocie> domaineAssocies) {
-        this.domaineAssocies = domaineAssocies;
+    public void setContrainteItem(ContrainteItem contrainteItem) {
+        this.contrainteItem = contrainteItem;
     }
 
-    public Goal getGoal() {
-        return goal;
+    public String getType() {
+        return type;
     }
 
-    public void setGoal(Goal goal) {
-        this.goal = goal;
+    public void setType(String type) {
+        this.type = type;
     }
     
     @Override
@@ -74,10 +70,10 @@ public class Domaine implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Domaine)) {
+        if (!(object instanceof ValeurCritique)) {
             return false;
         }
-        Domaine other = (Domaine) object;
+        ValeurCritique other = (ValeurCritique) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -86,7 +82,7 @@ public class Domaine implements Serializable {
 
     @Override
     public String toString() {
-        return "com.smgb.projetsmgb.Domaine[ id=" + id + " ]";
+        return "com.smgb.projetsmgb.bean.ValeurCritique[ id=" + id + " ]";
     }
     
 }

@@ -5,6 +5,7 @@
  */
 package com.smgb.projetsmgb.service;
 
+import com.smgb.projetsmgb.bean.Domaine;
 import com.smgb.projetsmgb.bean.DomaineAssocie;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -32,5 +33,9 @@ public class DomaineAssocieFacade extends AbstractFacade<DomaineAssocie> {
     
     public List<DomaineAssocie> findListSubDomaines(){
         return em.createQuery("SELECT sd FROM DomaineAssocie sd WHERE sd.type = 2").getResultList();
+    }
+    
+    public List<DomaineAssocie> findSubDomainesByDomaine(Domaine domaine){
+        return em.createQuery("SELECT sd FROM DomaineAssocie sd WHERE sd.domaine.id = " + domaine.getId() + " AND sd.type = 2").getResultList();
     }
 }

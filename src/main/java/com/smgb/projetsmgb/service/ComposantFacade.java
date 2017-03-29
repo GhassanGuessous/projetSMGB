@@ -6,8 +6,7 @@
 package com.smgb.projetsmgb.service;
 
 import com.smgb.projetsmgb.bean.Composant;
-import com.smgb.projetsmgb.bean.Input;
-import com.smgb.projetsmgb.bean.Output;
+import com.smgb.projetsmgb.bean.DomaineAssocie;
 import com.smgb.projetsmgb.bean.ProvideInterface;
 import com.smgb.projetsmgb.bean.ProvideInterfaceItem;
 import java.util.List;
@@ -15,6 +14,8 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import org.primefaces.model.DefaultTreeNode;
+import org.primefaces.model.TreeNode;
 
 /**
  *
@@ -30,10 +31,8 @@ public class ComposantFacade extends AbstractFacade<Composant> {
     ProvideInterfaceItemFacade provideInterfaceItemFacade;
     @EJB
     ProvideInterfaceFacade provideInterfaceFacade;
-
     @EJB
     InputFacade inputFacade;
-
     @EJB
     OutputFacade outputFacade;
 
@@ -53,52 +52,31 @@ public class ComposantFacade extends AbstractFacade<Composant> {
         if (!composants.isEmpty()) {
             return new Object[]{1, composants.get(0)};
         } else {
+//            generateId("Composant", "id");
+            ProvideInterface provideInterface = new ProvideInterface();
+            Long i = provideInterfaceFacade.generateId("ProvideInterface", "id");
+            provideInterface.setNom(composant.getNom());
+            composant.setProvideInterface(provideInterface);
+            create(composant);
+            provideInterfaceFacade.create(provideInterface);
             return new Object[]{-1, composant};
         }
     }
-
-    public int save(Composant composant, ProvideInterfaceItem provideInterfaceItem, Input input, Output output) {
-        int retour = 0;
-        Object[] res1 = findByDomaineAndNom(composant);
-        int res1_1 = (int) res1[0];
-        Composant composant1 = (Composant) res1[1];
-        //composant existe deja pour le subDomaine selectionné
-        if (res1_1 > 0) {
-            Object[] res2 = provideInterfaceItemFacade.findProvideInterfaceItemByProvideInterfaceAndNom(composant1.getProvideInterface(), provideInterfaceItem);
-            int res2_1 = (int) res2[0];
-            provideInterfaceItem = (ProvideInterfaceItem) res2[1];
-            //provideInterfaceItem existe deja pour ce composant
-            if (res2_1 > 0) {
-                Object[] res3 = inputFacade.findInputByProvideInterfaceItemAndNomAndType(provideInterfaceItem, input);
-                int res3_1 = (int) res3[0];
-                Input input1 = (Input) res3[1];
-                //input existe deja pour cette provideInterfaceItem
-                if (res3_1 > 0) {
-                    return -1;
-                } else {//sinon on ajoute l'input
-                    inputFacade.create(input1);
-                    return 3;
-                }
-            } else {
-                provideInterfaceItem.setProvideInterface(composant1.getProvideInterface());
-                retour = 2;
+    
+    public List<Composant> findComposantsBySubDomaine(DomaineAssocie subDomaine){
+        return em.createQuery("SELECT c FROM Composant c WHERE c.domaineAssocie.id = " + subDomaine.getId()).getResultList();
+    }
+    
+    public TreeNode createComposant(DomaineAssocie subDomaine) {
+        List<Composant> composants = findComposantsBySubDomaine(subDomaine);
+        TreeNode root = new DefaultTreeNode(new Composant(), null);
+        for (Composant composant : composants) {
+            TreeNode composants1 = new DefaultTreeNode(composant, root);
+            List<ProvideInterfaceItem> provideInterfaceItems = provideInterfaceItemFacade.findProvideInterfaceItemByComposant(composant);
+            for (ProvideInterfaceItem provideInterfaceItem : provideInterfaceItems) {
+                TreeNode provideInterface = new DefaultTreeNode(provideInterfaceItem, composants1);
             }
-        } else {
-            ProvideInterface provideInterface = new ProvideInterface();
-            Long i = provideInterfaceFacade.generateId("ProvideInterface", "id");
-            provideInterface.setNom(composant1.getNom());
-            provideInterface.setComposant(composant1);
-            provideInterfaceItem.setProvideInterface(provideInterface);
-            composant1.setProvideInterface(provideInterface);
-            create(composant1);
-            provideInterfaceFacade.create(provideInterface);
-            retour = 1;
         }
-        input.setProvideInterfaceItem(provideInterfaceItem);
-        output.setProvideInterfaceItem(provideInterfaceItem);
-        provideInterfaceItemFacade.create(provideInterfaceItem);
-        inputFacade.create(input);
-        outputFacade.create(output);
-        return retour;
+        return root;
     }
 }

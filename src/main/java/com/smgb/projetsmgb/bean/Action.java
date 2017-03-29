@@ -11,7 +11,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
@@ -20,22 +19,22 @@ import javax.persistence.OneToOne;
  * @author Ghassan
  */
 @Entity
-public class ProvideInterfaceItem implements Serializable {
+public class Action implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nom;
-    @ManyToOne
-    private ProvideInterface provideInterface;
-    @OneToOne(mappedBy = "provideInterfaceItem")
-    private Output output;
-    @OneToMany(mappedBy = "provideInterfaceItem")
-    private List<Input> inputs;
-    @OneToOne(mappedBy = "provideInterfaceItem")
-    private Step step;
-    
+    @OneToOne
+    private Goal goal;
+    @OneToMany(mappedBy = "action")
+    private List<Processus> processuss;
+    @OneToOne(mappedBy = "action")
+    private Resultat resultat;
+    @OneToOne(mappedBy = "action")
+    private Contrainte contrainte;
+
     public Long getId() {
         return id;
     }
@@ -52,36 +51,36 @@ public class ProvideInterfaceItem implements Serializable {
         this.nom = nom;
     }
 
-    public ProvideInterface getProvideInterface() {
-        return provideInterface;
+    public Goal getGoal() {
+        return goal;
     }
 
-    public void setProvideInterface(ProvideInterface provideInterface) {
-        this.provideInterface = provideInterface;
+    public void setGoal(Goal goal) {
+        this.goal = goal;
     }
 
-    public Output getOutput() {
-        return output;
+    public List<Processus> getProcessuss() {
+        return processuss;
     }
 
-    public void setOutput(Output output) {
-        this.output = output;
+    public void setProcessuss(List<Processus> processuss) {
+        this.processuss = processuss;
     }
 
-    public List<Input> getInputs() {
-        return inputs;
+    public Resultat getResultat() {
+        return resultat;
     }
 
-    public void setInputs(List<Input> inputs) {
-        this.inputs = inputs;
+    public void setResultat(Resultat resultat) {
+        this.resultat = resultat;
     }
 
-    public Step getStep() {
-        return step;
+    public Contrainte getContrainte() {
+        return contrainte;
     }
 
-    public void setStep(Step step) {
-        this.step = step;
+    public void setContrainte(Contrainte contrainte) {
+        this.contrainte = contrainte;
     }
     
     @Override
@@ -94,10 +93,10 @@ public class ProvideInterfaceItem implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ProvideInterfaceItem)) {
+        if (!(object instanceof Action)) {
             return false;
         }
-        ProvideInterfaceItem other = (ProvideInterfaceItem) object;
+        Action other = (Action) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -106,7 +105,7 @@ public class ProvideInterfaceItem implements Serializable {
 
     @Override
     public String toString() {
-        return "com.smgb.projetsmgb.bean.ProvideInterfaceItem[ id=" + id + " ]";
+        return "com.smgb.projetsmgb.bean.Action[ id=" + id + " ]";
     }
     
 }
