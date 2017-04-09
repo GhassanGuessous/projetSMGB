@@ -62,7 +62,7 @@
                         <h:form>
                             <p:commandButton id="saveButton" value="SAVE" actionListener="#{composantController.save()}" icon="ui-icon-disk" update=":ProvideInterfaceItemListForm:datalist,:InputListForm:datalist,growl"/>
                             <br></br>
-                            <p:commandButton id="showButton" value="Show all" action="List2"/>
+                            <p:commandButton id="showButton" value="Show all" action="#{composantController.versList2()}"/>
                         </h:form>
                     </div>
                 </div>

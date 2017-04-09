@@ -131,6 +131,18 @@ public class ComposantController implements Serializable {
         initializeEmbeddableKey();
         return selected;
     }
+    
+    public String versList1(){
+        selected = new Composant();
+        provideInterface = new ProvideInterface();
+        provideInterfaceItem = new ProvideInterfaceItem();
+        output = new Output();
+        return "List";
+    }
+    public String versList2(){
+        selected = new Composant();
+        return "List2";
+    }
 
     public void create() {
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("ComposantCreated"));
