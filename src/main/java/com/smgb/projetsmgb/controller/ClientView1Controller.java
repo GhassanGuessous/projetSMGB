@@ -56,7 +56,9 @@ public class ClientView1Controller implements Serializable {
     private List<ProvideInterfaceItem> droppedProvideInterfaceItems;
     
     private TreeNode root;
+    private TreeNode root2;
     private TreeNode selectedNode1;
+    private TreeNode selectedNode2;
 
     public void findSubDomainesByDomaine() {
         subdoamaines = domaineAssocieFacade.findSubDomainesByDomaine(domaineSelected);
@@ -69,6 +71,8 @@ public class ClientView1Controller implements Serializable {
     public void findProvideInterfaceItemsByComposant() {
 //        provideInterfaceItems = provideInterfaceItemFacade.findProvideInterfaceItemByComposant(composantSelected);
         root = composantFacade.createComposant(subDomaineSelected);
+        root2 = new DefaultTreeNode("Root2", null);
+        TreeNode provideInterface = new DefaultTreeNode("hani", root2);
     }
 
     public void onProvideInterfaceItemDrop(DragDropEvent ddEvent) {
@@ -173,7 +177,7 @@ public class ClientView1Controller implements Serializable {
 
     public TreeNode getRoot() {
         if(root == null){
-            root = new DefaultTreeNode(new Composant(), null);
+            root = new DefaultTreeNode("Root1", null);
         }
         return root;
     }
@@ -183,14 +187,34 @@ public class ClientView1Controller implements Serializable {
     }
 
     public TreeNode getSelectedNode1() {
-        if(selectedNode1 == null){
-            selectedNode1 = new DefaultTreeNode(new Composant(), null);
-        }
+//        if(selectedNode1 == null){
+//            selectedNode1 = new DefaultTreeNode(new Composant(), null);
+//        }
         return selectedNode1;
     }
 
     public void setSelectedNode1(TreeNode selectedNode1) {
         this.selectedNode1 = selectedNode1;
     }
+
+    public TreeNode getRoot2() {
+        if(root2 == null){
+            root2 = new DefaultTreeNode("Root2", null);
+        }
+        return root2;
+    }
+
+    public void setRoot2(TreeNode root2) {
+        this.root2 = root2;
+    }
+
+    public TreeNode getSelectedNode2() {
+        return selectedNode2;
+    }
+
+    public void setSelectedNode2(TreeNode selectedNode2) {
+        this.selectedNode2 = selectedNode2;
+    }
+    
     
 }

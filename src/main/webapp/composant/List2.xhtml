@@ -22,7 +22,7 @@
                             <h:form id="ComposantListForm">
                                 <p:panel header="LIST DES COMPOSANTS">
                                     <p:dataTable id="datalist" value="#{composantController.items}" var="item"
-                                                 selectionMode="single" selection="#{composantController.selected}"
+                                                 selection="#{composantController.selected}"
                                                  paginator="true"
                                                  rowKey="#{item.id}"
                                                  rows="10"
@@ -51,7 +51,7 @@
                                             <f:facet name="header">
                                                 <h:outputText value="ProvideInterfaceItem"/>
                                             </f:facet>
-                                            <p:commandButton id="showButton1"  value="Afficher" actionListener="#{composantController.findProvideInterfaceItemByComposant()}" update=":ProvideInterfaceItemListForm:datalist"/>
+                                            <p:commandButton id="showButton1"  value="Afficher" action="#{composantController.findProvideInterfaceItemByComposant(item)}" update=":ProvideInterfaceItemListForm:datalist"/>
                                         </p:column>
                                     </p:dataTable>
                                 </p:panel>
@@ -64,7 +64,7 @@
                             <h:form id="ProvideInterfaceItemListForm">
                                 <p:panel header="LIST PROVIDEINTERFACEITEM">
                                     <p:dataTable id="datalist" value="#{composantController.selected.provideInterface.provideInterfaceItems}" var="item"
-                                                 selectionMode="single" selection="#{composantController.selectedProvideInterfaceItem}"
+                                                 selection="#{composantController.selectedProvideInterfaceItem}"
                                                  paginator="true"
                                                  rowKey="#{item.id}"
                                                  rows="10"
@@ -99,7 +99,7 @@
                                             <f:facet name="header">
                                                 <h:outputText value="Inputs"/>
                                             </f:facet>
-                                            <p:commandButton id="showButton2"  value="Afficher" actionListener="#{composantController.findInputsByProvideInterfaceItem(item)}" update=":InputListForm:datalist"/>
+                                            <p:commandButton id="showButton2"  value="Afficher" action="#{composantController.findInputsByProvideInterfaceItem(item)}" update=":InputListForm:datalist"/>
                                         </p:column>
                                     </p:dataTable>
                                 </p:panel>

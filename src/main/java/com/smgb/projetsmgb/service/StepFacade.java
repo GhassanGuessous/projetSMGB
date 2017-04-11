@@ -5,6 +5,7 @@
  */
 package com.smgb.projetsmgb.service;
 
+import com.smgb.projetsmgb.bean.Processus;
 import com.smgb.projetsmgb.bean.Step;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -49,5 +50,16 @@ public class StepFacade extends AbstractFacade<Step> {
             }
         }
         return 1;
+    }
+    
+    public Object[] findStepByProcessus(Processus processus, Step step){
+        String requete = "SELECT s FROM Step s WHERE s.nom = '" + step.getNom() + "' AND s.processus.nom = '" + processus.getNom() + "'";
+        List<Step> steps = em.createQuery(requete).getResultList();
+        if(!steps.isEmpty()){
+            return new Object[]{-1, steps.get(0)};
+        }else{
+            step.setProcessus(processus);
+            return new Object[]{1, step};
+        }
     }
 }

@@ -77,10 +77,8 @@ public class ComposantController implements Serializable {
         int res1 = (int) res[0];
         selected = (Composant) res[1];
         if (res1 < 0) {
-//            JsfUtil.addSuccessMessage("oui");
             Message("Composant", "Composant a ete cree avec success");
         } else {
-//            JsfUtil.addErrorMessage("non");
             Message("Composant", "Composant existant. Voulez vous ajouter d'autre pii ?");
         }
     }
@@ -114,10 +112,12 @@ public class ComposantController implements Serializable {
     }
 
     public void findInputsByProvideInterfaceItem(ProvideInterfaceItem provideInterfaceItem) {
-        provideInterfaceItem.setInputs(inputFacade.findInputsByProvideInterfaceItem(provideInterfaceItem));
+        selectedProvideInterfaceItem = provideInterfaceItem;
+        selectedProvideInterfaceItem.setInputs(inputFacade.findInputsByProvideInterfaceItem(provideInterfaceItem));
     }
 
-    public void findProvideInterfaceItemByComposant() {
+    public void findProvideInterfaceItemByComposant(Composant composant) {
+        selected = composant;
         selected.getProvideInterface().setProvideInterfaceItems(provideInterfaceItemFacade.findProvideInterfaceItemByComposant(selected));
     }
 
@@ -126,10 +126,17 @@ public class ComposantController implements Serializable {
         context.addMessage(null, new FacesMessage(msg1, msg2));
     }
 
-    public Composant prepareCreate(ProvideInterfaceItem provideInterfaceItem) {
+    public Composant prepareCreate() {
         selected = new Composant();
         initializeEmbeddableKey();
         return selected;
+    }
+    
+    public Input prepareCreateInput(ProvideInterfaceItem provideInterfaceItem) {
+        selectedProvideInterfaceItem = provideInterfaceItem;
+        input = new Input();
+        initializeEmbeddableKey();
+        return input;
     }
     
     public String versList1(){
