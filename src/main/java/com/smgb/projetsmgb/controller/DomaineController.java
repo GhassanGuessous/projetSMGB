@@ -1,11 +1,14 @@
 package com.smgb.projetsmgb.controller;
 
 import com.smgb.projetsmgb.bean.Domaine;
+import com.smgb.projetsmgb.bean.DomaineAssocie;
 import com.smgb.projetsmgb.controller.util.JsfUtil;
 import com.smgb.projetsmgb.controller.util.JsfUtil.PersistAction;
+import com.smgb.projetsmgb.service.DomaineAssocieFacade;
 import com.smgb.projetsmgb.service.DomaineFacade;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -25,13 +28,91 @@ public class DomaineController implements Serializable {
 
     @EJB
     private com.smgb.projetsmgb.service.DomaineFacade ejbFacade;
+    @EJB
+    private DomaineAssocieFacade domaineAssoieFacade;
     private List<Domaine> items = null;
     private Domaine selected;
+    private DomaineAssocie domaineAssocie;
+    private DomaineAssocie domaineAssociecloned;
+    private List<DomaineAssocie> domaineAssocies;
 
     public DomaineController() {
     }
 
+    public void detailMethode() {
+        ejbFacade.findByDomaine(selected);
+    }
+
+    public void saveDomaineAssocie() {
+        domaineAssocie.setDomaine(selected);
+        domaineAssociecloned = domaineAssoieFacade.clone(domaineAssocie);
+        int res = domaineAssoieFacade.verify(domaineAssocies, domaineAssociecloned);
+        if (res < 0) {
+            JsfUtil.addErrorMessage("Ce domaineAssocie existe déjà ");
+        } else if (res == 1) {
+            domaineAssocies.add(domaineAssociecloned);
+            JsfUtil.addSuccessMessage("DomaineAssocié sauvé dans la liste");
+        }
+
+    }
+
+    public void saveDomaine() {
+        int res = ejbFacade.saveDomaine(selected);
+        if (res > 0) {
+            JsfUtil.addSuccessMessage("Domaine créé avec succès");
+        }
+        JsfUtil.addErrorMessage("Ce Domaine existe déjà");
+    }
+
+    public void save() {
+        int res = ejbFacade.save(domaineAssocies);
+        if (res > 0) {
+            domaineAssocies = new ArrayList();
+            JsfUtil.addSuccessMessage("sauvegarde terminé avec succès");
+        } else if (res == -1) {
+            JsfUtil.addErrorMessage("certains domaines associés existent déjà dans la base de donnée");
+        }
+        }
+
+    
+
+    public DomaineAssocie getDomaineAssocie() {
+        if (domaineAssocie == null) {
+            domaineAssocie = new DomaineAssocie();
+        }
+        return domaineAssocie;
+    }
+
+    public DomaineAssocie getDomaineAssociecloned() {
+        if (domaineAssociecloned == null) {
+            domaineAssociecloned = new DomaineAssocie();
+        }
+        return domaineAssociecloned;
+    }
+
+    public void setDomaineAssociecloned(DomaineAssocie domaineAssociecloned) {
+        this.domaineAssociecloned = domaineAssociecloned;
+    }
+
+    public void setDomaineAssocie(DomaineAssocie domaineAssocie) {
+        this.domaineAssocie = domaineAssocie;
+    }
+
+    public List<DomaineAssocie> getDomaineAssocies() {
+        if (domaineAssocies == null) {
+            domaineAssocies = new ArrayList<>();
+        }
+        return domaineAssocies;
+    }
+
+    public void setDomaineAssocies(List<DomaineAssocie> domaineAssocies) {
+        this.domaineAssocies = domaineAssocies;
+    }
+
     public Domaine getSelected() {
+        if (selected == null) {
+            selected = new Domaine();
+        }
         return selected;
     }
 

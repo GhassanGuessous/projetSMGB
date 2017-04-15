@@ -17,7 +17,7 @@
                         <p:outputLabel value="#{bundle.CreateDomaineLabel_nom}" for="nom" />
                         <p:inputText id="nom" value="#{domaineController.selected.nom}" title="#{bundle.CreateDomaineTitle_nom}" />
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{domaineController.create}" value="#{bundle.Save}" update="display,:DomaineListForm:datalist,:growl" oncomplete="handleSubmit(args,'DomaineCreateDialog');"/>
+                    <p:commandButton actionListener="#{domaineController.create}" value="#{bundle.Save}" update="display,,:growl" oncomplete="handleSubmit(args,'DomaineCreateDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="DomaineCreateDialog.hide()"/>
                 </h:panelGroup>
             </h:form>

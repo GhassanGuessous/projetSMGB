@@ -38,4 +38,35 @@ public class DomaineAssocieFacade extends AbstractFacade<DomaineAssocie> {
     public List<DomaineAssocie> findSubDomainesByDomaine(Domaine domaine){
         return em.createQuery("SELECT sd FROM DomaineAssocie sd WHERE sd.domaine.id = " + domaine.getId() + " AND sd.type = 2").getResultList();
     }
+     public void clone(DomaineAssocie domaineAssocieSource,DomaineAssocie domaineAssocieDestination) {
+      domaineAssocieDestination.setId(domaineAssocieSource.getId());
+        domaineAssocieDestination.setNom(domaineAssocieSource.getNom());
+       domaineAssocieDestination.setType(domaineAssocieSource.getType());
+       domaineAssocieDestination.setDomaine(domaineAssocieSource.getDomaine());
+    }
+
+    public DomaineAssocie clone(DomaineAssocie domaineAssocie) {
+       DomaineAssocie cloned = new DomaineAssocie();
+        clone(domaineAssocie, cloned);
+        return cloned;
+
+    }
+public int verify(List<DomaineAssocie>das,DomaineAssocie domaineAssocie){
+    for (DomaineAssocie da : das) {
+        if(da.getNom().equals(domaineAssocie.getNom())&& da.getType()==domaineAssocie.getType()&& da.getDomaine().equals(domaineAssocie.getDomaine())){
+            return -1;
+        }
+        
+    }
+    return 1;
+}
+
+public int findByDomaineAndNom(DomaineAssocie domaineAssocie){
+    List<DomaineAssocie> domaineAssocies = em.createQuery("SELECT da FROM DomaineAssocie da WHERE da.domaine.id = " + domaineAssocie.getDomaine().getId() + 
+            " AND da.nom = '" + domaineAssocie.getNom() + "' AND da.type = '" + domaineAssocie.getType() + "'").getResultList();
+    if(domaineAssocies.isEmpty()){
+        return 1;
+    }
+    return -1;
+}
 }
