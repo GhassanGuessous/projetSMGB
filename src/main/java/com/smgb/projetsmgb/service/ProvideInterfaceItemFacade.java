@@ -85,18 +85,14 @@ public class ProvideInterfaceItemFacade extends AbstractFacade<ProvideInterfaceI
             for (Input input : inputs) {
                 if (input.getProvideInterfaceItem().getNom().equals(provideInterfaceItem.getNom())) {
                     inputs1.add(input);
-                    System.out.println(input.getNom());
                 }
             }
             Object[] res = findProvideInterfaceItemByProvideInterfaceAndNom(provideInterfaceItem);
-            System.out.println(res[1]);
             int res1 = (int) res[0];
             if (res1 < 0) {
                 Long i = generateId("ProvideInterfaceItem", "id");
                 for (Input input : inputs1) {
-                    input.setProvideInterfaceItem(provideInterfaceItem);
                     inputFacade.create(input);
-                    System.out.println(input);
                 }
                 inputs1 = new ArrayList();
                 create(provideInterfaceItem);
@@ -107,12 +103,10 @@ public class ProvideInterfaceItemFacade extends AbstractFacade<ProvideInterfaceI
                 ProvideInterfaceItem provideInterfaceItem1 = (ProvideInterfaceItem) res[1];
                 for (Input input : inputs1) {
                     Object[] resInput = inputFacade.findInputByProvideInterfaceItemAndNomAndType(provideInterfaceItem1, input);
-                    System.out.println(resInput[1]);
                     int resInput1 = (int) resInput[0];
                     if (resInput1 > 0) {
                         Input input1 = (Input) resInput[1];
                         inputFacade.create(input1);
-                        System.out.println(input1);
                     }
                 }
             }

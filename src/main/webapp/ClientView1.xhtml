@@ -27,7 +27,7 @@
                     <span class="icon-bar"></span>
                 </button>
 
-                <a class="navbar-brand" href="">HOME</a>
+                <a class="navbar-brand" href="Home.xhtml">HOME</a>
 
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav navbar-right">
@@ -81,8 +81,7 @@
                                 </div>
                                 <div class="col-md-2">
                                     <h:commandButton id="provideInterfaceItemsButton" class="btn btn-primary" value="OK" actionListener="#{clientView1Controller.findProvideInterfaceItemsByComposant()}"  >
-                                        <!--<p:ajax update=":ProvideInterfaceItemForm:datatree"></p:ajax>-->
-                                        <p:ajax update=""></p:ajax>
+                                        <p:ajax update=":ProvideInterfaceItemForm:tree1,:ProvideInterfaceItemForm:tree2"></p:ajax>
                                     </h:commandButton>
                                 </div>
                             </div>
@@ -97,79 +96,58 @@
 
         <br></br>
 
-                <script type="text/javascript">
-                    function handleDrop(event, ui) {
-                        var droppedProvideInterfaceItem = ui.draggable;
-        
-                        droppedProvideInterfaceItem.fadeOut('fast');
-                    }
-                </script>
+        <script type="text/javascript">
+            function handleDrop(event, ui) {
+                var droppedProvideInterfaceItem = ui.draggable;
+
+                droppedProvideInterfaceItem.fadeOut('fast');
+            }
+        </script>
 
         <div class="container-fluid">
             <div class="row">
                 <h:form id="ProvideInterfaceItemForm">
                     <div class="col-md-6">
-                        <!--                        <div class="panel panel-primary">
-                                                    <div class="panel-heading">
-                                                        <h3 class="panel-title">Panel title</h3>
-                                                    </div>
-                                                    <div class="panel-body">-->
-                        <!--                                <p:fieldset id="ProvideInterfaceItemField" >
-                                                            <p:treeTable id="datatree" value="#{clientView1Controller.root}" var="item">
-                                                                <p:column>
-                                                                    <f:facet name="header">
-                                                                        <h:outputText value="Services disponibles"/>
-                                                                    </f:facet>
-                                                                    <h:outputText value="#{item.nom}"/>
-                                                                </p:column>
-                                                                <p:column style="width:120px">
-                                                                    <f:facet name="header">
-                                                                        <h:outputText value="Glisser par ici"/>
-                                                                    </f:facet>
-                                                                    <h:outputText id="dragIcon" styleClass="ui-icon ui-icon-arrow-4" />
-                                                                    <p:draggable for="dragIcon" revert="true" helper="clone"/>
-                                                                </p:column>
-                                                            </p:treeTable>
-                                                        </p:fieldset>-->
-                        <!--                            </div>
-                                                </div>-->
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Panel title</h3>
+                            </div>
+                            <div class="panel-body">
+                                <p:fieldset id="ProvideInterfaceItemField" >
+                                    <p:tree id="tree1" value="#{clientView1Controller.root}" var="node" selectionMode="single" selection="#{clientView1Controller.selectedNode1}"
+                                            draggable="true" droppable="true" dragdropScope="demo">
+                                        <p:ajax event="dragdrop" listener="#{clientView1Controller.onDragDrop}" update="" />
+                                        <p:treeNode>
+                                            <h:outputText value="#{node}" />
+                                        </p:treeNode>
+                                    </p:tree>
+                                </p:fieldset>
+                            </div>
+                        </div>
                     </div>
                     <div class="col-md-6">
-                        <!--                        <div class="panel panel-primary">
-                                                    <div class="panel-heading">
-                                                        <h3 class="panel-title">Panel title</h3>
-                                                    </div>
-                                                    <div class="panel-body">-->
-                        <!--                                <p:fieldset id="selectedProvideInterfaceItem" >
-                                                            <p:outputPanel id="dropArea">
-                                                                <h:outputText value="Drop here" rendered="#{empty clientView1Controller.droppedProvideInterfaceItems}" style="font-size:24px;" />
-                                                                <p:dataTable id="selectedProvideInterfaceItemTable" var="provideInterfaceItem" value="#{clientView1Controller.droppedProvideInterfaceItems}" rendered="#{not empty clientView1Controller.droppedProvideInterfaceItems}">
-                                                                    <p:column headerText="Services sélectionnés">
-                                                                        <h:outputText value="#{provideInterfaceItem.nom}" />
-                                                                    </p:column>
-                                                                </p:dataTable>
-                                                            </p:outputPanel>
-                                                            <p:droppable for="selectedProvideInterfaceItem" tolerance="touch" activeStyleClass="ui-state-highlight" datasource="datatree" onDrop="handleDrop">
-                                                                <p:ajax listener="#{clientView1Controller.onProvideInterfaceItemDrop}" update="dropArea datatree" />
-                                                            </p:droppable>
-                        
-                                                            <h:commandButton id="clientButton" value="OK" class="btn btn-success btn-lg" />
-                                                        </p:fieldset>-->
-                        <!--                            </div>
-                                                </div>-->
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Panel title</h3>
+                            </div>
+                            <div class="panel-body">
+                                <p:fieldset id="selectedProvideInterfaceItem" >
+                                    <p:tree id="tree2" value="#{clientView1Controller.root2}" var="node" selectionMode="single" selection="#{clientView1Controller.selectedNode2}"
+                                            draggable="true" droppable="true" dragdropScope="demo">
+                                        <p:ajax event="dragdrop" listener="#{clientView1Controller.onDragDrop}" update="" />
+                                        <p:treeNode>
+                                            <h:outputText value="#{node}" />
+                                        </p:treeNode>
+                                    </p:tree>
+                                    <h:commandButton id="clientButton" value="OK" class="btn btn-success btn-lg" />
+                                </p:fieldset>
+                            </div>
+                        </div>
                     </div>
 
                 </h:form>
             </div>
         </div>
-
-        <!--        <div class="navbar navbar-inverse navbar-fixed-bottom">
-                    <div class="container">
-                        <div class="navbar-text pull-left">
-                            <p>Copyright GhassanGuessous 2017</p>
-                        </div>
-                    </div>
-                </div>-->
     </h:body>
     <!--        </ui:define>
         </ui:composition>-->

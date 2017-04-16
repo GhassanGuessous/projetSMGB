@@ -6,6 +6,8 @@
 package com.smgb.projetsmgb.service;
 
 import com.smgb.projetsmgb.bean.Action;
+import com.smgb.projetsmgb.bean.Goal;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -28,5 +30,13 @@ public class ActionFacade extends AbstractFacade<Action> {
     public ActionFacade() {
         super(Action.class);
     }
-
+    
+    public int findActionByGoal(Goal goal){
+        List<Action> actions = em.createQuery("SELECT a FROM Action a WHERE a.goal.nom = '" + goal.getNom() + "'").getResultList();
+        if(!actions.isEmpty()){
+            return -1;
+        }else{
+            return 1;
+        }
+    }
 }

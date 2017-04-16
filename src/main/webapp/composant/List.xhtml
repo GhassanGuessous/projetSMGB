@@ -62,7 +62,7 @@
                         <h:form>
                             <p:commandButton id="saveButton" value="SAVE" actionListener="#{composantController.save()}" icon="ui-icon-disk" update=":ProvideInterfaceItemListForm:datalist,:InputListForm:datalist,growl"/>
                             <br></br>
-                            <p:commandButton id="showButton" value="Show all" action="List2"/>
+                            <p:commandButton id="showButton" value="Show all" action="#{composantController.versList2()}"/>
                         </h:form>
                     </div>
                 </div>
@@ -91,7 +91,7 @@
 
                             <p:panel header="List ProvideInterfaceItems">
                                 <p:dataTable id="datalist" value="#{composantController.provideInterfaceItems}" var="item"
-                                             selectionMode="single" selection="#{composantController.selectedProvideInterfaceItem}"
+                                             selection="#{composantController.selectedProvideInterfaceItem}"
                                              paginator="true"
                                              rowKey="#{item.nom}"
                                              rows="10"
@@ -126,7 +126,7 @@
                                         <f:facet name="header">
                                             <h:outputText value="Inputs"/>
                                         </f:facet>
-                                        <p:commandButton id="inputsButton" icon="ui-icon-plus" value="Ajouter" actionListener="#{inputController.prepareCreate}" update=":InputCreateForm" oncomplete="PF('InputCreateDialog').show()"/>
+                                        <p:commandButton id="inputsButton" icon="ui-icon-plus" value="Ajouter" actionListener="#{composantController.prepareCreateInput(item)}" update=":InputCreateForm" oncomplete="PF('InputCreateDialog').show()"/>
                                     </p:column>
                                 </p:dataTable>
                             </p:panel>
