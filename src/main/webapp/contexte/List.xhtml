@@ -5,163 +5,147 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:pm="http://primefaces.org/mobile">
+      xmlns:pm="http://primefaces.org/mobile"
+      xmlns:b="http://bootsfaces.net/ui">
 
 
     <ui:composition template="/template.xhtml">
-
 
         <ui:define name="title">
             <h:outputText value="#{bundle.ListContexteTitle}"></h:outputText>
         </ui:define>
 
         <ui:define name="body">
-            
-            
-            <h:form id="ContextForm"> 
-                <p:messages id="msgs" showDetail="true" autoUpdate="true" closable="true"/>
-                <br></br>
-                <br></br>
-                <br></br>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
-                <p:outputLabel for="contextNom" value="Context :" style="font-weight:bold;"/>&nbsp;&nbsp;
-                <p:inputText id="contextNom" value="#{contexteController.selected.nom}" required="true" placeholder="Context text"/>
+            <br></br>   
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4">
+                        <h:form id="ContexteListForm">
+                            <b:panel title="Les contextes">
+                                <p:dataTable id="datalist" value="#{contexteController.items}" var="item"
+                                             selectionMode="single" selection="#{contexteController.selected}"
 
-                &nbsp;&nbsp;&nbsp;&nbsp;
+                                             rowKey="#{item.id}"
 
-                <p:outputLabel for="contextElementNom" value="Contexte Element :" style="font-weight:bold;"/>&nbsp;&nbsp;
-                <p:inputText id="contextElementNom" value="#{contexteController.contextElementNom}" required="true" placeholder="Context Element text"/>
-
-                &nbsp;&nbsp;&nbsp;&nbsp;
-                <p:outputLabel for="sensibleParamNom" value="Sensible Parametre :" style="font-weight:bold;"/>&nbsp;&nbsp;
-                <p:inputText id="sensibleParamNom"   value="#{contexteController.sensibleParamNom}" required="true" placeholder="Sensible Param text"/>
-
-                &nbsp;&nbsp;&nbsp;&nbsp;
-                <p:outputLabel for="sensibleValeurNom" value="Sensible Valeur :" style="font-weight:bold;"/>&nbsp;&nbsp;
-                <p:inputText id="sensibleValeurNom" value="#{contexteController.sensibleValeurNom}" required="true" placeholder="Sensible Value text"/>
+                                             >
 
 
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <p:commandButton id="saveButtton"  icon="ui-icon-plus"  actionListener="#{contexteController.save()}" value="#{bundle.Create}" style="background-color: aqua;"/>&nbsp;
-                <p:commandButton id="viewButtton"  actionListener="PF('ContexteListDialog').show();"  icon="ui-icon-extlink" value="view" style="background-color: aqua;" disabled="true"/>
-            </h:form> 
-            <br></br>
-            <br></br>
-            <h:form id="ContexteListForm">
-                <p:panel header="Les contextes" style="width:22%;height:410px; float:left">
-                    <p:dataTable id="datalist" value="#{contexteController.items}" var="item"
-                                 selectionMode="single" selection="#{contexteController.selected}"
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListContexteTitle_id}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.id}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListContexteTitle_nom}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.nom}"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <p:commandButton  id="detailButton" icon="ui-icon-plus"   value="Details" actionListener="#{contexteController.findByContexte(item)}" update=":ContexteElementListForm:datalistContextElement"/>
+                                    </p:column>
 
-                                 rowKey="#{item.id}"
+                                </p:dataTable>
+                            </b:panel>
+                        </h:form>
+                    </div>
+                    <div class="col-md-4">
 
-                                 >
+                        <h:form id="ContexteElementListForm">
+                            <b:panel title="Les Contextes Elements" >
+                                <p:dataTable id="datalistContextElement" value="#{contexteController.selected.contexteElements}" var="ce"
+                                             selectionMode="single" selection="#{contexteController.selectedElement}"
+                                             rowKey="#{ce.id}"
 
-
-                        <p:column style="width:7%;">
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListContexteTitle_id}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.id}"/>
-                        </p:column>
-                        <p:column style="width:12%;">
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListContexteTitle_nom}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.nom}"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            <p:commandButton  id="detailButton" icon="ui-icon-plus"   value="Details" actionListener="#{contexteController.findByContexte(item)}" update=":ContexteElementListForm:datalistContextElement"/>
-                        </p:column>
-
-                    </p:dataTable>
-                </p:panel>
-            </h:form>
-
-            <h:form id="ContexteElementListForm">
-                <p:panel header="Les Contextes Elements" style="width:23%;height:400px; float:right; margin-right:53.50%;">
-                    <p:dataTable id="datalistContextElement" value="#{contexteController.selected.contexteElements}" var="ce"
-                                 selectionMode="single" selection="#{contexteController.selectedElement}"
-                                 rowKey="#{ce.id}"
-
-                                 >
+                                             >
 
 
 
-                        <p:column style="width:6%;">
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListContexteElementTitle_id}"/>
-                            </f:facet>
-                            <h:outputText value="#{ce.id}"/>
-                        </p:column>
-                        <p:column style="width:15%;">
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListContexteElementTitle_nom}"/>
-                            </f:facet>
-                            <h:outputText value="#{ce.nom}"/>
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            <p:commandButton  id="plus" icon="ui-icon-plus"   value="Details" actionListener="#{contexteController.findByContexteElement(ce)}" update=":SensibleParamListForm:datalistSensibleForm" ajax="true"/>
-                        </p:column>
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListContexteElementTitle_id}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{ce.id}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListContexteElementTitle_nom}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{ce.nom}"/>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <p:commandButton  id="plus" icon="ui-icon-plus"   value="Details" actionListener="#{contexteController.findByContexteElement(ce)}" update=":SensibleParamListForm:datalistSensibleForm" ajax="true"/>
+                                    </p:column>
 
-                    </p:dataTable>
-                </p:panel>
-            </h:form>
+                                </p:dataTable>
+                            </b:panel>
+                        </h:form>
 
-            <h:form id="SensibleParamListForm">
-                <p:panel header="Les sensibles param" style="width:33%;height:400px; float:right; margin-top:-30.25%; margin-right:19.50%;">
-                    <p:dataTable id="datalistSensibleForm" value="#{contexteController.selectedElement.sensibleParams}" var="item"
-                                 selectionMode="single" selection="#{contexteController.selectedSensibleParam}"     
-                                 rowKey="#{item.id}"                                 
-                                 >
-
-
-
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListSensibleParamTitle_id}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.id}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListSensibleParamTitle_sensibleValeur}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.sensibleValeur}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListSensibleParamTitle_nom}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.nom}"/>
-                            &nbsp;&nbsp;&nbsp;&nbsp;
-                            <p:commandButton  id="plus" icon="ui-icon-plus"   value="Details" actionListener="#{contexteController.findBySensibleParam(item)}" update=":SensibleValeurForm:sensibleVal" ajax="true"/>
-                        </p:column>
+                    </div>
+                    <div class="col-md-offset-8">
+                        <h:form id="SensibleParamListForm">
+                            <b:panel title="Les sensibles param">
+                                <p:dataTable id="datalistSensibleForm" value="#{contexteController.selectedElement.sensibleParams}" var="item"
+                                             selectionMode="single" selection="#{contexteController.selectedSensibleParam}"     
+                                             rowKey="#{item.id}"                                 
+                                             >
 
 
-                    </p:dataTable>
-                </p:panel>
-            </h:form>
 
-            <h:form id="SensibleValeurForm" >
-                <p:panel header=" La Sensible Valeur" style="width:18%;height:400px; float:right; margin-top:-30.25%;margin-right:-52.75%;">
-                    <p:dataTable value="#{contexteController.selectedSensibleParam.sensibleValeur}" var="item"  id="sensibleVal" selection="#{contexteController.selectedsensibleValeur}">
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListSensibleParamTitle_id}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.id}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListSensibleParamTitle_sensibleValeur}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.sensibleValeur}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListSensibleParamTitle_nom}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.nom}"/>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;
+                                        <p:commandButton  id="plus" icon="ui-icon-plus"   value="Details" actionListener="#{contexteController.findBySensibleParam(item)}" update=":SensibleValeurForm:sensibleVal" ajax="true"/>
+                                    </p:column>
 
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="ID"/>
-                            </f:facet>
-                            <h:outputText value="#{item.id}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="Nom"/>
-                            </f:facet>
-                            <h:outputText value="#{item.nom}"/>
 
-                        </p:column>
+                                </p:dataTable>
+                            </b:panel>
+                        </h:form>
+                    </div>
+                    <div class="col-lg-pull-1">
+                        <h:form id="SensibleValeurForm" >
+                            <b:panel title=" La Sensible Valeur">
+                                <p:dataTable value="#{contexteController.selectedSensibleParam.sensibleValeur}" var="item"  id="sensibleVal" selection="#{contexteController.selectedsensibleValeur}">
 
-                    </p:dataTable>
-                </p:panel>
-            </h:form>
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="ID"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.id}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Nom"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.nom}"/>
 
+                                    </p:column>
+
+                                </p:dataTable>
+                            </b:panel>
+                        </h:form>
+
+                    </div>
+                </div>
+            </div>
+
+
+          
 
         </ui:define>
         
