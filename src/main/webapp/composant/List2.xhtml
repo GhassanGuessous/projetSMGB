@@ -16,9 +16,15 @@
 
             <ui:define name="body">
                 <div class="container-fluid">
-                    <br></br>
+<!--                    <br></br>
                     <div class="row">
                         <div class="col-md-12">
+                            
+                        </div>
+                    </div>-->
+                    <br></br>
+                    <div class="row">
+                        <div class="col-md-5">
                             <h:form id="ComposantListForm">
                                 <p:panel header="LIST DES COMPOSANTS">
                                     <p:dataTable id="datalist" value="#{composantController.items}" var="item"
@@ -51,16 +57,14 @@
                                             <f:facet name="header">
                                                 <h:outputText value="ProvideInterfaceItem"/>
                                             </f:facet>
-                                            <p:commandButton id="showButton1"  value="Afficher" action="#{composantController.findProvideInterfaceItemByComposant(item)}" update=":ProvideInterfaceItemListForm:datalist"/>
+                                            <p:commandButton id="add"  icon="ui-icon-plus" action="#{composantController.add(item)}"/>
+                                            <p:commandButton id="showButton1"  icon="ui-icon-triangle-1-e" action="#{composantController.findProvideInterfaceItemByComposant(item)}" update=":ProvideInterfaceItemListForm:datalist"/>
                                         </p:column>
                                     </p:dataTable>
                                 </p:panel>
                             </h:form>
                         </div>
-                    </div>
-                    <br></br>
-                    <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-5">
                             <h:form id="ProvideInterfaceItemListForm">
                                 <p:panel header="LIST PROVIDEINTERFACEITEM">
                                     <p:dataTable id="datalist" value="#{composantController.selected.provideInterface.provideInterfaceItems}" var="item"
@@ -99,13 +103,14 @@
                                             <f:facet name="header">
                                                 <h:outputText value="Inputs"/>
                                             </f:facet>
-                                            <p:commandButton id="showButton2"  value="Afficher" action="#{composantController.findInputsByProvideInterfaceItem(item)}" update=":InputListForm:datalist"/>
+                                            <p:commandButton id="add2"  icon="ui-icon-plus" action="#{composantController.add2(item)}"/>
+                                            <p:commandButton id="showButton2"  icon="ui-icon-triangle-1-e" action="#{composantController.findInputsByProvideInterfaceItem(item)}" update=":InputListForm:datalist"/>
                                         </p:column>
                                     </p:dataTable>
                                 </p:panel>
                             </h:form>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-2">
                             <h:form id="InputListForm">
                                 <p:panel header="LIST INPUTS">
                                     <p:dataTable id="datalist" value="#{composantController.selectedProvideInterfaceItem.inputs}" var="item"

@@ -120,6 +120,29 @@ public class ComposantController implements Serializable {
         selected = composant;
         selected.getProvideInterface().setProvideInterfaceItems(provideInterfaceItemFacade.findProvideInterfaceItemByComposant(selected));
     }
+    
+    public String add(Composant composant){
+        selected = composant;
+        return "List";
+    }
+    
+    public String add2(ProvideInterfaceItem pii){
+        provideInterfaceItem = pii;
+        provideInterface = provideInterfaceItem.getProvideInterface();
+        selected = provideInterface.getComposant();
+        output = provideInterfaceItem.getOutput();
+        return "List";
+    }
+    
+    public void refresh1(){
+        selected = new Composant();
+        refresh2();
+    }
+    
+    public void refresh2(){
+        provideInterfaceItem = new ProvideInterfaceItem();
+        output = new Output();
+    }
 
     public void Message(String msg1, String msg2) {
         FacesContext context = FacesContext.getCurrentInstance();
