@@ -1,22 +1,17 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.smgb.projetsmgb.service;
-
 
 import com.smgb.projetsmgb.bean.Composant;
 import com.smgb.projetsmgb.bean.DomaineAssocie;
 import com.smgb.projetsmgb.bean.ProvideInterface;
 import com.smgb.projetsmgb.bean.ProvideInterfaceItem;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.ejb.EJB;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
+
 /**
  *
  * @author Ghassan
@@ -45,14 +40,12 @@ public class ComposantFacade extends AbstractFacade<Composant> {
         super(Composant.class);
     }
 
-    //cherche si le domaine a deja ce composant
     public Object[] findByDomaineAndNom(Composant composant) {
         String requete = "SELECT c FROM Composant c WHERE c.domaineAssocie.id = " + composant.getDomaineAssocie().getId() + " AND c.nom = '" + composant.getNom() + "'";
         List<Composant> composants = em.createQuery(requete).getResultList();
         if (!composants.isEmpty()) {
             return new Object[]{1, composants.get(0)};
         } else {
-//            generateId("Composant", "id");
             ProvideInterface provideInterface = new ProvideInterface();
             Long i = provideInterfaceFacade.generateId("ProvideInterface", "id");
             provideInterface.setNom(composant.getNom());
@@ -69,12 +62,12 @@ public class ComposantFacade extends AbstractFacade<Composant> {
     
     public TreeNode createComposant(DomaineAssocie subDomaine) {
         List<Composant> composants = findComposantsBySubDomaine(subDomaine);
-        TreeNode root = new DefaultTreeNode(new Composant(), null);
+        TreeNode root = new DefaultTreeNode("Root1", null);
         for (Composant composant : composants) {
-            TreeNode composants1 = new DefaultTreeNode(composant, root);
+            TreeNode composants1 = new DefaultTreeNode(composant.getNom(), root);
             List<ProvideInterfaceItem> provideInterfaceItems = provideInterfaceItemFacade.findProvideInterfaceItemByComposant(composant);
             for (ProvideInterfaceItem provideInterfaceItem : provideInterfaceItems) {
-                TreeNode provideInterface = new DefaultTreeNode(provideInterfaceItem, composants1);
+                TreeNode provideInterface = new DefaultTreeNode(provideInterfaceItem.getNom(), composants1);
             }
         }
         return root;

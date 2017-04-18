@@ -1,0 +1,148 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+        <ui:composition template="./../template.xhtml">
+
+            <ui:define name="title">
+                <h:outputText value="Lists"></h:outputText>
+            </ui:define>
+
+            <ui:define name="body">
+                <div class="container-fluid">
+                    <br></br>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h:form id="ComposantListForm">
+                                <p:panel header="LIST DES COMPOSANTS">
+                                    <p:dataTable id="datalist" value="#{composantController.items}" var="item"
+                                                 selection="#{composantController.selected}"
+                                                 paginator="true"
+                                                 rowKey="#{item.id}"
+                                                 rows="10"
+                                                 rowsPerPageTemplate="10,20,30,40,50"
+                                                 >
+
+                                        <p:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="#{bundle.ListComposantTitle_nom}"/>
+                                            </f:facet>
+                                            <h:outputText value="#{item.nom}"/>
+                                        </p:column>
+                                        <p:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="Chemin"/>
+                                            </f:facet>
+                                            <h:outputText value="#{item.chemin}"/>
+                                        </p:column>
+                                        <p:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="#{bundle.ListComposantTitle_domaineAssocie}"/>
+                                            </f:facet>
+                                            <h:outputText value="#{item.domaineAssocie}"/>
+                                        </p:column>
+                                        <p:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="ProvideInterfaceItem"/>
+                                            </f:facet>
+                                            <p:commandButton id="showButton1"  value="Afficher" action="#{composantController.findProvideInterfaceItemByComposant(item)}" update=":ProvideInterfaceItemListForm:datalist"/>
+                                        </p:column>
+                                    </p:dataTable>
+                                </p:panel>
+                            </h:form>
+                        </div>
+                    </div>
+                    <br></br>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h:form id="ProvideInterfaceItemListForm">
+                                <p:panel header="LIST PROVIDEINTERFACEITEM">
+                                    <p:dataTable id="datalist" value="#{composantController.selected.provideInterface.provideInterfaceItems}" var="item"
+                                                 selection="#{composantController.selectedProvideInterfaceItem}"
+                                                 paginator="true"
+                                                 rowKey="#{item.id}"
+                                                 rows="10"
+                                                 rowsPerPageTemplate="10,20,30,40,50"
+                                                 >
+
+                                        <p:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="#{bundle.ListProvideInterfaceItemTitle_nom}"/>
+                                            </f:facet>
+                                            <h:outputText value="#{item.nom}"/>
+                                        </p:column>
+                                        <p:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="#{bundle.ListProvideInterfaceItemTitle_provideInterface}"/>
+                                            </f:facet>
+                                            <h:outputText value="#{item.provideInterface.nom}"/>
+                                        </p:column>
+                                        <p:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="#{bundle.ListProvideInterfaceItemTitle_output}"/>
+                                            </f:facet>
+                                            <h:outputText value="#{item.output.nom}"/>
+                                        </p:column>
+                                        <p:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="Type output"/>
+                                            </f:facet>
+                                            <h:outputText value="#{item.output.type}"/>
+                                        </p:column>
+                                        <p:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="Inputs"/>
+                                            </f:facet>
+                                            <p:commandButton id="showButton2"  value="Afficher" action="#{composantController.findInputsByProvideInterfaceItem(item)}" update=":InputListForm:datalist"/>
+                                        </p:column>
+                                    </p:dataTable>
+                                </p:panel>
+                            </h:form>
+                        </div>
+                        <div class="col-md-6">
+                            <h:form id="InputListForm">
+                                <p:panel header="LIST INPUTS">
+                                    <p:dataTable id="datalist" value="#{composantController.selectedProvideInterfaceItem.inputs}" var="item"
+                                                 selectionMode="single" selection="#{composantController.input}"
+                                                 paginator="true"
+                                                 rowKey="#{item.id}"
+                                                 rows="10"
+                                                 rowsPerPageTemplate="10,20,30,40,50"
+                                                 >
+
+                                        <p:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="#{bundle.ListInputTitle_nom}"/>
+                                            </f:facet>
+                                            <h:outputText value="#{item.nom}"/>
+                                        </p:column>
+                                        <p:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="#{bundle.ListInputTitle_type}"/>
+                                            </f:facet>
+                                            <h:outputText value="#{item.type}"/>
+                                        </p:column>
+<!--                                        <f:facet name="footer">
+                                            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":InputEditForm" oncomplete="PF('InputEditDialog').show()" />
+                                        </f:facet>-->
+                                    </p:dataTable>
+                                </p:panel>
+                            </h:form>
+                        </div>
+                    </div>
+                    <h:form id="retourForm">
+                        <p:commandButton id="retourButton" value="Retour" action="#{composantController.versList1()}"/>
+                    </h:form>
+                </div>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

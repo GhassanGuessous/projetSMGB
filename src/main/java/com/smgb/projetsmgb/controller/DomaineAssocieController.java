@@ -127,6 +127,7 @@ public class DomaineAssocieController implements Serializable {
     public List<DomaineAssocie> getItemsAvailableSelectOne() {
         return getFacade().findAll();
     }
+    
 
     @FacesConverter(forClass = DomaineAssocie.class)
     public static class DomaineAssocieControllerConverter implements Converter {

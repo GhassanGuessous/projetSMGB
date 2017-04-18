@@ -1,5 +1,10 @@
 package com.smgb.projetsmgb.controller;
-import com.smgb.projetsmgb.bean.*;
+
+import com.smgb.projetsmgb.bean.Composant;
+import com.smgb.projetsmgb.bean.Input;
+import com.smgb.projetsmgb.bean.Output;
+import com.smgb.projetsmgb.bean.ProvideInterface;
+import com.smgb.projetsmgb.bean.ProvideInterfaceItem;
 import controller.util.JsfUtil;
 import controller.util.JsfUtil.PersistAction;
 import com.smgb.projetsmgb.service.ComposantFacade;
@@ -70,10 +75,8 @@ public class ComposantController implements Serializable {
         int res1 = (int) res[0];
         selected = (Composant) res[1];
         if (res1 < 0) {
-//            JsfUtil.addSuccessMessage("oui");
             Message("Composant", "Composant a ete cree avec success");
         } else {
-//            JsfUtil.addErrorMessage("non");
             Message("Composant", "Composant existant. Voulez vous ajouter d'autre pii ?");
         }
     }
@@ -107,10 +110,12 @@ public class ComposantController implements Serializable {
     }
 
     public void findInputsByProvideInterfaceItem(ProvideInterfaceItem provideInterfaceItem) {
-        provideInterfaceItem.setInputs(inputFacade.findInputsByProvideInterfaceItem(provideInterfaceItem));
+        selectedProvideInterfaceItem = provideInterfaceItem;
+        selectedProvideInterfaceItem.setInputs(inputFacade.findInputsByProvideInterfaceItem(provideInterfaceItem));
     }
 
-    public void findProvideInterfaceItemByComposant() {
+    public void findProvideInterfaceItemByComposant(Composant composant) {
+        selected = composant;
         selected.getProvideInterface().setProvideInterfaceItems(provideInterfaceItemFacade.findProvideInterfaceItemByComposant(selected));
     }
 
@@ -119,10 +124,29 @@ public class ComposantController implements Serializable {
         context.addMessage(null, new FacesMessage(msg1, msg2));
     }
 
-    public Composant prepareCreate(ProvideInterfaceItem provideInterfaceItem) {
+    public Composant prepareCreate() {
         selected = new Composant();
         initializeEmbeddableKey();
         return selected;
+    }
+    
+    public Input prepareCreateInput(ProvideInterfaceItem provideInterfaceItem) {
+        selectedProvideInterfaceItem = provideInterfaceItem;
+        input = new Input();
+        initializeEmbeddableKey();
+        return input;
+    }
+    
+    public String versList1(){
+        selected = new Composant();
+        provideInterface = new ProvideInterface();
+        provideInterfaceItem = new ProvideInterfaceItem();
+        output = new Output();
+        return "List";
+    }
+    public String versList2(){
+        selected = new Composant();
+        return "List2";
     }
 
     public void create() {

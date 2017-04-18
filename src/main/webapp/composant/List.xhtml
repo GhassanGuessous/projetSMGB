@@ -31,7 +31,7 @@
                                     <p:outputLabel value="Domaine associé:" for="domaineAssocie" style="font-weight: bold;"/>
                                     <p:selectOneMenu id="domaineAssocie" value="#{composantController.selected.domaineAssocie}" required="true">
                                         <f:selectItem itemValue="#{domaineAssocieItem}" itemLabel="--SELECT--"/>
-                                        <f:selectItems value="#{domaineAssocieController.items}"
+                                        <f:selectItems value="#{domaineAssocieController.findListSubDomaines()}"
                                                        var="domaineAssocieItem"
                                                        itemValue="#{domaineAssocieItem}" itemLabel="#{domaineAssocieItem.nom}"/>
                                     </p:selectOneMenu>
@@ -60,9 +60,9 @@
                     </div>
                     <div class="col-md-2">
                         <h:form>
-                            <p:commandButton id="saveButton" value="SAVE" actionListener="#{composantController.save()}" icon="ui-icon-disk" update=":ProvideInterfaceItemListForm:datalist,:InputListForm:datalist,growl" />
+                            <p:commandButton id="saveButton" value="SAVE" actionListener="#{composantController.save()}" icon="ui-icon-disk" update=":ProvideInterfaceItemListForm:datalist,:InputListForm:datalist,growl"/>
                             <br></br>
-                            <p:commandButton id="showButton" value="Show all" action="List2"/>
+                            <p:commandButton id="showButton" value="Show all" action="#{composantController.versList2()}"/>
                         </h:form>
                     </div>
                 </div>
@@ -77,6 +77,7 @@
 
                             <p:outputLabel value="Input Type:" for="inputType" style="font-weight: bold;" />
                             <p:inputText id="inputType" value="#{composantController.input.type}" title="Type" required="true"/>
+                            <a href="List.xhtml"></a>
                         </p:panelGrid>
                         <p:commandButton id="inputButton" value="Ajouter" actionListener="#{composantController.addInput()}" update="display,:InputListForm:datalist,growl" oncomplete="handleSubmit(args,'InputCreateDialog');" icon="ui-icon-plus"/>
                     </h:panelGroup>
@@ -91,7 +92,7 @@
 
                             <p:panel header="List ProvideInterfaceItems">
                                 <p:dataTable id="datalist" value="#{composantController.provideInterfaceItems}" var="item"
-                                             selectionMode="single" selection="#{composantController.selectedProvideInterfaceItem}"
+                                             selection="#{composantController.selectedProvideInterfaceItem}"
                                              paginator="true"
                                              rowKey="#{item.nom}"
                                              rows="10"
@@ -126,7 +127,7 @@
                                         <f:facet name="header">
                                             <h:outputText value="Inputs"/>
                                         </f:facet>
-                                        <p:commandButton id="inputsButton" icon="ui-icon-plus" value="Ajouter" actionListener="#{inputController.prepareCreate}" update=":InputCreateForm" oncomplete="PF('InputCreateDialog').show()"/>
+                                        <p:commandButton id="inputsButton" icon="ui-icon-plus" value="Ajouter" actionListener="#{composantController.prepareCreateInput(item)}" update=":InputCreateForm" oncomplete="PF('InputCreateDialog').show()"/>
                                     </p:column>
                                 </p:dataTable>
                             </p:panel>

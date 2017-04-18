@@ -3,16 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.smgb.projetsmgb.bean;
+
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 /**
@@ -20,22 +17,18 @@ import javax.persistence.OneToOne;
  * @author Ghassan
  */
 @Entity
-public class ProvideInterfaceItem implements Serializable {
+public class Goal implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nom;
-    @ManyToOne
-    private ProvideInterface provideInterface;
-    @OneToOne(mappedBy = "provideInterfaceItem")
-    private Output output;
-    @OneToMany(mappedBy = "provideInterfaceItem")
-    private List<Input> inputs;
-    @OneToOne(mappedBy = "provideInterfaceItem")
-    private Step step;
-    
+    @OneToOne
+    private Domaine domaine;
+    @OneToOne(mappedBy = "goal")
+    private Action action;
+
     public Long getId() {
         return id;
     }
@@ -52,36 +45,20 @@ public class ProvideInterfaceItem implements Serializable {
         this.nom = nom;
     }
 
-    public ProvideInterface getProvideInterface() {
-        return provideInterface;
+    public Domaine getDomaine() {
+        return domaine;
     }
 
-    public void setProvideInterface(ProvideInterface provideInterface) {
-        this.provideInterface = provideInterface;
+    public void setDomaine(Domaine domaine) {
+        this.domaine = domaine;
     }
 
-    public Output getOutput() {
-        return output;
+    public Action getAction() {
+        return action;
     }
 
-    public void setOutput(Output output) {
-        this.output = output;
-    }
-
-    public List<Input> getInputs() {
-        return inputs;
-    }
-
-    public void setInputs(List<Input> inputs) {
-        this.inputs = inputs;
-    }
-
-    public Step getStep() {
-        return step;
-    }
-
-    public void setStep(Step step) {
-        this.step = step;
+    public void setAction(Action action) {
+        this.action = action;
     }
     
     @Override
@@ -94,10 +71,10 @@ public class ProvideInterfaceItem implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ProvideInterfaceItem)) {
+        if (!(object instanceof Goal)) {
             return false;
         }
-        ProvideInterfaceItem other = (ProvideInterfaceItem) object;
+        Goal other = (Goal) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -106,7 +83,7 @@ public class ProvideInterfaceItem implements Serializable {
 
     @Override
     public String toString() {
-        return "com.smgb.projetsmgb.bean.ProvideInterfaceItem[ id=" + id + " ]";
+        return "com.smgb.projetsmgb.bean.Goal[ id=" + id + " ]";
     }
     
 }

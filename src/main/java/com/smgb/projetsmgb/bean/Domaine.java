@@ -29,6 +29,8 @@ public class Domaine implements Serializable {
     private String nom;
     @OneToMany(mappedBy = "domaine")
     private List<DomaineAssocie> domaineAssocies;
+    @OneToOne(mappedBy = "domaine")
+    private Goal goal;
 
     public Long getId() {
         return id;
@@ -52,6 +54,14 @@ public class Domaine implements Serializable {
 
     public void setDomaineAssocies(List<DomaineAssocie> domaineAssocies) {
         this.domaineAssocies = domaineAssocies;
+    }
+
+    public Goal getGoal() {
+        return goal;
+    }
+
+    public void setGoal(Goal goal) {
+        this.goal = goal;
     }
     
     @Override

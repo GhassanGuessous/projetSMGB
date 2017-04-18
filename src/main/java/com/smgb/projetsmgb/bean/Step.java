@@ -3,8 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.smgb.projetsmgb.bean;
+
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Entity;
@@ -20,7 +20,7 @@ import javax.persistence.OneToOne;
  * @author Ghassan
  */
 @Entity
-public class ProvideInterfaceItem implements Serializable {
+public class Step implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -28,14 +28,15 @@ public class ProvideInterfaceItem implements Serializable {
     private Long id;
     private String nom;
     @ManyToOne
-    private ProvideInterface provideInterface;
-    @OneToOne(mappedBy = "provideInterfaceItem")
-    private Output output;
-    @OneToMany(mappedBy = "provideInterfaceItem")
-    private List<Input> inputs;
-    @OneToOne(mappedBy = "provideInterfaceItem")
-    private Step step;
-    
+    private Processus processus;
+    @OneToOne
+    private ProvideInterfaceItem provideInterfaceItem;
+    @OneToMany(mappedBy = "step")
+    private List<ContrainteItem> contrainteItems;
+    @OneToOne(mappedBy = "step")
+    private ResultatItem resultatItem;
+    private StepEnum stepEnum;
+
     public Long getId() {
         return id;
     }
@@ -52,36 +53,44 @@ public class ProvideInterfaceItem implements Serializable {
         this.nom = nom;
     }
 
-    public ProvideInterface getProvideInterface() {
-        return provideInterface;
+    public Processus getProcessus() {
+        return processus;
     }
 
-    public void setProvideInterface(ProvideInterface provideInterface) {
-        this.provideInterface = provideInterface;
+    public void setProcessus(Processus processus) {
+        this.processus = processus;
     }
 
-    public Output getOutput() {
-        return output;
+    public ProvideInterfaceItem getProvideInterfaceItem() {
+        return provideInterfaceItem;
     }
 
-    public void setOutput(Output output) {
-        this.output = output;
+    public void setProvideInterfaceItem(ProvideInterfaceItem provideInterfaceItem) {
+        this.provideInterfaceItem = provideInterfaceItem;
     }
 
-    public List<Input> getInputs() {
-        return inputs;
+    public List<ContrainteItem> getContrainteItems() {
+        return contrainteItems;
     }
 
-    public void setInputs(List<Input> inputs) {
-        this.inputs = inputs;
+    public void setContrainteItems(List<ContrainteItem> contrainteItems) {
+        this.contrainteItems = contrainteItems;
     }
 
-    public Step getStep() {
-        return step;
+    public ResultatItem getResultatItem() {
+        return resultatItem;
     }
 
-    public void setStep(Step step) {
-        this.step = step;
+    public void setResultatItem(ResultatItem resultatItem) {
+        this.resultatItem = resultatItem;
+    }
+
+    public StepEnum getStepEnum() {
+        return stepEnum;
+    }
+
+    public void setStepEnum(StepEnum stepEnum) {
+        this.stepEnum = stepEnum;
     }
     
     @Override
@@ -94,10 +103,10 @@ public class ProvideInterfaceItem implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ProvideInterfaceItem)) {
+        if (!(object instanceof Step)) {
             return false;
         }
-        ProvideInterfaceItem other = (ProvideInterfaceItem) object;
+        Step other = (Step) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -106,7 +115,7 @@ public class ProvideInterfaceItem implements Serializable {
 
     @Override
     public String toString() {
-        return "com.smgb.projetsmgb.bean.ProvideInterfaceItem[ id=" + id + " ]";
+        return "com.smgb.projetsmgb.bean.Step[ id=" + id + " ]";
     }
     
 }
