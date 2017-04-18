@@ -8,7 +8,7 @@
     <h:head>
         <title><ui:insert name="title">Default Title</ui:insert></title>
         <h:outputStylesheet library="css" name="jsfcrud.css"/>
-        <h:outputStylesheet library="css" name="bootstrap.css"/>
+         <h:outputStylesheet library="css" name="bootstrap.css"/>
         <h:outputScript library="js" name="jsfcrud.js"/>
     </h:head>
 
@@ -17,7 +17,7 @@
         <p:growl id="growl" life="3000" />
 
         <p:layout fullPage="true">
-            <p:layoutUnit position="north" size="65" header="#{bundle.AppName}">
+            <p:layoutUnit position="north" size="65"  header="#{bundle.AppName}" >
                 <h:form id="menuForm">
                     <p:menubar>
                         <p:menuitem value="#{bundle.Home}" outcome="/index" icon="ui-icon-home"/>
@@ -33,7 +33,7 @@
                         </p:submenu>
 
                         <p:submenu label="Contexte">
-                            <p:menuitem value="Creation" outcome="/contexte/List.xhtml" icon="ui-icon-plus"/>
+                            <p:menuitem value="Creation" outcome="/contexte/List_1.xhtml" icon="ui-icon-plus"/>
                             <p:menuitem value="Listes" outcome="/contexte/List.xhtml" icon="ui-icon-carat-2-n-s"/>
                         </p:submenu>
 

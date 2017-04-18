@@ -3,8 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.smgb.projetsmgb.bean;
 
+package com.smgb.projetsmgb.bean;
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -30,6 +30,7 @@ public class SensibleParam implements Serializable {
     private String nom;
     @ManyToOne
     private ContexteElement contexteElement;
+    
 
     public Long getId() {
         return id;
@@ -40,6 +41,9 @@ public class SensibleParam implements Serializable {
     }
 
     public SensibleValeur getSensibleValeur() {
+        if(sensibleValeur == null){
+            sensibleValeur = new SensibleValeur();
+        }
         return sensibleValeur;
     }
 
@@ -56,12 +60,17 @@ public class SensibleParam implements Serializable {
     }
 
     public ContexteElement getContexteElement() {
+        
+        if(contexteElement == null){
+            contexteElement = new ContexteElement();
+        }
         return contexteElement;
     }
 
     public void setContexteElement(ContexteElement contexteElement) {
         this.contexteElement = contexteElement;
     }
+
     
     @Override
     public int hashCode() {
@@ -85,7 +94,7 @@ public class SensibleParam implements Serializable {
 
     @Override
     public String toString() {
-        return "com.smgb.projetsmgb.bean.SensibleParam[ id=" + id + " ]";
+        return this.nom;
     }
     
 }

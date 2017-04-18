@@ -5,10 +5,9 @@ import com.smgb.projetsmgb.bean.Input;
 import com.smgb.projetsmgb.bean.Output;
 import com.smgb.projetsmgb.bean.ProvideInterface;
 import com.smgb.projetsmgb.bean.ProvideInterfaceItem;
-import com.smgb.projetsmgb.controller.util.JsfUtil;
-import com.smgb.projetsmgb.controller.util.JsfUtil.PersistAction;
+import controller.util.JsfUtil;
+import controller.util.JsfUtil.PersistAction;
 import com.smgb.projetsmgb.service.ComposantFacade;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +38,6 @@ public class ComposantController implements Serializable {
     private com.smgb.projetsmgb.service.OutputFacade outputFacade;
     private List<Composant> items = null;
     private Composant selected;
-
     private ProvideInterface provideInterface;
     private ProvideInterfaceItem provideInterfaceItem;
     private ProvideInterfaceItem selectedProvideInterfaceItem;

@@ -1,11 +1,15 @@
+
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.smgb.projetsmgb.bean;
 
+package com.smgb.projetsmgb.bean;
+import com.smgb.projetsmgb.bean.ContexteElement;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -45,6 +49,10 @@ public class Contexte implements Serializable {
     }
 
     public List<ContexteElement> getContexteElements() {
+        
+//        if(contexteElements.isEmpty()){
+//            contexteElements = new ArrayList<>();
+//        }
         return contexteElements;
     }
 
@@ -74,7 +82,7 @@ public class Contexte implements Serializable {
 
     @Override
     public String toString() {
-        return "com.smgb.projetsmgb.bean.Contexte[ id=" + id + " ]";
+        return this.nom;
     }
     
 }

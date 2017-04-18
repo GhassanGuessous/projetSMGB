@@ -1,8 +1,9 @@
 package com.smgb.projetsmgb.controller;
 
 import com.smgb.projetsmgb.bean.ContexteElement;
-import com.smgb.projetsmgb.controller.util.JsfUtil;
-import com.smgb.projetsmgb.controller.util.JsfUtil.PersistAction;
+import com.smgb.projetsmgb.service.ContexteElementFacade;
+import controller.util.JsfUtil;
+import controller.util.JsfUtil.PersistAction;
 import com.smgb.projetsmgb.service.ContexteElementFacade;
 
 import java.io.Serializable;
@@ -27,6 +28,16 @@ public class ContexteElementController implements Serializable {
     private com.smgb.projetsmgb.service.ContexteElementFacade ejbFacade;
     private List<ContexteElement> items = null;
     private ContexteElement selected;
+    @EJB 
+    private com.smgb.projetsmgb.service.SensibleParamFacade sensibleParamFacade;
+    
+    
+    public void findByContexteElement(ContexteElement contexteElement){
+        
+        if(contexteElement != null){
+            selected.setSensibleParams(sensibleParamFacade.findByContexteElement(contexteElement));
+        }
+    }
 
     public ContexteElementController() {
     }

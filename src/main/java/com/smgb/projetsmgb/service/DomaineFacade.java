@@ -4,11 +4,11 @@
  * and open the template in the editor.
  */
 package com.smgb.projetsmgb.service;
-
 import com.smgb.projetsmgb.bean.Domaine;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+
 
 /**
  *

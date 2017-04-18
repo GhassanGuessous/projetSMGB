@@ -1,8 +1,8 @@
 package com.smgb.projetsmgb.controller;
 
 import com.smgb.projetsmgb.bean.ProvideInterfaceItem;
-import com.smgb.projetsmgb.controller.util.JsfUtil;
-import com.smgb.projetsmgb.controller.util.JsfUtil.PersistAction;
+import controller.util.JsfUtil;
+import controller.util.JsfUtil.PersistAction;
 import com.smgb.projetsmgb.service.ProvideInterfaceItemFacade;
 
 import java.io.Serializable;

@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:b="http://bootsfaces.net/ui">
+
+    <ui:composition template="/template.xhtml">
+
+
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListContexteTitle}"></h:outputText>
+        </ui:define>
+
+        <ui:define name="body">
+            
+            <div class="container"><br></br>
+                <div class="row">
+                    <div class="col-md-4">
+                        <h:form id="contexteForm">
+                            <p:growl id="growl" showDetail="true" sticky="true" />
+                            <b:panel title="Contexte">
+                                <h:panelGrid id="gridContexte" columns="2">
+                                    <p:outputLabel value="Nom  :" for="nom" style="font-weight: bold;" />
+                                    <p:inputText id="nom" value="#{contexteController.selected.nom}" title="Nom" required="true" />
+   
+                                </h:panelGrid>
+                                
+                                <b:commandButton icon="plus-sign" id="ContexteButton" value="Add" actionListener="#{contexteController.saveContexte()}" update="growl"  style="float:right;margin-top: -28px;"/>
+                            </b:panel>
+                        </h:form>
+                    </div>
+                    <div class="col-md-4">
+                        <h:form>
+                            <b:panel title="Contexte Element">
+                                <h:panelGrid id="gridCE" columns="2" >
+                                    <p:outputLabel value="Nom  :" for="contextElementNom" style="font-weight: bold;"/>
+                                    <p:inputText id="contextElementNom" value="#{contexteController.contexteElement.nom}" title="contextElementNom" required="true"/>                 
+                                </h:panelGrid>
+                                <b:commandButton id="ceButton" icon="plus-sign" value="Add" actionListener="#{contexteController.saveContexteElement()}" update=":ContextElementListForm:datalistContextElement,:contexteForm:growl"  style="float:right;margin-top: -28px;"/>
+                            </b:panel>
+                        </h:form>
+                    </div>
+                    <div class="col-md-3">
+                        <br></br>
+                        <h:form>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <b:commandButton id="saveButton" value="SAVE" actionListener="#{contexteController.save()}"   update=":ContextElementListForm:datalistContextElement,:SensibleParamListForm:datalistSensibleForm,:contexteForm:growl"  style="background-color: aqua;" icon="glyphicon glyphicon-circle-arrow-down"/>&nbsp;&nbsp;
+                            <b:commandButton id="showButton" value="Show List" action="List" style="background-color: #eee" icon="glyphicon glyphicon-eye-open"/>
+                        </h:form>
+                    </div>
+                </div>
+    
+            </div><br></br>
+            
+            <p:dialog id="paramCreateDlg" widgetVar="ParamCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="Create Sensible Param">
+                <h:form id="ParamCreateForm">
+                    <h:panelGroup id="display">
+                        <p:panelGrid id="gridParam" columns="2" >
+                            <p:outputLabel value="Sensible Param Nom :" for="paramNom" style="font-weight: bold;" />
+                            <p:inputText id="paramNom" value="#{contexteController.sensibleParam.nom}" title="SensibleParam" required="true"/>
+
+                            <p:outputLabel value="Sensible Valeur Nom :" for="valeurNom" style="font-weight: bold;" />
+                            <p:inputText id="valeurNom" value="#{contexteController.sensibleValeur.nom}" title="SensibleValeur" required="true"/>
+                        </p:panelGrid>
+                        <p:commandButton id="paramButton" value="Add" actionListener="#{contexteController.addSensibleParamValeur()}" update=":SensibleParamListForm:datalistSensibleForm,:contexteForm:growl,:SensibleValeurListForm:datalistSensibleValeurForm" oncomplete="handleSubmit(args,'ParamCreateDialog');" icon="ui-icon-plus"/>
+                    </h:panelGroup>
+
+                </h:form>
+            </p:dialog>
+                
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-4">
+                        <h:form id="ContextElementListForm">
+                            <b:panel title="Les Contextes Elements" >
+                                <p:dataTable id="datalistContextElement" value="#{contexteController.itemsElement}" var="ce"
+                                             selectionMode="single" selection="#{contexteController.selectedElement}"
+                                             rowKey="#{ce.nom}"
+
+                                             >
+
+
+                                    <p:column style="width:15%;">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListContexteElementTitle_nom}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{ce.nom}"/>
+                                    </p:column>
+                                    
+                                    <p:column style="width:15%;">
+                                        <f:facet name="header">
+                                            <h:outputText value="Contexte"/>
+                                        </f:facet>
+                                        <h:outputText value="#{ce.contexte.nom}"/>
+                                    </p:column>
+                                    
+                                    <p:column style="width:15%;">
+                                        <f:facet name="header">
+                                             <h:outputText value="SensibleParam"/>
+                                        </f:facet>
+                                        <p:commandButton  id="paramButton" icon="ui-icon-plus" value="Add" actionListener="#{sensibleParamController.prepareCreate}" update=":ParamCreateForm,:contexteForm:growl" oncomplete="PF('ParamCreateDialog').show()"/>
+                                    </p:column>
+                                </p:dataTable>
+                            </b:panel>
+                            
+                        </h:form>
+                    </div>
+                    
+                    <div class="col-md-4">
+                        <h:form id="SensibleParamListForm">
+                            <b:panel title="List SensibleParam">
+                                <p:dataTable id="datalistSensibleForm" value="#{contexteController.itemsParam}" var="item"
+                                             selectionMode="single" selection="#{contexteController.sensibleParam}"     
+                                              rowKey="#{item.nom}"                                 
+                                              >
+
+                                  <p:column>
+                                      <f:facet name="header">
+                                          <h:outputText value="ContexteElement"/>
+                                      </f:facet>
+                                      <h:outputText value="#{item.contexteElement.nom}"/>                                       
+                                  </p:column>
+
+                                     <p:column>
+                                         <f:facet name="header">
+                                             <h:outputText value="#{bundle.ListSensibleParamTitle_nom}"/>
+                                         </f:facet>
+                                         <h:outputText value="#{item.nom}"/>                                       
+                                     </p:column>
+                                  
+                                 </p:dataTable>
+                            </b:panel>
+                        </h:form>
+                    </div>
+                    
+                     <div class="col-md-4">
+                        <h:form id="SensibleValeurListForm">
+                            <b:panel title="List SensibleValeur">
+                                <p:dataTable id="datalistSensibleValeurForm" value="#{contexteController.itemsValeur}" var="item"
+                                             selectionMode="single" selection="#{contexteController.sensibleValeur}"     
+                                              rowKey="#{item.nom}"                                 
+                                              >
+
+                                  <p:column>
+                                      <f:facet name="header">
+                                          <h:outputText value="Sensible Param"/>
+                                      </f:facet>
+                                      <h:outputText value="#{item.sensibleParam.nom}"/>                                       
+                                  </p:column>
+
+                                     <p:column>
+                                         <f:facet name="header">
+                                             <h:outputText value="Nom"/>
+                                         </f:facet>
+                                         <h:outputText value="#{item.nom}"/>                                       
+                                     </p:column>
+                                  
+                                 </p:dataTable>
+                            </b:panel>
+                        </h:form>
+                    </div>
+                    
+                    
+                </div>
+            </div>
+        </ui:define>
+    </ui:composition>
+
+</html>

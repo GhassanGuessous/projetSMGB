@@ -79,6 +79,7 @@
 
                             <p:outputLabel value="Input Type:" for="inputType" style="font-weight: bold;" />
                             <p:inputText id="inputType" value="#{composantController.input.type}" title="Type" required="true"/>
+                            <a href="List.xhtml"></a>
                         </p:panelGrid>
                         <p:commandButton id="inputButton" value="Ajouter" actionListener="#{composantController.addInput()}" update="display,:InputListForm:datalist,growl" oncomplete="handleSubmit(args,'InputCreateDialog');" icon="ui-icon-plus"/>
                     </h:panelGroup>

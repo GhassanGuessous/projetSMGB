@@ -4,8 +4,8 @@
  * and open the template in the editor.
  */
 package com.smgb.projetsmgb.bean;
-
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -40,6 +40,10 @@ public class ContexteElement implements Serializable {
     }
 
     public List<SensibleParam> getSensibleParams() {
+        
+//        if(sensibleParams.isEmpty()){
+//            sensibleParams = new ArrayList();
+//        }
         return sensibleParams;
     }
 
@@ -56,6 +60,9 @@ public class ContexteElement implements Serializable {
     }
 
     public Contexte getContexte() {
+        if(contexte == null){
+            contexte = new Contexte();
+        }
         return contexte;
     }
 
@@ -85,7 +92,7 @@ public class ContexteElement implements Serializable {
 
     @Override
     public String toString() {
-        return "com.smgb.projetsmgb.bean.ContexteElement[ id=" + id + " ]";
+        return  this.nom;
     }
     
 }
