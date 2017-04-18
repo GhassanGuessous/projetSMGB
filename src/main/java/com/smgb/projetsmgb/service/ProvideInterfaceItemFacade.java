@@ -3,10 +3,11 @@ package com.smgb.projetsmgb.service;
 import com.smgb.projetsmgb.bean.Composant;
 import com.smgb.projetsmgb.bean.Input;
 import com.smgb.projetsmgb.bean.Output;
-import com.smgb.projetsmgb.bean.ProvideInterface;
 import com.smgb.projetsmgb.bean.ProvideInterfaceItem;
 import java.util.ArrayList;
 import java.util.List;
+import javax.ejb.EJB;
+
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
