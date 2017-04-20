@@ -151,7 +151,8 @@ public class ActionController implements Serializable {
         return domaines;
     }
 
-    public Step prepareCreate() {
+    public Step prepareCreate(Processus processus) {
+        selectedProcessus = processus;
         step = new Step();
         initializeEmbeddableKey();
         return step;

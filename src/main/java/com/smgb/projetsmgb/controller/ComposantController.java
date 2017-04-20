@@ -121,6 +121,8 @@ public class ComposantController implements Serializable {
     
     public String add(Composant composant){
         selected = composant;
+        provideInterfaceItem = new ProvideInterfaceItem();
+        output = new Output();
         return "List";
     }
     
