@@ -1,3 +1,4 @@
+
 package com.smgb.projetsmgb.controller;
 
 import com.smgb.projetsmgb.bean.Composant;

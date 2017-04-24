@@ -144,20 +144,128 @@
                         </div>
 
                     </p:tab>
-                    <p:tab title="Contrainte">
-                        <h:panelGrid columns="2" cellpadding="10">
-                            <h:outputText value="Francis Ford Coppola's legendary..." />
-                        </h:panelGrid>
+                    <p:tab title="Contrainte" id="t2">
+                        <p:growl id="growl2" showDetail="true" sticky="true" />
+                        <div class="container-fluid"><br></br>
+                            <div class="row">
+                                <div class="col-md-5">
+                                   <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <h3 class="panel-title">CONTRAINTE</h3>
+                                        </div>
+                                        <h:panelGrid columns="3">
+                                            <p:outputLabel value="NomContrainte" for="contrainteName" />
+                                            <p:inputText id="contrainteName" value="#{actionController.contrainte.nom}"/>
+                                            <p:commandButton id="createCButton" icon="ui-icon-plus" value="Ajouter"  actionListener="#{actionController.saveContrainte()}" update="growl2"/>
+                                        </h:panelGrid> 
+                                    </div>
+
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <h3 class="panel-title">ContrainteItem</h3>
+                                        </div>
+                                        <h:panelGrid columns="2">
+                                            <p:outputLabel value="Step" for="step" />
+                                            <p:selectOneMenu id="step" value="#{actionController.step1}" >
+                                                <f:selectItem itemLabel=" SELECT " itemValue="#{null}"/>
+                                                <f:selectItems value="#{actionController.findSteps()}"
+                                                               var="stepItem"
+                                                               itemValue="#{stepItem}" itemLabel="#{stepItem.nom}"/>
+                                            </p:selectOneMenu>
+
+                                            <p:outputLabel value="Attribut" for="attribut" />
+                                            <p:inputText id="attribut" value="#{actionController.contrainteItem.attribut}" />
+
+                                            <p:outputLabel value="Critere" for="critere"  />
+                                            <p:selectOneMenu id="critere" value="#{actionController.contrainteItem.critere}" >
+                                                <f:selectItem itemValue="0" itemLabel="--SELECT--"/> 
+                                                <f:selectItem itemValue="egal" itemLabel="Egal"/>
+                                                <f:selectItem itemValue="inferieur" itemLabel="Inférieur"/>
+                                                <f:selectItem itemValue="superieur" itemLabel="Supérieur"/>
+                                            </p:selectOneMenu>
+
+                                            <p:outputLabel value="ValeurCritique"  />
+                                            <p:commandButton id="createVCButton" icon="ui-icon-plus"   actionListener="#{actionController.prepareCreate2}" update=":ValeurCritiqueCreateForm" oncomplete="PF('ValeurCritiqueCreateDialog').show()"/>
+                                            <p:commandButton id="refreshButton" icon="ui-icon-arrowrefresh-1-e"   actionListener="#{actionController.vider()}" update="attribut,critere"/>
+
+                                        </h:panelGrid>
+                                      </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <p:commandButton id="createAll"  value="Save" class="btn btn-default" actionListener="#{actionController.saveAllContrainteAndItems()}" update="growl2" style="float:right;" />
+                                </div>
+                            </div>
+                        </div>
+                        <br></br>
+                        <div class="row">
+                           <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <h3 class="panel-title">ContrainteItemListForm</h3>
+                                        </div>
+                                <p:dataTable id="datalistC" value="#{actionController.contrainteItems}" var="item"
+                                             selectionMode="single" selection="#{actionController.contrainteItemSelected2}"
+                                             paginator="true"
+                                             rowKey="#{item.id}"
+                                             rows="10"
+                                             rowsPerPageTemplate="10,20,30,40,50"
+                                             >
+
+
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Step"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.step.nom}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Attribut"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.attribut}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Critère"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.critere}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="ValeurCritique"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.valeurCritique.valeur}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="ValeurCritique Type"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.valeurCritique.type}"/>
+                                    </p:column>
+
+                                </p:dataTable>
+                             </div>
+                        </div>
+
+                        <!--</h:form>-->
                     </p:tab>
+
+
+
+
                     <p:tab title="Resultat">
                         <h:panelGrid columns="2" cellpadding="10">
                             <h:outputText value="After a break of more than 15 years..." />
                         </h:panelGrid>
+
                     </p:tab>
                 </p:tabView>
             </h:form>
 
-            <ui:include src="/step/Create.xhtml"/>  
+
+            <ui:include src="/step/Create.xhtml"/> 
+            <ui:include src="CreateValeurCritique.xhtml"/> 
 
         </ui:define>
     </ui:composition>

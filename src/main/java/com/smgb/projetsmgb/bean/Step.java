@@ -115,7 +115,7 @@ public class Step implements Serializable {
 
     @Override
     public String toString() {
-        return "com.smgb.projetsmgb.bean.Step[ id=" + id + " ]";
+        return " nom '" + nom + "'";
     }
     
 }

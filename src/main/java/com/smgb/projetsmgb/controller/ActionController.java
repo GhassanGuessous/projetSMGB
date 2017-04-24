@@ -6,20 +6,24 @@
 package com.smgb.projetsmgb.controller;
 
 import com.smgb.projetsmgb.bean.Action;
+import com.smgb.projetsmgb.bean.Contrainte;
+import com.smgb.projetsmgb.bean.ContrainteItem;
 import com.smgb.projetsmgb.bean.Domaine;
 import com.smgb.projetsmgb.bean.Goal;
 import com.smgb.projetsmgb.bean.Processus;
 import com.smgb.projetsmgb.bean.ProvideInterfaceItem;
 import com.smgb.projetsmgb.bean.Step;
+import com.smgb.projetsmgb.bean.ValeurCritique;
+import com.smgb.projetsmgb.controller.util.JsfUtil;
 import com.smgb.projetsmgb.service.ActionFacade;
 import javax.inject.Named;
-import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -46,6 +50,12 @@ public class ActionController implements Serializable {
     private com.smgb.projetsmgb.service.ProvideInterfaceItemFacade provideInterfaceItemFacade;
     @EJB
     private com.smgb.projetsmgb.service.DomaineFacade domaineFacade;
+    @EJB
+    private com.smgb.projetsmgb.service.ContrainteFacade contrainteFacade;
+    @EJB
+    private com.smgb.projetsmgb.service.ContrainteItemFacade contrainteItemFacade;
+    @EJB
+    private com.smgb.projetsmgb.service.ValeurCritiqueFacade valeurCritiqueFacade;
     private List<Action> items = null;
     private Action selected;
 
@@ -54,17 +64,79 @@ public class ActionController implements Serializable {
     private Processus processus;
     private Processus selectedProcessus; //list
     private Step step;
+    private Step step1;
     private Step selectedStep;
+    private Contrainte contrainte;
+    private ContrainteItem contrainteItem;
+    private ContrainteItem contrainteItemSelected;
+    private ContrainteItem contrainteItemSelected2;
+    private ValeurCritique valeurCritique;
 
     private List<Processus> processuses = new ArrayList();
     private List<Step> steps = new ArrayList();
     private List<Domaine> domaines;
     private List<ProvideInterfaceItem> provideInterfaceItems;
+    private List<ContrainteItem> contrainteItems = new ArrayList<>();
+
 
     /**
      * Creates a new instance of ActionController
      */
     public ActionController() {
+    }
+
+    public ValeurCritique getValeurCritique() {
+        if (valeurCritique == null) {
+            valeurCritique = new ValeurCritique();
+        }
+        return valeurCritique;
+    }
+
+    public void setValeurCritique(ValeurCritique valeurCritique) {
+        this.valeurCritique = valeurCritique;
+    }
+
+    public Contrainte getContrainte() {
+        if (contrainte == null) {
+            contrainte = new Contrainte();
+        }
+        return contrainte;
+    }
+
+    public void setContrainte(Contrainte contrainte) {
+        this.contrainte = contrainte;
+    }
+
+    public ContrainteItem getContrainteItem() {
+        if (contrainteItem == null) {
+            contrainteItem = new ContrainteItem();
+        }
+        return contrainteItem;
+    }
+
+    public void setContrainteItem(ContrainteItem contrainteItem) {
+        this.contrainteItem = contrainteItem;
+    }
+
+    public ContrainteItem getContrainteItemSelected() {
+        contrainteItemSelected=contrainteItemFacade.clone(getContrainteItem());
+      
+        return contrainteItemSelected;
+    }
+
+    public void setContrainteItemSelected(ContrainteItem contrainteItemSelected) {
+        this.contrainteItemSelected = contrainteItemSelected;
+    }
+
+    public List<ContrainteItem> getContrainteItems() {
+//        if(contrainteItems.isEmpty()){
+//            contrainteItems = new ArrayList<>();
+//        }
+        return contrainteItems;
+    }
+
+    public void setContrainteItems(List<ContrainteItem> contrainteItems) {
+        this.contrainteItems = contrainteItems;
     }
 
     public List<Action> getItems() {
@@ -151,10 +223,75 @@ public class ActionController implements Serializable {
         return domaines;
     }
 
+    public void saveContrainte() {
+        contrainte.setAction(selected);
+        System.out.println(selected);
+        int res = contrainteFacade.saveContrainte(contrainte);
+        if (res > 0) {
+            JsfUtil.addSuccessMessage("Contrainte sauvée avec succès");
+
+        } else if (res == -1) {
+            JsfUtil.addErrorMessage("cette contrainte existe déjà");
+        }
+
+    }
+
+    public List<Step> findSteps() {
+        steps = stepFacade.findByAction(selected);
+        return steps;
+    }
+
+    public void saveContrainteItemList() {
+        System.out.println("Hello World");
+        getContrainteItem().setId(contrainteItemFacade.generateId("ContrainteItem", "id"));
+        valeurCritique.setContrainteItem(contrainteItem);
+        // getContrainte().setId(contrainteItemFacade.generationId());
+        System.out.println(getContrainteItem());
+        getContrainteItem().setContrainte(contrainte);
+        getContrainteItem().setStep(step1);
+        getContrainteItem().setValeurCritique(valeurCritique);
+         System.out.println(getContrainteItem().getAttribut());
+         System.out.println(getContrainteItem().getCritere());
+        int res = contrainteItemFacade.verify(contrainteItems,getContrainteItemSelected() );
+         if (res > 0) {
+           getContrainteItems().add(getContrainteItemSelected());
+           System.out.println(getContrainteItemSelected().getAttribut());
+         System.out.println(getContrainteItemSelected().getCritere());
+            JsfUtil.addSuccessMessage("ContrainteItem sauvée dans la liste");
+        } else if (res == -1) {
+            JsfUtil.addErrorMessage("ContrainteItem déjà existant dans la liste");
+        }
+    }
+
+    public void saveAllContrainteAndItems() {
+        int res = contrainteFacade.save(contrainteItems);
+        if (res > 0) {
+            JsfUtil.addSuccessMessage("Succes");
+            contrainteItems=new ArrayList<>();
+        } else if (res == -1) {
+            JsfUtil.addErrorMessage("certains contraintes items existent déjà dans la base de donnée");
+        }
+    }
+
+         public void saveValeurcritique() {
+        valeurCritiqueFacade.saveValeurCritique(valeurCritique);
+        JsfUtil.addSuccessMessage("Valeur critique prise en compte dans la creation du contrainteItem");
+    }
+
     public Step prepareCreate() {
         step = new Step();
         initializeEmbeddableKey();
         return step;
+    }
+
+    public ValeurCritique prepareCreate2() {
+        valeurCritique = new ValeurCritique();
+        initializeEmbeddableKey();
+        return valeurCritique;
+    }
+    
+    public void vider(){
+        contrainteItem = new ContrainteItem();
     }
 
     public void Message(String msg1, String msg2) {
@@ -295,5 +432,25 @@ public class ActionController implements Serializable {
     public void setProvideInterfaceItems(List<ProvideInterfaceItem> provideInterfaceItems) {
         this.provideInterfaceItems = provideInterfaceItems;
     }
+
+    public Step getStep1() {
+        if (step1 == null) {
+            step1 = new Step();
+        }
+        return step1;
+    }
+
+    public void setStep1(Step step1) {
+        this.step1 = step1;
+    }
+
+    public ContrainteItem getContrainteItemSelected2() {
+        return contrainteItemSelected2;
+    }
+
+    public void setContrainteItemSelected2(ContrainteItem contrainteItemSelected2) {
+        this.contrainteItemSelected2 = contrainteItemSelected2;
+    }
+    
 
 }

@@ -27,6 +27,7 @@ public class Contrainte implements Serializable {
     private Long id;
     @OneToOne
     private Action action;
+    private String nom;
     @OneToMany(mappedBy = "contrainte")
     private List<ContrainteItem> contrainteItems;
 
@@ -36,6 +37,14 @@ public class Contrainte implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
     }
 
     public Action getAction() {

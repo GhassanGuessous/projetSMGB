@@ -61,7 +61,10 @@ public class DomaineController implements Serializable {
         if (res > 0) {
             JsfUtil.addSuccessMessage("Domaine créé avec succès");
         }
+        else if(res==-1){
+            
         JsfUtil.addErrorMessage("Ce Domaine existe déjà");
+        }
     }
 
     public void save() {
@@ -69,10 +72,8 @@ public class DomaineController implements Serializable {
         if (res > 0) {
             domaineAssocies = new ArrayList();
             JsfUtil.addSuccessMessage("sauvegarde terminé avec succès");
-        } else if (res == -1) {
-            JsfUtil.addErrorMessage("certains domaines associés existent déjà dans la base de donnée");
-        }
-        }
+        } 
+        } 
 
     
 
@@ -161,7 +162,12 @@ public class DomaineController implements Serializable {
         }
         return items;
     }
-
+   public String suivantList2(){
+    return "List2";
+}
+      public String precedenListt(){
+    return "List";
+}
     private void persist(PersistAction persistAction, String successMessage) {
         if (selected != null) {
             setEmbeddableKeys();

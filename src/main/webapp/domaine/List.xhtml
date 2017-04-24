@@ -14,23 +14,86 @@
         </ui:define>
 
         <ui:define name="body">
-            <h:form id="CreateForm">
-                <p:growl id="growl" showDetail="true" sticky="true" />
-                <p:panelGrid columns="3">
-                    <p:outputLabel value="#{bundle.CreateDomaineAssocieLabel_domaine}" for="domaine1" />
-                    <p:selectOneMenu id="domaine1" value="#{domaineController.selected}" >
-                        <f:selectItem itemLabel="--SELECT--" />
-                        <f:selectItems value="#{domaineController.itemsAvailableSelectOne}"
-                                       var="domaineItem"
-                                       itemValue="#{domaineItem}" itemLabel="#{domaineItem.nom}"/>
 
-                    </p:selectOneMenu>
-                    <p:commandButton id="createButton" icon="ui-icon-plus"  update=":DomaineCreateForm1" actionListener="#{domaineController.prepareCreate()}" oncomplete="PF('DomaineCreateDialog').show()"/>
-                    <p:outputLabel value="DomaineAssocie"  />
-                    <p:commandButton id="createDAButton" icon="ui-icon-plus" actionListener="DomaineAssocieCreateDialg" oncomplete="PF('DomaineAssocieCreateDialog').show()"/>
-                </p:panelGrid>
-                <p:commandButton id="saveButton"  value="OK" actionListener="#{domaineController.save()}" update="growl" />
+
+
+            <p:growl id="growl2" showDetail="true" sticky="true" />
+            <h:form id="next">
+                <p:commandButton action="#{domaineController.suivantList2()}" value="SHOW ALL" style="float:right;"/>
             </h:form>
+            <div class="container-fluid"><br></br>
+                <div class="row">
+                    <div class="col-md-5">
+                        <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <h3 class="panel-title">ContrainteItem</h3>
+                                        </div>
+                             <h:form id="CreateForm">
+                            <p:panelGrid columns="3">
+                               
+                                    <p:outputLabel value="#{bundle.CreateDomaineAssocieLabel_domaine}" for="domaine1" />
+                                    <p:selectOneMenu id="domaine1" value="#{domaineController.selected}" >
+                                        <f:selectItem itemLabel="--SELECT--" />
+                                        <f:selectItems value="#{domaineController.itemsAvailableSelectOne}"
+                                                       var="domaineItem"
+                                                       itemValue="#{domaineItem}" itemLabel="#{domaineItem.nom}"/>
+
+
+                                    </p:selectOneMenu>
+                                    <p:commandButton id="createButton" icon="ui-icon-plus"  update=":DomaineCreateForm1" actionListener="#{domaineController.prepareCreate()}" oncomplete="PF('DomaineCreateDialog').show()"/>
+                                    <p:outputLabel value="DomaineAssocie"  />
+                                    <p:commandButton id="createDAButton" icon="ui-icon-plus" actionListener="DomaineAssocieCreateDialg" oncomplete="PF('DomaineAssocieCreateDialog').show()"/>
+                               
+                            </p:panelGrid>
+                                  <p:commandButton id="saveButton"  value="OK" actionListener="#{domaineController.save()}" update=":growl2" />
+
+                    
+                                  </h:form>
+                               </div>
+
+                    </div>
+                    <div class="col-md-5">
+                        <h:form id="DomaineAssocieListForm">
+                           <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <h3 class="panel-title">ContrainteItem</h3>
+                                        </div>
+                                <p:dataTable id="datalist" value="#{domaineController.domaineAssocies}" var="item"
+                                             paginator="true"
+                                             rowKey="#{item.id}"
+                                             rows="10"
+                                             rowsPerPageTemplate="10,20,30,40,50"
+                                             >
+
+
+
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListDomaineAssocieTitle_nom}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.nom}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListDomaineAssocieTitle_type}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.type==1?'RelatedDomaine':'SubDomaine'}"  />
+                                    </p:column>
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListDomaineAssocieTitle_domaine}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.domaine}"/>
+                                    </p:column>
+
+                                </p:dataTable>
+                               </div>
+                        </h:form>
+                    </div>
+                </div>
+            </div>
+
+
 
             <p:dialog id="DomaineCreateDlg1" widgetVar="DomaineCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateDomaineTitle}">
                 <h:form id="DomaineCreateForm1">
@@ -39,7 +102,7 @@
                             <p:outputLabel value="#{bundle.CreateDomaineLabel_nom}" for="nom" />
                             <p:inputText id="nom" value="#{domaineController.selected.nom}" title="#{bundle.CreateDomaineTitle_nom}" required="true"/>
                         </p:panelGrid>
-                        <p:commandButton actionListener="#{domaineController.saveDomaine()}" value="#{bundle.Save}" update="display,:growl,:CreateForm:domaine1" oncomplete="handleSubmit(args,'DomaineCreateDialog');"/>
+                        <p:commandButton actionListener="#{domaineController.saveDomaine()}" value="#{bundle.Save}" update="display,:growl2,:CreateForm:domaine1" oncomplete="handleSubmit(args,'DomaineCreateDialog');"/>
                         <p:commandButton value="#{bundle.Cancel}" onclick="DomaineCreateDialog.hide()"/>
                     </h:panelGroup>
                 </h:form>
@@ -49,55 +112,23 @@
                     <h:panelGroup id="display">
                         <p:panelGrid columns="2" >
                             <p:outputLabel value="#{bundle.CreateDomaineAssocieLabel_nom}" for="nom" />
-                            <p:inputText id="nom" value="#{domaineController.domaineAssocie.nom}" title="#{bundle.CreateDomaineAssocieTitle_nom}" />
-                               
+                            <p:inputText id="nom" value="#{domaineController.domaineAssocie.nom}" title="#{bundle.CreateDomaineAssocieTitle_nom}"  required="true"/>
+
                             <p:outputLabel value="#{bundle.CreateDomaineAssocieLabel_type}" for="type" />
-                            <p:selectOneMenu id="type" value="#{domaineController.domaineAssocie.type}" >
+                            <p:selectOneMenu id="type" value="#{domaineController.domaineAssocie.type}" required="true" >
                                 <f:selectItem  itemValue="1" itemLabel="RelatedDomaine"/>
                                 <f:selectItem itemValue="2" itemLabel="SubDomaine"/>
-                                           
-                        </p:selectOneMenu>
+
+                            </p:selectOneMenu>
                         </p:panelGrid>
-                        <p:commandButton actionListener="#{domaineController.saveDomaineAssocie()}" value="#{bundle.Save}" update="display,:growl,:DomaineAssocieListForm:datalist" oncomplete="handleSubmit(args,'DomaineAssocieCreateDialog');"/>
+                        <p:commandButton actionListener="#{domaineController.saveDomaineAssocie()}" value="#{bundle.Save}" update="display,:growl2,:DomaineAssocieListForm:datalist" oncomplete="handleSubmit(args,'DomaineAssocieCreateDialog');"/>
                         <p:commandButton value="#{bundle.Cancel}" onclick="DomaineAssocieCreateDialog.hide()"/>
                     </h:panelGroup>
                 </h:form>
             </p:dialog>
 
 
-            <h:form id="DomaineAssocieListForm">
-                <p:panel header="DomaineAssocies">
-                    <p:dataTable id="datalist" value="#{domaineController.domaineAssocies}" var="item"
-                                 paginator="true"
-                                 rowKey="#{item.id}"
-                                 rows="10"
-                                 rowsPerPageTemplate="10,20,30,40,50"
-                                 >
 
-
-
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListDomaineAssocieTitle_nom}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.nom}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListDomaineAssocieTitle_type}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.type==1?'RelatedDomaine':'SubDomaine'}"  />
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListDomaineAssocieTitle_domaine}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.domaine}"/>
-                        </p:column>
-
-                    </p:dataTable>
-                </p:panel>
-            </h:form>
         </ui:define>
     </ui:composition>
 </html>

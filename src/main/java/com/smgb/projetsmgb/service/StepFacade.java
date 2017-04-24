@@ -5,8 +5,10 @@
  */
 package com.smgb.projetsmgb.service;
 
+import com.smgb.projetsmgb.bean.Action;
 import com.smgb.projetsmgb.bean.Processus;
 import com.smgb.projetsmgb.bean.Step;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -61,5 +63,17 @@ public class StepFacade extends AbstractFacade<Step> {
             step.setProcessus(processus);
             return new Object[]{1, step};
         }
+    }
+    
+    public List<Step> findByAction(Action action){
+        List<Step> steps = new ArrayList();
+        List<Step> steps1 = new ArrayList();
+        List<Processus> processuses = em.createQuery("SELECT p FROM Processus p WHERE p.action.id = " + action.getId()).getResultList();
+        for (Processus processuse : processuses) {
+            steps1 = em.createQuery("SELECT s FROM Step s WHERE s.processus.id = " + processuse.getId()).getResultList();
+            steps.addAll(steps1);
+            steps1 = new ArrayList();
+        }
+        return steps;
     }
 }

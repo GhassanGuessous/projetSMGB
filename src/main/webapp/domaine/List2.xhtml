@@ -17,8 +17,11 @@
             <div class="container-fluid"> 
                 <div class="row"> 
                     <div class="col-md-6"> 
+                        <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <h3 class="panel-title">ContrainteItemListForm</h3>
+                                        </div>
                         <h:form id="DomaineListForm">
-                            <p:panel header="Domaines">
                                 <p:dataTable id="datalist" value="#{domaineController.items}" var="item"
                                              selectionMode="single" selection="#{domaineController.selected}"
                                              paginator="true"
@@ -44,13 +47,16 @@
                                     </p:column>
 
                                 </p:dataTable>
-                            </p:panel>
+                          </div>
                         </h:form>
                     </div>
                     <div class="col-md-6"> 
 
                         <h:form id="DomaineAssocieListForm">
-                            <p:panel header="#{bundle.ListDomaineAssocieTitle}">
+                            <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <h3 class="panel-title">ContrainteItemListForm</h3>
+                                        </div>
                                 <p:dataTable id="datalist" value="#{domaineController.selected.domaineAssocies}" var="item"
                                              selectionMode="single" selection="#{domaineController.domaineAssocie}"
                                              paginator="true"
@@ -87,11 +93,14 @@
 
 
                                 </p:dataTable>
-                            </p:panel>
+                           </div>
                         </h:form>
                     </div>
                 </div>
             </div>
+            <h:form id="next2">
+                <p:commandButton action="#{domaineController.precedenListt()}" value="PREVIOUS" style="float:right;"/>
+            </h:form>
         </ui:define>
     </ui:composition>
 
