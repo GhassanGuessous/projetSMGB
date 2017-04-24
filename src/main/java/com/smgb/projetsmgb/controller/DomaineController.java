@@ -2,10 +2,10 @@ package com.smgb.projetsmgb.controller;
 
 import com.smgb.projetsmgb.bean.Domaine;
 import com.smgb.projetsmgb.bean.DomaineAssocie;
-import com.smgb.projetsmgb.controller.util.JsfUtil;
-import com.smgb.projetsmgb.controller.util.JsfUtil.PersistAction;
 import com.smgb.projetsmgb.service.DomaineAssocieFacade;
 import com.smgb.projetsmgb.service.DomaineFacade;
+import com.smgb.projetsmgb.controller.util.JsfUtil;
+import com.smgb.projetsmgb.controller.util.JsfUtil.PersistAction;
 
 import java.io.Serializable;
 import java.util.ArrayList;

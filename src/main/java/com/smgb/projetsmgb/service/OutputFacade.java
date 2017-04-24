@@ -4,7 +4,6 @@
  * and open the template in the editor.
  */
 package com.smgb.projetsmgb.service;
-
 import com.smgb.projetsmgb.bean.Output;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -29,7 +28,7 @@ public class OutputFacade extends AbstractFacade<Output> {
         super(Output.class);
     }
     
-    public void clone(Output outputSource, Output outputDestination){
+     public void clone(Output outputSource, Output outputDestination){
         outputDestination.setNom(outputSource.getNom());
         outputDestination.setType(outputSource.getType());
         outputDestination.setProvideInterfaceItem(outputSource.getProvideInterfaceItem());
@@ -40,4 +39,5 @@ public class OutputFacade extends AbstractFacade<Output> {
         clone(output, cloned);
         return cloned;
     }
+    
 }

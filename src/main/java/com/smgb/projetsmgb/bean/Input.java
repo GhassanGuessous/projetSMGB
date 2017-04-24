@@ -4,7 +4,6 @@
  * and open the template in the editor.
  */
 package com.smgb.projetsmgb.bean;
-
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

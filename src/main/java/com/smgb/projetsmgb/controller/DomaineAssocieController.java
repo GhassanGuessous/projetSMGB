@@ -1,8 +1,9 @@
 package com.smgb.projetsmgb.controller;
 
 import com.smgb.projetsmgb.bean.DomaineAssocie;
-import com.smgb.projetsmgb.controller.util.JsfUtil;
-import com.smgb.projetsmgb.controller.util.JsfUtil.PersistAction;
+import com.smgb.projetsmgb.service.DomaineAssocieFacade;
+import  com.smgb.projetsmgb.controller.util.JsfUtil;
+import  com.smgb.projetsmgb.controller.util.JsfUtil.PersistAction;
 import com.smgb.projetsmgb.service.DomaineAssocieFacade;
 
 import java.io.Serializable;
@@ -27,6 +28,12 @@ public class DomaineAssocieController implements Serializable {
     private com.smgb.projetsmgb.service.DomaineAssocieFacade ejbFacade;
     private List<DomaineAssocie> items = null;
     private DomaineAssocie selected;
+    
+    public List<DomaineAssocie> findListSubDomaines(){
+        List<DomaineAssocie> domaineAssocies = ejbFacade.findListSubDomaines();
+        return domaineAssocies;
+    }
+
 
     public DomaineAssocieController() {
     }
@@ -121,10 +128,6 @@ public class DomaineAssocieController implements Serializable {
         return getFacade().findAll();
     }
     
-    public List<DomaineAssocie> findListSubDomaines(){
-        List<DomaineAssocie> domaineAssocies = ejbFacade.findListSubDomaines();
-        return domaineAssocies;
-    }
 
     @FacesConverter(forClass = DomaineAssocie.class)
     public static class DomaineAssocieControllerConverter implements Converter {

@@ -9,7 +9,6 @@ import com.smgb.projetsmgb.bean.ProvideInterfaceItem;
 import com.smgb.projetsmgb.controller.util.JsfUtil;
 import com.smgb.projetsmgb.controller.util.JsfUtil.PersistAction;
 import com.smgb.projetsmgb.service.ComposantFacade;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +39,6 @@ public class ComposantController implements Serializable {
     private com.smgb.projetsmgb.service.OutputFacade outputFacade;
     private List<Composant> items = null;
     private Composant selected;
-
     private ProvideInterface provideInterface;
     private ProvideInterfaceItem provideInterfaceItem;
     private ProvideInterfaceItem selectedProvideInterfaceItem;
@@ -120,6 +118,31 @@ public class ComposantController implements Serializable {
     public void findProvideInterfaceItemByComposant(Composant composant) {
         selected = composant;
         selected.getProvideInterface().setProvideInterfaceItems(provideInterfaceItemFacade.findProvideInterfaceItemByComposant(selected));
+    }
+    
+    public String add(Composant composant){
+        selected = composant;
+        provideInterfaceItem = new ProvideInterfaceItem();
+        output = new Output();
+        return "List";
+    }
+    
+    public String add2(ProvideInterfaceItem pii){
+        provideInterfaceItem = pii;
+        provideInterface = provideInterfaceItem.getProvideInterface();
+        selected = provideInterface.getComposant();
+        output = provideInterfaceItem.getOutput();
+        return "List";
+    }
+    
+    public void refresh1(){
+        selected = new Composant();
+        refresh2();
+    }
+    
+    public void refresh2(){
+        provideInterfaceItem = new ProvideInterfaceItem();
+        output = new Output();
     }
 
     public void Message(String msg1, String msg2) {

@@ -73,6 +73,7 @@ public class Composant implements Serializable {
     public void setProvideInterface(ProvideInterface provideInterface) {
         this.provideInterface = provideInterface;
     }
+
     
     @Override
     public int hashCode() {
@@ -93,6 +94,7 @@ public class Composant implements Serializable {
         }
         return true;
     }
+    
 
     @Override
     public String toString() {

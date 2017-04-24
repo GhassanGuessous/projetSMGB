@@ -31,7 +31,7 @@ public class InputFacade extends AbstractFacade<Input> {
         super(Input.class);
     }
     
-    public void clone(Input inputSource, Input inputDestination){
+     public void clone(Input inputSource, Input inputDestination){
         inputDestination.setNom(inputSource.getNom());
         inputDestination.setType(inputSource.getType());
         inputDestination.setProvideInterfaceItem(inputSource.getProvideInterfaceItem());
@@ -68,4 +68,5 @@ public class InputFacade extends AbstractFacade<Input> {
     public List<Input> findInputsByProvideInterfaceItem(ProvideInterfaceItem provideInterfaceItem){
         return em.createQuery("SELECT i FROM Input i WHERE i.provideInterfaceItem.id = " + provideInterfaceItem.getId()).getResultList();
     }
+    
 }

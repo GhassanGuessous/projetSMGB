@@ -5,6 +5,7 @@
  */
 package com.smgb.projetsmgb.service;
 
+
 import com.smgb.projetsmgb.bean.ProvideInterface;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;

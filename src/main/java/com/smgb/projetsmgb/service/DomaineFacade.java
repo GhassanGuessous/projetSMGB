@@ -4,7 +4,6 @@
  * and open the template in the editor.
  */
 package com.smgb.projetsmgb.service;
-
 import com.smgb.projetsmgb.bean.Domaine;
 import com.smgb.projetsmgb.bean.DomaineAssocie;
 import java.util.List;
@@ -12,6 +11,7 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+
 
 /**
  *

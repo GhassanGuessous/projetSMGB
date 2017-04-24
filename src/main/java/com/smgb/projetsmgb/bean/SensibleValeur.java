@@ -4,7 +4,6 @@
  * and open the template in the editor.
  */
 package com.smgb.projetsmgb.bean;
-
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -44,6 +43,9 @@ public class SensibleValeur implements Serializable {
     }
 
     public SensibleParam getSensibleParam() {
+        if(sensibleParam == null){
+            sensibleParam = new SensibleParam();
+        }
         return sensibleParam;
     }
 
@@ -73,7 +75,7 @@ public class SensibleValeur implements Serializable {
 
     @Override
     public String toString() {
-        return "com.smgb.projetsmgb.bean.SensibleValeur[ id=" + id + " ]";
+        return this.nom+" "+this.id;
     }
     
 }

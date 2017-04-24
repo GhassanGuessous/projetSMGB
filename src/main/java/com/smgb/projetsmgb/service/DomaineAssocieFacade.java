@@ -4,7 +4,6 @@
  * and open the template in the editor.
  */
 package com.smgb.projetsmgb.service;
-
 import com.smgb.projetsmgb.bean.Domaine;
 import com.smgb.projetsmgb.bean.DomaineAssocie;
 import java.util.List;
@@ -21,7 +20,15 @@ public class DomaineAssocieFacade extends AbstractFacade<DomaineAssocie> {
 
     @PersistenceContext(unitName = "com.SMGB_projetSMGB_war_1.0-SNAPSHOTPU")
     private EntityManager em;
+    
+    public List<DomaineAssocie> findListSubDomaines() {
+        return em.createQuery("SELECT sd FROM DomaineAssocie sd WHERE sd.type = 2").getResultList();
+    }
 
+    public List<DomaineAssocie> findSubDomainesByDomaine(Domaine domaine) {
+        return em.createQuery("SELECT sd FROM DomaineAssocie sd WHERE sd.domaine.id = " + domaine.getId() + " AND sd.type = 2").getResultList();
+    }
+    
     @Override
     protected EntityManager getEntityManager() {
         return em;
@@ -31,13 +38,17 @@ public class DomaineAssocieFacade extends AbstractFacade<DomaineAssocie> {
         super(DomaineAssocie.class);
     }
     
-    public List<DomaineAssocie> findListSubDomaines(){
-        return em.createQuery("SELECT sd FROM DomaineAssocie sd WHERE sd.type = 2").getResultList();
+    /**
+     *
+     * @return
+     */
+  /* public List<DomaineAssocie> findListSubDomaines(){
+         return em.createQuery("SELECT sd FROM DomaineAssocie sd WHERE sd.type = 2").getResultList();
     }
     
     public List<DomaineAssocie> findSubDomainesByDomaine(Domaine domaine){
         return em.createQuery("SELECT sd FROM DomaineAssocie sd WHERE sd.domaine.id = " + domaine.getId() + " AND sd.type = 2").getResultList();
-    }
+    }*/
      public void clone(DomaineAssocie domaineAssocieSource,DomaineAssocie domaineAssocieDestination) {
       domaineAssocieDestination.setId(domaineAssocieSource.getId());
         domaineAssocieDestination.setNom(domaineAssocieSource.getNom());
@@ -61,7 +72,7 @@ public int verify(List<DomaineAssocie>das,DomaineAssocie domaineAssocie){
     return 1;
 }
 
-public int findByDomaineAndNom(DomaineAssocie domaineAssocie){
+    public int findByDomaineAndNom(DomaineAssocie domaineAssocie){
     List<DomaineAssocie> domaineAssocies = em.createQuery("SELECT da FROM DomaineAssocie da WHERE da.domaine.id = " + domaineAssocie.getDomaine().getId() + 
             " AND da.nom = '" + domaineAssocie.getNom() + "' AND da.type = '" + domaineAssocie.getType() + "'").getResultList();
     if(domaineAssocies.isEmpty()){
@@ -70,3 +81,4 @@ public int findByDomaineAndNom(DomaineAssocie domaineAssocie){
     return -1;
 }
 }
+

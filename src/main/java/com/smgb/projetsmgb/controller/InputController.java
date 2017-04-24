@@ -1,8 +1,9 @@
 package com.smgb.projetsmgb.controller;
 
 import com.smgb.projetsmgb.bean.Input;
-import com.smgb.projetsmgb.controller.util.JsfUtil;
-import com.smgb.projetsmgb.controller.util.JsfUtil.PersistAction;
+import com.smgb.projetsmgb.service.InputFacade;
+import  com.smgb.projetsmgb.controller.util.JsfUtil;
+import  com.smgb.projetsmgb.controller.util.JsfUtil.PersistAction;
 import com.smgb.projetsmgb.service.InputFacade;
 
 import java.io.Serializable;

@@ -1,9 +1,11 @@
 package com.smgb.projetsmgb.controller;
 
+
 import com.smgb.projetsmgb.bean.SensibleValeur;
-import com.smgb.projetsmgb.controller.util.JsfUtil;
-import com.smgb.projetsmgb.controller.util.JsfUtil.PersistAction;
 import com.smgb.projetsmgb.service.SensibleValeurFacade;
+import  com.smgb.projetsmgb.controller.util.JsfUtil;
+import  com.smgb.projetsmgb.controller.util.JsfUtil.PersistAction;
+
 
 import java.io.Serializable;
 import java.util.List;
