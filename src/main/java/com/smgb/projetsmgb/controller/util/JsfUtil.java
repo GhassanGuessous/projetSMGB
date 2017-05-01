@@ -1,4 +1,4 @@
-package controller.util;
+package com.smgb.projetsmgb.controller.util;
 
 import java.util.List;
 import javax.faces.application.FacesMessage;

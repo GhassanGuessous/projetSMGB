@@ -86,7 +86,7 @@ public class Domaine implements Serializable {
 
     @Override
     public String toString() {
-        return "com.smgb.projetsmgb.Domaine[ id=" + id + " ]";
+        return "" + nom+ " ";
     }
     
 }

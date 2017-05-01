@@ -3,8 +3,8 @@ package com.smgb.projetsmgb.controller;
 
 import com.smgb.projetsmgb.bean.SensibleValeur;
 import com.smgb.projetsmgb.service.SensibleValeurFacade;
-import controller.util.JsfUtil;
-import controller.util.JsfUtil.PersistAction;
+import  com.smgb.projetsmgb.controller.util.JsfUtil;
+import  com.smgb.projetsmgb.controller.util.JsfUtil.PersistAction;
 
 
 import java.io.Serializable;

@@ -46,6 +46,10 @@ public class Goal implements Serializable {
     }
 
     public Domaine getDomaine() {
+        if(domaine==null){
+            domaine=new Domaine();
+            
+        }
         return domaine;
     }
 

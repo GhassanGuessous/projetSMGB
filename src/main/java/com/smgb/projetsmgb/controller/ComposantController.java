@@ -1,3 +1,4 @@
+
 package com.smgb.projetsmgb.controller;
 
 import com.smgb.projetsmgb.bean.Composant;
@@ -5,8 +6,8 @@ import com.smgb.projetsmgb.bean.Input;
 import com.smgb.projetsmgb.bean.Output;
 import com.smgb.projetsmgb.bean.ProvideInterface;
 import com.smgb.projetsmgb.bean.ProvideInterfaceItem;
-import controller.util.JsfUtil;
-import controller.util.JsfUtil.PersistAction;
+import com.smgb.projetsmgb.controller.util.JsfUtil;
+import com.smgb.projetsmgb.controller.util.JsfUtil.PersistAction;
 import com.smgb.projetsmgb.service.ComposantFacade;
 import java.io.Serializable;
 import java.util.ArrayList;

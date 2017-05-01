@@ -17,7 +17,7 @@
                         <p:outputLabel value="#{bundle.EditDomaineLabel_nom}" for="nom" />
                         <p:inputText id="nom" value="#{domaineController.selected.nom}" title="#{bundle.EditDomaineTitle_nom}" />
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{domaineController.update}" value="#{bundle.Save}" update="display,:DomaineListForm:datalist,:growl" oncomplete="handleSubmit(args, 'DomaineEditDialog');"/>
+                    <p:commandButton actionListener="#{domaineController.update}" value="#{bundle.Save}" update="display,:growl" oncomplete="handleSubmit(args, 'DomaineEditDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="DomaineEditDialog.hide()"/>
                 </h:panelGroup>
             </h:form>

@@ -1,4 +1,4 @@
-/*
+  /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -42,18 +42,23 @@ public class ContrainteItem implements Serializable {
     }
 
     public String getAttribut() {
+        
         return attribut;
     }
 
-    public void setAttribut(String attribut) {
+    public void setAttribut(String attribut){
+     
         this.attribut = attribut;
     }
 
     public String getCritere() {
+         
+        
         return critere;
     }
 
     public void setCritere(String critere) {
+     
         this.critere = critere;
     }
 
@@ -74,6 +79,7 @@ public class ContrainteItem implements Serializable {
     }
 
     public ValeurCritique getValeurCritique() {
+        
         return valeurCritique;
     }
 

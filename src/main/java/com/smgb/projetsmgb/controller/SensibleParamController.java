@@ -2,8 +2,8 @@ package com.smgb.projetsmgb.controller;
 
 import com.smgb.projetsmgb.bean.SensibleParam;
 import com.smgb.projetsmgb.service.SensibleParamFacade;
-import controller.util.JsfUtil;
-import controller.util.JsfUtil.PersistAction;
+import  com.smgb.projetsmgb.controller.util.JsfUtil;
+import  com.smgb.projetsmgb.controller.util.JsfUtil.PersistAction;
 
 import java.io.Serializable;
 import java.util.List;
