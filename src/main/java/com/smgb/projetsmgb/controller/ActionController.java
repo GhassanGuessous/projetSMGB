@@ -284,7 +284,8 @@ public class ActionController implements Serializable {
         JsfUtil.addSuccessMessage("Valeur critique prise en compte dans la creation du contrainteItem");
     }
 
-    public Step prepareCreate() {
+    public Step prepareCreate(Processus processus) {
+        selectedProcessus = processus;
         step = new Step();
         initializeEmbeddableKey();
         return step;
