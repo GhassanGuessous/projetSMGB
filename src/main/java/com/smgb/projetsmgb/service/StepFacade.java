@@ -44,9 +44,17 @@ public class StepFacade extends AbstractFacade<Step> {
     }
 
     public int verifierListeStep(List<Step> steps, Step step){
+        List<Step> stepsBD = findAll();
         for (Step step1 : steps) {
             if(step.getNom().equals(step1.getNom()) && step.getProcessus().getNom().equals(step1.getProcessus().getNom())){
                 return -1;
+            }else if(step.getProvideInterfaceItem().getId() == step1.getProvideInterfaceItem().getId()){
+                return -2;
+            }
+        }
+        for (Step step1 : stepsBD) {
+            if(step.getProvideInterfaceItem().getId() == step1.getProvideInterfaceItem().getId()){
+                return -3;
             }
         }
         return 1;

@@ -15,9 +15,13 @@
         <h:outputStylesheet name="css/jsfcrud.css"/>
         <h:outputStylesheet library="css" name="bootstrap.css"/>
     </h:head>
-
+    
+    <style>
+        .Bimage{background-image: url("resources/images/Maldives.jpg");}
+    </style>
+    
     <!--<ui:define name="body">-->
-    <h:body style="padding-top: 50px">
+    <h:body style="padding-top: 50px" styleClass="Bimage">
         <div class="navbar navbar-inverse navbar-fixed-top"> <!--navbar-inverse--> <!--navbar-static-top when scrolling, the navbar will desapear-->
             <div class="container">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -27,13 +31,14 @@
                     <span class="icon-bar"></span>
                 </button>
 
-                <a class="navbar-brand" href="Home.xhtml">HOME</a>
+                <a class="navbar-brand" href="#">HOME</a>
 
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav navbar-right">
                         <li class="active"><a href="#">About</a></li>
                         <li class="active"><a href="#">Contact</a></li>
                         <li class="active"><a href="#">Help</a></li>
+                        <li class="active"><a href="index.xhtml"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></a></li>
                     </ul>
                 </div>
             </div>
@@ -43,7 +48,7 @@
             <div class="container">
                 <h1>WELCOME</h1>
                 <p>
-                    hbucelgkzy uezagf ezgfy tev fezgfte cdkcb uyfzarehg riygapre <br></br> befè_ uezyta ètge eytz foez gvycgzo gfzytg'oaehzyrèo_'tgzepfh <br></br>yeg eyotfg OFGR VEGFYFMDHGRHGH RYGRB JHSDGV.B FQU EGFHRIG guyfle efge fvefvq fbqegfkf.
+                    hbucelgkzy uezagf ezgfy tev fezgfte cdkcb uyfzarehg riygapre<br></br>yeg eyotfg O.
                 </p>
                 <a class="btn btn-primary btn-lg" href="#" role="button">Learn more »</a>
             </div>
@@ -51,9 +56,9 @@
 
         <div class="container">
             <div class="row">
-                <div class="panel panel-primary">
+                <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title">Panel title</h3>
+                        <h3 class="panel-title">Choisissez ICI</h3>
                     </div>
                     <div class="panel-body">
                         <h:form styleClass="form-horizontal form-group" >
@@ -93,24 +98,14 @@
                 <!--</p:panel>-->
             </div>
         </div>
-
         <br></br>
-
-        <script type="text/javascript">
-            function handleDrop(event, ui) {
-                var droppedProvideInterfaceItem = ui.draggable;
-
-                droppedProvideInterfaceItem.fadeOut('fast');
-            }
-        </script>
-
         <div class="container-fluid">
             <div class="row">
                 <h:form id="ProvideInterfaceItemForm">
                     <div class="col-md-6">
-                        <div class="panel panel-primary">
+                        <div class="panel panel-default">
                             <div class="panel-heading">
-                                <h3 class="panel-title">Panel title</h3>
+                                <h3 class="panel-title">SERVICES DISPONIBLES</h3>
                             </div>
                             <div class="panel-body">
                                 <p:fieldset id="ProvideInterfaceItemField" >
@@ -126,9 +121,9 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="panel panel-primary">
+                        <div class="panel panel-default">
                             <div class="panel-heading">
-                                <h3 class="panel-title">Panel title</h3>
+                                <h3 class="panel-title">SERVICES CHOISIS</h3>
                             </div>
                             <div class="panel-body">
                                 <p:fieldset id="selectedProvideInterfaceItem" >

@@ -36,7 +36,7 @@ public class ComposantController implements Serializable {
     private com.smgb.projetsmgb.service.InputFacade inputFacade;
     @EJB
     private com.smgb.projetsmgb.service.OutputFacade outputFacade;
-    private List<Composant> items = null;
+    private List<Composant> items;
     private Composant selected;
     private ProvideInterface provideInterface;
     private ProvideInterfaceItem provideInterfaceItem;

@@ -18,13 +18,13 @@
         <ui:define name="body">
 
             <br></br>   
-            <div class="container">
+            <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-4">
                         <h:form id="ContexteListForm">
                             <b:panel title="Les contextes">
                                 <p:dataTable id="datalist" value="#{contexteController.items}" var="item"
-                                             selectionMode="single" selection="#{contexteController.selected}"
+                                             selection="#{contexteController.selected}"
 
                                              rowKey="#{item.id}"
 
@@ -33,15 +33,14 @@
 
                                     <p:column>
                                         <f:facet name="header">
-                                            <h:outputText value="#{bundle.ListContexteTitle_id}"/>
-                                        </f:facet>
-                                        <h:outputText value="#{item.id}"/>
-                                    </p:column>
-                                    <p:column>
-                                        <f:facet name="header">
                                             <h:outputText value="#{bundle.ListContexteTitle_nom}"/>
                                         </f:facet>
                                         <h:outputText value="#{item.nom}"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    </p:column>
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="ContexteElement"/>
+                                        </f:facet>
                                         <p:commandButton  id="detailButton" icon="ui-icon-plus"   value="Details" actionListener="#{contexteController.findByContexte(item)}" update=":ContexteElementListForm:datalistContextElement"/>
                                     </p:column>
 
@@ -54,7 +53,7 @@
                         <h:form id="ContexteElementListForm">
                             <b:panel title="Les Contextes Elements" >
                                 <p:dataTable id="datalistContextElement" value="#{contexteController.selected.contexteElements}" var="ce"
-                                             selectionMode="single" selection="#{contexteController.selectedElement}"
+                                             selection="#{contexteController.selectedElement}"
                                              rowKey="#{ce.id}"
 
                                              >
@@ -63,15 +62,15 @@
 
                                     <p:column>
                                         <f:facet name="header">
-                                            <h:outputText value="#{bundle.ListContexteElementTitle_id}"/>
-                                        </f:facet>
-                                        <h:outputText value="#{ce.id}"/>
-                                    </p:column>
-                                    <p:column>
-                                        <f:facet name="header">
                                             <h:outputText value="#{bundle.ListContexteElementTitle_nom}"/>
                                         </f:facet>
                                         <h:outputText value="#{ce.nom}"/>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    </p:column>
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="SensibleParam/value"/>
+                                        </f:facet>
                                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                         <p:commandButton  id="plus" icon="ui-icon-plus"   value="Details" actionListener="#{contexteController.findByContexteElement(ce)}" update=":SensibleParamListForm:datalistSensibleForm" ajax="true"/>
                                     </p:column>
@@ -81,11 +80,11 @@
                         </h:form>
 
                     </div>
-                    <div class="col-md-offset-8">
+                    <div class="col-md-4">
                         <h:form id="SensibleParamListForm">
                             <b:panel title="Les sensibles param">
-                                <p:dataTable id="datalistSensibleForm" value="#{contexteController.selectedElement.sensibleParams}" var="item"
-                                             selectionMode="single" selection="#{contexteController.selectedSensibleParam}"     
+                                <p:dataTable id="datalistSensibleForm" value="#{contexteController.selectedElement2.sensibleParams}" var="item"
+                                             selection="#{contexteController.selectedSensibleParam}"     
                                              rowKey="#{item.id}"                                 
                                              >
 
@@ -93,23 +92,17 @@
 
                                     <p:column>
                                         <f:facet name="header">
-                                            <h:outputText value="#{bundle.ListSensibleParamTitle_id}"/>
-                                        </f:facet>
-                                        <h:outputText value="#{item.id}"/>
-                                    </p:column>
-                                    <p:column>
-                                        <f:facet name="header">
-                                            <h:outputText value="#{bundle.ListSensibleParamTitle_sensibleValeur}"/>
-                                        </f:facet>
-                                        <h:outputText value="#{item.sensibleValeur}"/>
-                                    </p:column>
-                                    <p:column>
-                                        <f:facet name="header">
-                                            <h:outputText value="#{bundle.ListSensibleParamTitle_nom}"/>
+                                            <h:outputText value="Nom"/>
                                         </f:facet>
                                         <h:outputText value="#{item.nom}"/>
-                                        &nbsp;&nbsp;&nbsp;&nbsp;
-                                        <p:commandButton  id="plus" icon="ui-icon-plus"   value="Details" actionListener="#{contexteController.findBySensibleParam(item)}" update=":SensibleValeurForm:sensibleVal" ajax="true"/>
+                                    </p:column>
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Nom sensible valeur"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.sensibleValeur.nom}"/>
+<!--                                        &nbsp;&nbsp;&nbsp;&nbsp;
+                                        <p:commandButton  id="plus" icon="ui-icon-plus"   value="Details" actionListener="#{contexteController.findBySensibleParam(item)}" update=":SensibleValeurForm:sensibleVal" ajax="true"/>-->
                                     </p:column>
 
 
@@ -117,7 +110,7 @@
                             </b:panel>
                         </h:form>
                     </div>
-                    <div class="col-lg-pull-1">
+<!--                    <div class="col-lg-pull-1">
                         <h:form id="SensibleValeurForm" >
                             <b:panel title=" La Sensible Valeur">
                                 <p:dataTable value="#{contexteController.selectedSensibleParam.sensibleValeur}" var="item"  id="sensibleVal" selection="#{contexteController.selectedsensibleValeur}">
@@ -140,7 +133,7 @@
                             </b:panel>
                         </h:form>
 
-                    </div>
+                    </div>-->
                 </div>
             </div>
 

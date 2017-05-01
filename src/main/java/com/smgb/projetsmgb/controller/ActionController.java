@@ -60,7 +60,7 @@ public class ActionController implements Serializable {
     private List<Step> steps = new ArrayList();
     private List<Domaine> domaines;
     private List<ProvideInterfaceItem> provideInterfaceItems;
-
+    
     /**
      * Creates a new instance of ActionController
      */
@@ -112,9 +112,9 @@ public class ActionController implements Serializable {
         selected.setGoal(goal);
         int i = goalFacade.saveGoal(goal, selected);
         if (i < 0) {
-            Message("Error", "Existent Deja ! voulez-vous ajouter des processus?");
+            message("", "Existent Deja ! voulez-vous ajouter des processus?");
         } else {
-            Message("Success", "continuez !");
+            message("Success", "continuez !");
         }
     }
 
@@ -124,28 +124,34 @@ public class ActionController implements Serializable {
         if (res > 0) {
             processuses.add(processusFacade.clone(processus));
         } else {
-            Message("Processus deja ajouté a la liste", "");
+            message("Processus deja ajouté a la liste", "");
         }
     }
 
     public void addStep() {
         step.setProcessus(selectedProcessus);
         int res = stepFacade.verifierListeStep(steps, step);
-        if (res > 0) {
-            steps.add(stepFacade.clone(step));
+        if (res == -1) {
+            message("Step deja ajoutée a la liste !", "");
+        } else if (res == -2 || res == -3) {
+            message("ProvideInterfaceItem deja prise !", "");
         } else {
-            Message("Step deja ajoutée a la liste", "");
+            steps.add(stepFacade.clone(step));
         }
 
     }
 
     public void versContrainte() {
-        processusFacade.save(processuses, steps);
-        processuses = new ArrayList<>();
-        steps = new ArrayList<>();
-        Message("Success", "");
+        if (!steps.isEmpty()) {
+            processusFacade.save(processuses, steps);
+            processuses = new ArrayList<>();
+            steps = new ArrayList<>();
+            message("Success", "");
+        }else{
+            message("La liste des Steps est vide !", "");
+        }
     }
-
+    
     public List<Domaine> findDomaines() {
         domaines = domaineFacade.findAll();
         return domaines;
@@ -158,7 +164,7 @@ public class ActionController implements Serializable {
         return step;
     }
 
-    public void Message(String msg1, String msg2) {
+    public void message(String msg1, String msg2) {
         FacesContext context = FacesContext.getCurrentInstance();
         context.addMessage(null, new FacesMessage(msg1, msg2));
     }

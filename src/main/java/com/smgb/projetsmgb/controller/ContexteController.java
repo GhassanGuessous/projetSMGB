@@ -28,7 +28,7 @@ import javax.faces.convert.FacesConverter;
 @Named("contexteController")
 @SessionScoped
 public class ContexteController implements Serializable {
-    
+
     @EJB
     private com.smgb.projetsmgb.service.ContexteElementFacade contexteElementFacade;
     @EJB
@@ -37,7 +37,7 @@ public class ContexteController implements Serializable {
     private com.smgb.projetsmgb.service.ContexteFacade ejbFacade;
     @EJB
     private com.smgb.projetsmgb.service.SensibleValeurFacade sensibleValeurFacade;
-    private List<Contexte> items = null;
+    private List<Contexte> items;
     private List<SensibleParam> itemsParam = new ArrayList();
     private List<ContexteElement> itemsElement = new ArrayList();
     private List<SensibleValeur> itemsValeur = new ArrayList();
@@ -45,23 +45,20 @@ public class ContexteController implements Serializable {
     private ContexteElement selectedElement = new ContexteElement();
     private ContexteElement selectedElement2 = new ContexteElement();
     private ContexteElement contexteElement;
-    private SensibleParam   selectedSensibleParam = new SensibleParam();
-    private SensibleParam   sensibleParam;
-    private SensibleValeur  selectedsensibleValeur = new SensibleValeur();
-    private SensibleValeur  sensibleValeur;
-    
-    
-    
-    
-    public void save(){
+    private SensibleParam selectedSensibleParam = new SensibleParam();
+    private SensibleParam sensibleParam;
+    private SensibleValeur selectedsensibleValeur = new SensibleValeur();
+    private SensibleValeur sensibleValeur;
+
+    public void save() {
         contexteElementFacade.save(itemsElement, itemsParam, itemsValeur);
         itemsElement = new ArrayList<>();
         itemsParam = new ArrayList<>();
         itemsValeur = new ArrayList<>();
         Message("Tout est bien crée", "");
     }
-    
-    public void saveContexte(){
+
+    public void saveContexte() {
         Object[] res = ejbFacade.findByNom(selected);
         int res1 = (int) res[0];
         selected = (Contexte) res[1];
@@ -71,8 +68,8 @@ public class ContexteController implements Serializable {
             Message("Contexte", "Contexte existant. Ajoutez d'autres contexte elements !");
         }
     }
-    
-    public void saveContexteElement(){
+
+    public void saveContexteElement() {
         contexteElement.setContexte(selected);
         int res = contexteElementFacade.findContexteElement(itemsElement, contexteElement);
         if (res > 0) {
@@ -81,51 +78,43 @@ public class ContexteController implements Serializable {
             Message("Contexte Element deja ajoutée a la liste", "");
         }
     }
-    
-    public void addSensibleParamValeur(){
-         
-     
-           sensibleParam.setContexteElement(selectedElement);
-           sensibleValeur.setSensibleParam(sensibleParam);
-           int res = sensibleParamFacade.findSensibleParam(itemsParam, sensibleParam);
-           int res1 = sensibleValeurFacade.findSensibleValeur(itemsValeur, sensibleValeur);
-    
-         if (res > 0 && res1>0) {
 
-                 getItemsParam().add(sensibleParamFacade.clone(sensibleParam));
-                 getItemsValeur().add(sensibleValeurFacade.clone(sensibleValeur));
-                 sensibleValeur = new SensibleValeur();
-                 sensibleParam = new SensibleParam();
-                     
+    public void addSensibleParamValeur() {
+
+        sensibleParam.setContexteElement(selectedElement);
+        sensibleValeur.setSensibleParam(sensibleParam);
+        int res = sensibleParamFacade.findSensibleParam(itemsParam, sensibleParam);
+        int res1 = sensibleValeurFacade.findSensibleValeur(itemsValeur, sensibleValeur);
+
+        if (res > 0 && res1 > 0) {
+
+            getItemsParam().add(sensibleParamFacade.clone(sensibleParam));
+            getItemsValeur().add(sensibleValeurFacade.clone(sensibleValeur));
+            sensibleValeur = new SensibleValeur();
+            sensibleParam = new SensibleParam();
+
         } else {
-            
-                
-                 Message("Cette sensible param existe déjà dans la liste", "");
-            
-            
-        }
-    }
-    public void findBySensibleParam(SensibleParam sensibleParam){
-        
-        if(sensibleParam != null){
-            selectedSensibleParam.setSensibleValeur(sensibleValeurFacade.findBySensibleParam(sensibleParam));
-        }
-    }
-    
 
-     public void findByContexteElement(ContexteElement contexteElement){
-        
-        if(contexteElement != null){
-            selectedElement2.setSensibleParams(sensibleParamFacade.findByContexteElement(contexteElement));
+            Message("Cette sensible param existe déjà dans la liste", "");
+
         }
     }
 
-     public void findByContexte(Contexte contexte){
-        if(contexte != null){
+    public void findBySensibleParam(SensibleParam sensibleParam) {
+        selectedSensibleParam = sensibleParam;
+        selectedSensibleParam.setSensibleValeur(sensibleValeurFacade.findBySensibleParam(sensibleParam));
+    }
+
+    public void findByContexteElement(ContexteElement contexteElement) {
+        selectedElement2 = contexteElement;
+        selectedElement2.setSensibleParams(sensibleParamFacade.findByContexteElement(contexteElement));
+    }
+
+    public void findByContexte(Contexte contexte) {
+        selected = contexte;
         selected.setContexteElements(contexteElementFacade.findByContexte(contexte));
-        }
     }
-     
+
     public void Message(String msg1, String msg2) {
         FacesContext context = FacesContext.getCurrentInstance();
         context.addMessage(null, new FacesMessage(msg1, msg2));
@@ -135,7 +124,7 @@ public class ContexteController implements Serializable {
     }
 
     public Contexte getSelected() {
-        if(selected ==null){
+        if (selected == null) {
             selected = new Contexte();
         }
         return selected;
@@ -146,8 +135,8 @@ public class ContexteController implements Serializable {
     }
 
     public SensibleValeur getSelectedsensibleValeur() {
-        
-        if(selectedsensibleValeur == null){
+
+        if (selectedsensibleValeur == null) {
             selectedsensibleValeur = new SensibleValeur();
         }
         return selectedsensibleValeur;
@@ -158,8 +147,8 @@ public class ContexteController implements Serializable {
     }
 
     public ContexteElement getSelectedElement2() {
-        
-        if(selectedElement2 == null){
+
+        if (selectedElement2 == null) {
             selectedElement2 = new ContexteElement();
         }
         return selectedElement2;
@@ -168,11 +157,9 @@ public class ContexteController implements Serializable {
     public void setSelectedElement2(ContexteElement selectedElement2) {
         this.selectedElement2 = selectedElement2;
     }
-    
-    
 
     public SensibleValeur getSensibleValeur() {
-        if(sensibleValeur == null){
+        if (sensibleValeur == null) {
             sensibleValeur = new SensibleValeur();
         }
         return sensibleValeur;
@@ -181,10 +168,10 @@ public class ContexteController implements Serializable {
     public void setSensibleValeur(SensibleValeur sensibleValeur) {
         this.sensibleValeur = sensibleValeur;
     }
-    
+
     public SensibleParam getSelectedSensibleParam() {
-        
-        if(selectedSensibleParam == null){
+
+        if (selectedSensibleParam == null) {
             selectedSensibleParam = new SensibleParam();
         }
         return selectedSensibleParam;
@@ -195,7 +182,7 @@ public class ContexteController implements Serializable {
     }
 
     public ContexteElement getContexteElement() {
-        if(contexteElement == null){
+        if (contexteElement == null) {
             contexteElement = new ContexteElement();
         }
         return contexteElement;
@@ -204,8 +191,6 @@ public class ContexteController implements Serializable {
     public void setContexteElement(ContexteElement contexteElement) {
         this.contexteElement = contexteElement;
     }
-    
-    
 
     protected void setEmbeddableKeys() {
     }
@@ -222,12 +207,11 @@ public class ContexteController implements Serializable {
         initializeEmbeddableKey();
         return selected;
     }
-    
 
     public void create() {
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("ContexteCreated"));
         if (!JsfUtil.isValidationFailed()) {
-           items.add(selected);   // Invalidate list of items to trigger re-query
+            items.add(selected);   // Invalidate list of items to trigger re-query
         }
     }
 
@@ -262,7 +246,7 @@ public class ContexteController implements Serializable {
     }
 
     public List<SensibleParam> getItemsParam() {
-      if (itemsParam == null) {
+        if (itemsParam == null) {
             itemsParam = new ArrayList<>();
         }
         return itemsParam;
@@ -273,7 +257,7 @@ public class ContexteController implements Serializable {
     }
 
     public List<SensibleValeur> getItemsValeur() {
-         if (itemsValeur.isEmpty()) {
+        if (itemsValeur.isEmpty()) {
             itemsValeur = new ArrayList<>();
         }
         return itemsValeur;
@@ -282,8 +266,6 @@ public class ContexteController implements Serializable {
     public void setItemsValeur(List<SensibleValeur> itemsValeur) {
         this.itemsValeur = itemsValeur;
     }
-    
-    
 
     private void persist(PersistAction persistAction, String successMessage) {
         if (selected != null) {
@@ -295,8 +277,7 @@ public class ContexteController implements Serializable {
                     getFacade().remove(selected);
                 }
                 JsfUtil.addSuccessMessage(successMessage);
-                
-                
+
             } catch (EJBException ex) {
                 String msg = "";
                 Throwable cause = ex.getCause();
@@ -328,15 +309,15 @@ public class ContexteController implements Serializable {
     }
 
     public ContexteElement getSelectedElement() {
-        
-        if(selectedElement == null){
+
+        if (selectedElement == null) {
             selectedElement = new ContexteElement();
         }
         return selectedElement;
     }
 
     public SensibleParam getSensibleParam() {
-        if(sensibleParam == null){
+        if (sensibleParam == null) {
             sensibleParam = new SensibleParam();
         }
         return sensibleParam;
@@ -345,7 +326,6 @@ public class ContexteController implements Serializable {
     public void setSensibleParam(SensibleParam sensibleParam) {
         this.sensibleParam = sensibleParam;
     }
-    
 
     public void setSelectedElement(ContexteElement selectedElement) {
         this.selectedElement = selectedElement;
@@ -391,6 +371,5 @@ public class ContexteController implements Serializable {
         }
 
     }
-    
 
 }
