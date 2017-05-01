@@ -8,7 +8,7 @@
     <h:head>
         <title><ui:insert name="title">Default Title</ui:insert></title>
         <h:outputStylesheet library="css" name="jsfcrud.css"/>
-         <h:outputStylesheet library="css" name="bootstrap.css"/>
+        <h:outputStylesheet library="css" name="bootstrap.css"/>
         <h:outputScript library="js" name="jsfcrud.js"/>
     </h:head>
 
@@ -39,6 +39,10 @@
 
                         <p:menuitem value="Goal" outcome="/action/List.xhtml" icon="ui-icon-plus"/>
                     </p:menubar>
+                </h:form>
+                <h:form style="float: right">
+                    Bienvenue : <b>#{userController.currentUser.login}</b>&nbsp;
+                    |&nbsp;<p:commandLink value="Se Déconnecter" action="#{userController.seDeConnnecter()}"/>
                 </h:form>
             </p:layoutUnit>
 
