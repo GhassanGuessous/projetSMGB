@@ -14,93 +14,93 @@
         </ui:define>
 
         <ui:define name="body">
-            <div class="container-fluid"> 
+            <div class="container-fluid"><br></br><br></br>
                 <div class="row"> 
                     <div class="col-md-6"> 
                         <div class="panel panel-default">
-                                        <div class="panel-heading">
-                                            <h3 class="panel-title">ContrainteItemListForm</h3>
-                                        </div>
-                        <h:form id="DomaineListForm">
-                                <p:dataTable id="datalist" value="#{domaineController.items}" var="item"
-                                             selectionMode="single" selection="#{domaineController.selected}"
-                                             paginator="true"
-                                             rowKey="#{item.id}"
-                                             rows="10"
-                                             rowsPerPageTemplate="10,20,30,40,50"
-                                             >
+                            <div class="panel-heading">
+                                <h3 class="panel-title">ContrainteItemListForm</h3>
+                            </div>
+                            <div class="panel-body">
+                                <h:form id="DomaineListForm">
+                                    <p:dataTable id="datalist" value="#{domaineController.items}" var="item"
+                                                 selection="#{domaineController.selected}"
+                                                 paginator="true"
+                                                 rowKey="#{item.id}"
+                                                 rows="10"
+                                                 rowsPerPageTemplate="10,20,30,40,50"
+                                                 >
 
 
 
-                                    <p:column>
-                                        <f:facet name="header">
-                                            <h:outputText value="#{bundle.ListDomaineTitle_nom}"/>
-                                        </f:facet>
-                                        <h:outputText value="#{item.nom}"/>
-                                    </p:column>
+                                        <p:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="#{bundle.ListDomaineTitle_nom}"/>
+                                            </f:facet>
+                                            <h:outputText value="#{item.nom}"/>
+                                        </p:column>
 
-                                    <p:column>
-                                        <f:facet name="header">
-                                            <h:outputText value="DomaineAssocies"/>
-                                        </f:facet>
-                                        <p:commandButton id="detailButton"  icon="ui-icon-plus"    actionListener="#{domaineController.detailMethode()}" update=":DomaineAssocieListForm:datalist" />
-                                    </p:column>
+                                        <p:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="DomaineAssocies"/>
+                                            </f:facet>
+                                            <p:commandButton id="detailButton"  icon="ui-icon-plus" actionListener="#{domaineController.detailMethode(item)}" update=":DomaineAssocieListForm:datalist" />
+                                        </p:column>
 
-                                </p:dataTable>
-                              </h:form>
-                          </div>
-                      
+                                    </p:dataTable>
+                                </h:form>
+                            </div>
+                        </div>
+
                     </div>
                     <div class="col-md-6"> 
-
                         <h:form id="DomaineAssocieListForm">
                             <div class="panel panel-default">
-                                        <div class="panel-heading">
-                                            <h3 class="panel-title">ContrainteItemListForm</h3>
-                                        </div>
-                                <p:dataTable id="datalist" value="#{domaineController.selected.domaineAssocies}" var="item"
-                                             selectionMode="single" selection="#{domaineController.domaineAssocie}"
-                                             paginator="true"
-                                             rowKey="#{item.id}"
-                                             rows="10"
-                                             rowsPerPageTemplate="10,20,30,40,50"
-                                             >
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">ContrainteItemListForm</h3>
+                                </div>
+                                <div class="panel-body">
+                                    <p:dataTable id="datalist" value="#{domaineController.selected.domaineAssocies}" var="item"
+                                                 selection="#{domaineController.domaineAssocie}"
+                                                 paginator="true"
+                                                 rowKey="#{item.id}"
+                                                 rows="10"
+                                                 rowsPerPageTemplate="10,20,30,40,50"
+                                                 >
 
-
-                                    <p:column>
-                                        <f:facet name="header">
-                                            <h:outputText value="#{bundle.ListDomaineAssocieTitle_id}"/>
-                                        </f:facet>
-                                        <h:outputText value="#{item.id}"/>
-                                    </p:column>
-                                    <p:column>
-                                        <f:facet name="header">
-                                            <h:outputText value="#{bundle.ListDomaineAssocieTitle_nom}"/>
-                                        </f:facet>
-                                        <h:outputText value="#{item.nom}"/>
-                                    </p:column>
-                                    <p:column>
-                                        <f:facet name="header">
-                                            <h:outputText value="#{bundle.ListDomaineAssocieTitle_domaine}"/>
-                                        </f:facet>
-                                        <h:outputText value="#{item.domaine}"/>
-                                    </p:column>
-                                    <p:column>
-                                        <f:facet name="header">
-                                            <h:outputText value="#{bundle.ListDomaineAssocieTitle_type}"/>
-                                        </f:facet>
-                                        <h:outputText value="#{item.type}"/>
-                                    </p:column>
-
-
-                                </p:dataTable>
-                           </div>
+                                        <p:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="#{bundle.ListDomaineAssocieTitle_id}"/>
+                                            </f:facet>
+                                            <h:outputText value="#{item.id}"/>
+                                        </p:column>
+                                        <p:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="#{bundle.ListDomaineAssocieTitle_nom}"/>
+                                            </f:facet>
+                                            <h:outputText value="#{item.nom}"/>
+                                        </p:column>
+                                        <p:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="#{bundle.ListDomaineAssocieTitle_domaine}"/>
+                                            </f:facet>
+                                            <h:outputText value="#{item.domaine}"/>
+                                        </p:column>
+                                        <p:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="#{bundle.ListDomaineAssocieTitle_type}"/>
+                                            </f:facet>
+                                            <h:outputText value="#{item.type}"/>
+                                        </p:column>
+                                    </p:dataTable>
+                                </div>
+                            </div>
                         </h:form>
                     </div>
                 </div>
             </div>
             <h:form id="next2">
-                <p:commandButton action="#{domaineController.precedenListt()}" value="PREVIOUS" style="float:right;"/>
+                <p:commandButton action="#{domaineController.precedenListt()}" value="PREVIOUS" style="float:left;"/>
             </h:form>
         </ui:define>
     </ui:composition>

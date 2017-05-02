@@ -39,7 +39,8 @@ public class DomaineController implements Serializable {
     public DomaineController() {
     }
 
-    public void detailMethode() {
+    public void detailMethode(Domaine domaine) {
+        selected = domaine;
         ejbFacade.findByDomaine(selected);
     }
 

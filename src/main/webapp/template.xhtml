@@ -24,7 +24,7 @@
 
                         <p:submenu label="Domaine">
                             <p:menuitem value="Creation" outcome="/domaine/List.xhtml" icon="ui-icon-plus"/>
-                            <p:menuitem value="Listes" outcome="/domaine/List.xhtml" icon="ui-icon-carat-2-n-s"/>
+                            <p:menuitem value="Listes" outcome="/domaine/List2.xhtml" icon="ui-icon-carat-2-n-s"/>
                         </p:submenu>
 
                         <p:submenu label="Composant/ProvideInterfaceItem">
@@ -41,14 +41,10 @@
                     </p:menubar>
                 </h:form>
                 <h:form style="float: right">
-                    Bienvenue : <b>#{userController.currentUser.login}</b>&nbsp;
+                    <b>#{userController.currentUser.login}</b>&nbsp;
                     |&nbsp;<p:commandLink value="Se Déconnecter" action="#{userController.seDeConnnecter()}"/>
                 </h:form>
             </p:layoutUnit>
-
-            <!--<p:layoutUnit position="south" size="60">
-                <ui:insert name="footer"/>
-            </p:layoutUnit>-->
 
             <p:layoutUnit position="center">
                 <ui:insert name="body"/>

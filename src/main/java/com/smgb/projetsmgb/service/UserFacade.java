@@ -36,7 +36,7 @@ public class UserFacade extends AbstractFacade<User> {
         super(User.class);
     }
     
-    public int seConnecter(User user,UserDevice device) throws UnknownHostException{
+    public int seConnecter(User user,UserDevice device){
 //        if(user==null || user.getLogin() == null ){
 //            JsfUtil.addErrorMessage("veillez entrer votre Login");
 //            return -5;

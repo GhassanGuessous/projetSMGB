@@ -105,9 +105,9 @@ public class UserDeviceFacade extends AbstractFacade<UserDevice> {
         return device;
     }
     
-    public void save(UserDevice device, User user) throws java.net.UnknownHostException {
+    public void save(UserDevice device, User user){
         device.setUser(user);
-        create(findAdress(device));
+        create(device);
     }
     
 }
