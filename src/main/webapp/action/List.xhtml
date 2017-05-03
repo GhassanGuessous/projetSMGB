@@ -145,7 +145,7 @@
                                         <div class="panel-body">
                                             <h:panelGrid columns="3">
                                                 <p:outputLabel value="NomContrainte:" for="contrainteName" />
-                                                <p:inputText id="contrainteName" value="#{actionController.contrainte.nom}" required="true"/>
+                                                <p:inputText id="contrainteName" value="#{actionController.contrainte.nom}"/>
                                                 <p:commandButton id="createCButton" icon="ui-icon-plus" actionListener="#{actionController.saveContrainte()}" update="growl2"/>
                                             </h:panelGrid> 
                                         </div>
