@@ -15,12 +15,12 @@
         <ui:define name="body">
 
             <p:growl id="growl2" showDetail="true" sticky="true" />
-            <div class="container-fluid"><br></br>
+            <div class="container-fluid" style="margin-top: 40px;">
                 <div class="row">
                     <div class="col-md-5">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                <h3 class="panel-title">ContrainteItem</h3>
+                                <h3 class="panel-title">Domaine</h3>
                             </div>
                             <div class="panel-body">
                                 <h:form id="CreateForm">
@@ -35,10 +35,9 @@
                                         <p:commandButton id="createButton" icon="ui-icon-plus"  update=":DomaineCreateForm1" actionListener="#{domaineController.prepareCreate()}" oncomplete="PF('DomaineCreateDialog').show()"/>
 
                                         <p:outputLabel value="DomaineAssocie:"  />
-                                        <p:commandButton id="createDAButton" icon="ui-icon-plus" actionListener="DomaineAssocieCreateDialg" oncomplete="PF('DomaineAssocieCreateDialog').show()"/>
+                                        <p:commandButton id="createDAButton" icon="ui-icon-plus" update=":DomaineAssocieCreateForm" oncomplete="PF('DomaineAssocieCreateDialog').show()"/>
 
                                     </p:panelGrid>
-                                    <p:commandButton id="saveButton"  value="OK" actionListener="#{domaineController.save()}" update=":growl2" />
                                 </h:form>
                             </div>
                         </div>
@@ -48,10 +47,11 @@
                         <h:form id="DomaineAssocieListForm">
                             <div class="panel panel-default">
                                 <div class="panel-heading">
-                                    <h3 class="panel-title">ContrainteItem</h3>
+                                    <h3 class="panel-title">Domaines associés</h3>
                                 </div>
                                 <div class="panel-body">
-                                    <p:dataTable id="datalist" value="#{domaineController.domaineAssocies}" var="item"
+                                    <p:dataTable id="datalist" value="#{domaineController.domaineAssocies}" 
+                                                 selection="#{domaineController.selectedDomaineAssocie}" var="item"
                                                  paginator="true"
                                                  rowKey="#{item.id}"
                                                  rows="10"
@@ -82,7 +82,11 @@
                     </div>
                     <div class="col-md-2"> 
                         <h:form id="next">
-                            <p:commandButton action="#{domaineController.suivantList2()}" value="SHOW ALL"/>
+                            <h:commandButton id="saveButton" class="btn btn-default"  value="SAVE" actionListener="#{domaineController.save()}">
+                                <p:ajax update=":growl2,:DomaineAssocieListForm:datalist" />
+                            </h:commandButton>
+                            <br></br>
+                            <h:commandButton class="btn btn-default" action="#{domaineController.suivantList2()}" value="SHOW ALL"/>
                         </h:form>
                     </div>
                 </div>

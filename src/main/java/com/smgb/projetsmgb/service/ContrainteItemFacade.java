@@ -29,16 +29,16 @@ public class ContrainteItemFacade extends AbstractFacade<ContrainteItem> {
     public ContrainteItemFacade() {
         super(ContrainteItem.class);
     }
-    public int verify(List<ContrainteItem> cis,ContrainteItem ci1){
-    for (ContrainteItem ci2 : cis) {
-       
-          if( (ci1.getAttribut().equals(ci2.getAttribut()))&&(ci1.getCritere().equals(ci2.getCritere()))&& (ci1.getValeurCritique().equals(ci2.getValeurCritique())) && (ci1.getContrainte().equals(ci2.getContrainte()) && (ci1.getStep().equals(ci2.getStep())))){
-              return -1;
-          }
+    
+    public int verify(List<ContrainteItem> cis, ContrainteItem ci1) {
+        for (ContrainteItem ci2 : cis) {
+            if ((ci1.getAttribut().equals(ci2.getAttribut())) && (ci1.getCritere().equals(ci2.getCritere())) && (ci1.getValeurCritique().equals(ci2.getValeurCritique())) && (ci1.getContrainte().equals(ci2.getContrainte()) && (ci1.getStep().equals(ci2.getStep())))) {
+                return -1;
+            }
         }
-       return 1; 
-   
-}
+        return 1;
+
+    }
 
 /*public int findByAttribut(ContrainteItem ci1){
     List<ContrainteItem> cis = em.createQuery("SELECT ci2 FROM ContrainteItem ci2 WHERE ci2.contrainte.id = " + ci1.getContrainte().getId()+ " AND ci2.critere = '" +ci1.getCritere()+ "'AND ci2.attribut = '" +ci1.getAttribut()+  "' AND ci2.valeurCritique = '" + ci1.getValeurCritique()+  "' AND ci2.step = '" +ci1.getStep()+  "' AND ci2.contrainte = '" +ci1.getContrainte()+"'").getResultList();
@@ -63,7 +63,4 @@ public class ContrainteItemFacade extends AbstractFacade<ContrainteItem> {
         return cloned;
 
     }
-   
-    // Add business logic below. (Right-click in editor and choose
-    // "Insert Code > Add Business Method")
 }

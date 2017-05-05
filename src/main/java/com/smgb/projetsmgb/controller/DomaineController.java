@@ -33,6 +33,7 @@ public class DomaineController implements Serializable {
     private List<Domaine> items = null;
     private Domaine selected;
     private DomaineAssocie domaineAssocie;
+    private DomaineAssocie selectedDomaineAssocie;
     private DomaineAssocie domaineAssociecloned;
     private List<DomaineAssocie> domaineAssocies;
 
@@ -41,17 +42,16 @@ public class DomaineController implements Serializable {
 
     public void detailMethode(Domaine domaine) {
         selected = domaine;
-        ejbFacade.findByDomaine(selected);
+        domaineAssocies = ejbFacade.findByDomaine(selected);
     }
 
     public void saveDomaineAssocie() {
         domaineAssocie.setDomaine(selected);
-        domaineAssociecloned = domaineAssoieFacade.clone(domaineAssocie);
-        int res = domaineAssoieFacade.verify(domaineAssocies, domaineAssociecloned);
+        int res = domaineAssoieFacade.verify(domaineAssocies, domaineAssocie);
         if (res < 0) {
             JsfUtil.addErrorMessage("Ce domaineAssocie existe déjà ");
         } else if (res == 1) {
-            domaineAssocies.add(domaineAssociecloned);
+            domaineAssocies.add(domaineAssoieFacade.clone(domaineAssocie));
             JsfUtil.addSuccessMessage("DomaineAssocié sauvé dans la liste");
         }
 
@@ -61,22 +61,19 @@ public class DomaineController implements Serializable {
         int res = ejbFacade.saveDomaine(selected);
         if (res > 0) {
             JsfUtil.addSuccessMessage("Domaine créé avec succès");
-        }
-        else if(res==-1){
-            
-        JsfUtil.addErrorMessage("Ce Domaine existe déjà");
+        } else if (res == -1) {
+
+            JsfUtil.addErrorMessage("Ce Domaine existe déjà");
         }
     }
 
     public void save() {
         int res = ejbFacade.save(domaineAssocies);
         if (res > 0) {
-            domaineAssocies = new ArrayList();
             JsfUtil.addSuccessMessage("sauvegarde terminé avec succès");
-        } 
-        } 
-
-    
+            domaineAssocies = new ArrayList();
+        }
+    }
 
     public DomaineAssocie getDomaineAssocie() {
         if (domaineAssocie == null) {
@@ -158,17 +155,20 @@ public class DomaineController implements Serializable {
     }
 
     public List<Domaine> getItems() {
-        if (items == null) {
-            items = getFacade().findAll();
-        }
-        return items;
+        return getFacade().findAll();
     }
-   public String suivantList2(){
-    return "List2";
-}
-      public String precedenListt(){
-    return "List";
-}
+
+    public String suivantList2() {
+        selected = new Domaine();
+        return "List2";
+    }
+
+    public String precedenListt() {
+        selected = new Domaine();
+        domaineAssocies = new ArrayList<>();
+        return "List";
+    }
+
     private void persist(PersistAction persistAction, String successMessage) {
         if (selected != null) {
             setEmbeddableKeys();
@@ -248,6 +248,14 @@ public class DomaineController implements Serializable {
             }
         }
 
+    }
+
+    public DomaineAssocie getSelectedDomaineAssocie() {
+        return selectedDomaineAssocie;
+    }
+
+    public void setSelectedDomaineAssocie(DomaineAssocie selectedDomaineAssocie) {
+        this.selectedDomaineAssocie = selectedDomaineAssocie;
     }
 
 }

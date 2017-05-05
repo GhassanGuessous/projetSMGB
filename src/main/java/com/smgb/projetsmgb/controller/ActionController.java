@@ -12,6 +12,8 @@ import com.smgb.projetsmgb.bean.Domaine;
 import com.smgb.projetsmgb.bean.Goal;
 import com.smgb.projetsmgb.bean.Processus;
 import com.smgb.projetsmgb.bean.ProvideInterfaceItem;
+import com.smgb.projetsmgb.bean.Resultat;
+import com.smgb.projetsmgb.bean.ResultatItem;
 import com.smgb.projetsmgb.bean.Step;
 import com.smgb.projetsmgb.bean.ValeurCritique;
 import com.smgb.projetsmgb.service.ActionFacade;
@@ -56,6 +58,10 @@ public class ActionController implements Serializable {
     private com.smgb.projetsmgb.service.ContrainteItemFacade contrainteItemFacade;
     @EJB
     private com.smgb.projetsmgb.service.ValeurCritiqueFacade valeurCritiqueFacade;
+    @EJB
+    private com.smgb.projetsmgb.service.ResultatFacade resultatFacade;
+    @EJB
+    private com.smgb.projetsmgb.service.ResultatItemFacade resultatItemFacade;
     private List<Action> items = null;
     private Action selected;
 
@@ -69,15 +75,20 @@ public class ActionController implements Serializable {
     private Contrainte contrainte;
     private ContrainteItem contrainteItem;
     private ContrainteItem contrainteItemSelected;
-    private ContrainteItem contrainteItemSelected2;
     private ValeurCritique valeurCritique;
+    
+    private Resultat resultat;
+    private ResultatItem resultatItem;
+    private ResultatItem selectedResultatItem;
 
     private List<Processus> processuses = new ArrayList();
     private List<Step> steps = new ArrayList();
     private List<Domaine> domaines;
     private List<ProvideInterfaceItem> provideInterfaceItems;
     private List<ContrainteItem> contrainteItems = new ArrayList<>();
-
+    
+    private List<Resultat> resultats = new ArrayList<>();
+    private List<ResultatItem> resultatItems = new ArrayList<>();
 
     /**
      * Creates a new instance of ActionController
@@ -180,10 +191,13 @@ public class ActionController implements Serializable {
         return getFacade().findAll();
     }
 
+    //ghassan & bouthaina
     public void saveGoal() {
         selected.setGoal(goal);
-        int i = goalFacade.saveGoal(goal, selected);
+        Object[] res = goalFacade.saveGoal(goal, selected);
+        int i = (int) res[0];
         if (i < 0) {
+            selected = (Action) res[1];
             message("", "Existent Deja ! voulez-vous ajouter des processus?");
         } else {
             message("Success", "continuez !");
@@ -198,6 +212,13 @@ public class ActionController implements Serializable {
         } else {
             message("Processus deja ajouté a la liste", "");
         }
+    }
+    
+    public Step prepareCreate(Processus processus) {
+        selectedProcessus = processus;
+        step = new Step();
+        initializeEmbeddableKey();
+        return step;
     }
 
     public void addStep() {
@@ -224,11 +245,17 @@ public class ActionController implements Serializable {
         }
     }
     
+    public void message(String msg1, String msg2) {
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.addMessage(null, new FacesMessage(msg1, msg2));
+    }
+    
     public List<Domaine> findDomaines() {
         domaines = domaineFacade.findAll();
         return domaines;
     }
-
+    
+    //sanata
     public void saveContrainte() {
         contrainte.setAction(selected);
         System.out.println(selected);
@@ -248,23 +275,15 @@ public class ActionController implements Serializable {
     }
 
     public void saveContrainteItemList() {
-        System.out.println("Hello World");
-        getContrainteItem().setId(contrainteItemFacade.generateId("ContrainteItem", "id"));
         valeurCritique.setContrainteItem(contrainteItem);
-        // getContrainte().setId(contrainteItemFacade.generationId());
-        System.out.println(getContrainteItem());
-        getContrainteItem().setContrainte(contrainte);
-        getContrainteItem().setStep(step1);
-        getContrainteItem().setValeurCritique(valeurCritique);
-         System.out.println(getContrainteItem().getAttribut());
-         System.out.println(getContrainteItem().getCritere());
-        int res = contrainteItemFacade.verify(contrainteItems,getContrainteItemSelected() );
-         if (res > 0) {
-           getContrainteItems().add(getContrainteItemSelected());
-           System.out.println(getContrainteItemSelected().getAttribut());
-         System.out.println(getContrainteItemSelected().getCritere());
+        contrainteItem.setContrainte(contrainte);
+        contrainteItem.setStep(step1);
+        contrainteItem.setValeurCritique(valeurCritique);
+        int res = contrainteItemFacade.verify(contrainteItems, contrainteItem);
+        if (res > 0) {
+            contrainteItems.add(contrainteItem);
             JsfUtil.addSuccessMessage("ContrainteItem sauvée dans la liste");
-        } else if (res == -1) {
+        } else{
             JsfUtil.addErrorMessage("ContrainteItem déjà existant dans la liste");
         }
     }
@@ -273,22 +292,10 @@ public class ActionController implements Serializable {
         int res = contrainteFacade.save(contrainteItems);
         if (res > 0) {
             JsfUtil.addSuccessMessage("Succes");
-            contrainteItems=new ArrayList<>();
+            contrainteItems = new ArrayList<>();
         } else if (res == -1) {
             JsfUtil.addErrorMessage("certains contraintes items existent déjà dans la base de donnée");
         }
-    }
-
-         public void saveValeurcritique() {
-        valeurCritiqueFacade.saveValeurCritique(valeurCritique);
-        JsfUtil.addSuccessMessage("Valeur critique prise en compte dans la creation du contrainteItem");
-    }
-
-    public Step prepareCreate(Processus processus) {
-        selectedProcessus = processus;
-        step = new Step();
-        initializeEmbeddableKey();
-        return step;
     }
 
     public ValeurCritique prepareCreate2() {
@@ -300,10 +307,36 @@ public class ActionController implements Serializable {
     public void vider(){
         contrainteItem = new ContrainteItem();
     }
-
-    public void message(String msg1, String msg2) {
-        FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(null, new FacesMessage(msg1, msg2));
+    
+    //melchiore
+    public void addResultatItem() {
+        //saveResultat();
+        resultat.setAction(selected);
+        getResultatItem().setResultat(resultat);
+        int res = resultatItemFacade.verifierListeResultatItem(resultatItems, resultatItem);
+        if (res > 0) {
+            resultatItems.add(resultatItemFacade.clone(resultatItem));
+            JsfUtil.addSuccessMessage("ResultatItem sauvée dans la liste");
+        } else {
+            JsfUtil.addErrorMessage("ResultatItem deja ajouté a la liste");
+        }
+    }
+    
+    public void rafraichir() {
+        resultatItem = new ResultatItem();
+    }
+    
+    public void saveResultatAndResultatItems() {
+        if(!resultatItems.isEmpty()){
+            int res = resultatFacade.save(resultatItems, resultat);
+            if (res > 0) {
+                JsfUtil.addSuccessMessage("Succes");
+                resultatItems = new ArrayList<>();
+            }
+        }else{
+            JsfUtil.addErrorMessage("Liste vide");
+        }
+       
     }
 
     @FacesConverter(forClass = Action.class)
@@ -451,12 +484,50 @@ public class ActionController implements Serializable {
         this.step1 = step1;
     }
 
-    public ContrainteItem getContrainteItemSelected2() {
-        return contrainteItemSelected2;
+    public Resultat getResultat() {
+        if(resultat == null){
+           resultat = new Resultat();
+        }
+        return resultat;
     }
 
-    public void setContrainteItemSelected2(ContrainteItem contrainteItemSelected2) {
-        this.contrainteItemSelected2 = contrainteItemSelected2;
+    public void setResultat(Resultat resultat) {
+        this.resultat = resultat;
+    }
+
+    public ResultatItem getResultatItem() {
+        if(resultatItem == null){
+           resultatItem = new ResultatItem();
+        }
+        return resultatItem;
+    }
+
+    public void setResultatItem(ResultatItem resultatItem) {
+        this.resultatItem = resultatItem;
+    }
+
+    public ResultatItem getSelectedResultatItem() {
+        return selectedResultatItem;
+    }
+
+    public void setSelectedResultatItem(ResultatItem selectedResultatItem) {
+        this.selectedResultatItem = selectedResultatItem;
+    }
+
+    public List<Resultat> getResultats() {
+        return resultats;
+    }
+
+    public void setResultats(List<Resultat> resultats) {
+        this.resultats = resultats;
+    }
+
+    public List<ResultatItem> getResultatItems() {
+        return resultatItems;
+    }
+
+    public void setResultatItems(List<ResultatItem> resultatItems) {
+        this.resultatItems = resultatItems;
     }
     
 

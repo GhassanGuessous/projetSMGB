@@ -10,6 +10,7 @@ import com.smgb.projetsmgb.controller.util.JsfUtil.PersistAction;
 import java.io.IOException;
 
 import java.io.Serializable;
+import java.net.UnknownHostException;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -32,9 +33,13 @@ public class UserController implements Serializable {
     private List<User> items = null;
     private User selected;
     
-    private String changePassword;
-    private String changeRepetePassword;
-
+    private String nouveauPassword;
+    private String nouveauConfirmPassword;
+    
+    private String tel;
+    private User currentUserBeforeVerification;
+    private String reponse;
+    
     public UserController() {
     }
 
@@ -73,9 +78,8 @@ public class UserController implements Serializable {
     public String seConnecter() throws IOException {
         int res = getFacade().seConnecter(selected, DeviceUtil.getDevice());
         if (res == -1) {
-            return "/verification?faces-redirect=true";
+            return "/Verification?faces-redirect=true";
         } else if (res > 0) {
-            System.out.println(SessionUtil.getConnectedUser().isMdpChanged());
             if (SessionUtil.getConnectedUser().isMdpChanged() == true) {
                 return "/index?faces-redirect=true";
             } else {
@@ -97,19 +101,31 @@ public class UserController implements Serializable {
     }
     
     public String changePassword() {
-        if (changePassword.equals(changeRepetePassword) && !changePassword.equals("") && changePassword != null) {
+        if (nouveauPassword.equals(nouveauConfirmPassword) && !nouveauPassword.equals("") && nouveauPassword != null) {
             User user = ejbFacade.find(selected.getLogin());
-            user.setPassword(HashageUtil.sha256(changePassword));
+            user.setPassword(HashageUtil.sha256(nouveauPassword));
             user.setMdpChanged(true);
             ejbFacade.edit(user);
             return seDeConnnecter();
+        }else{
+            JsfUtil.addErrorMessage("Les deux ne sont pas identiques !");
+            return "";
         }
-        return "";
+        
     }
     
     public String seDeConnnecter(){
         ejbFacade.seDeconnecter();
         return "/Authentification.xhtml?faces-redirect=true";
+    }
+    
+    public String verifierReponseEtTel() throws UnknownHostException {
+        int res = ejbFacade.verifierReponseEtTel(selected, reponse, tel);
+        if (res > 0) {
+            return "/index?faces-redirect=true";
+        } else {
+            return "/Authentification?faces-redirect=true";
+        }
     }
 
     public void create() {
@@ -227,22 +243,44 @@ public class UserController implements Serializable {
 
     }
 
-    public String getChangePassword() {
-        return changePassword;
+    public String getNouveauPassword() {
+        return nouveauPassword;
     }
 
-    public void setChangePassword(String changePassword) {
-        this.changePassword = changePassword;
+    public void setNouveauPassword(String nouveauPassword) {
+        this.nouveauPassword = nouveauPassword;
     }
 
-    public String getChangeRepetePassword() {
-        return changeRepetePassword;
+    public String getNouveauConfirmPassword() {
+        return nouveauConfirmPassword;
     }
 
-    public void setChangeRepetePassword(String changeRepetePassword) {
-        this.changeRepetePassword = changeRepetePassword;
+    public void setNouveauConfirmPassword(String nouveauConfirmPassword) {
+        this.nouveauConfirmPassword = nouveauConfirmPassword;
     }
-    
-    
+
+    public String getTel() {
+        return tel;
+    }
+
+    public void setTel(String tel) {
+        this.tel = tel;
+    }
+
+    public String getReponse() {
+        return reponse;
+    }
+
+    public void setReponse(String reponse) {
+        this.reponse = reponse;
+    }
+
+    public User getCurrentUserBeforeVerification() {
+       return ejbFacade.find(getSelected().getLogin());
+    }
+
+    public void setCurrentUserBeforeVerification(User currentUserBeforeVerification) {
+        this.currentUserBeforeVerification = currentUserBeforeVerification;
+    }
 
 }

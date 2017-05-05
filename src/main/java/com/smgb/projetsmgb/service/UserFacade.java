@@ -7,6 +7,7 @@ package com.smgb.projetsmgb.service;
 
 import com.smgb.projetsmgb.bean.User;
 import com.smgb.projetsmgb.bean.UserDevice;
+import com.smgb.projetsmgb.controller.util.DeviceUtil;
 import com.smgb.projetsmgb.controller.util.HashageUtil;
 import com.smgb.projetsmgb.controller.util.SessionUtil;
 import java.net.UnknownHostException;
@@ -36,45 +37,34 @@ public class UserFacade extends AbstractFacade<User> {
         super(User.class);
     }
     
-    public int seConnecter(User user,UserDevice device){
-//        if(user==null || user.getLogin() == null ){
-//            JsfUtil.addErrorMessage("veillez entrer votre Login");
-//            return -5;
-//        }
-//        else{
-            User loadedUser = find(user.getLogin());
-            System.out.println(loadedUser.isMdpChanged());
-            if(loadedUser == null){
-                return -4;
+    public int seConnecter(User user, UserDevice device) {
+        User loadedUser = find(user.getLogin());
+        if (loadedUser == null) {
+            return -4;
+        } else if (!loadedUser.getPassword().equals(HashageUtil.sha256(user.getPassword()))) {
+            if (loadedUser.getNbrCnx() < 3) {
+                loadedUser.setNbrCnx(loadedUser.getNbrCnx() + 1);
+            } else if (loadedUser.getNbrCnx() > 3) {
+                loadedUser.setBlocked(1);
             }
-            else if(!loadedUser.getPassword().equals(HashageUtil.sha256(user.getPassword()))){
-                if(loadedUser.getNbrCnx()<3){
-                    loadedUser.setNbrCnx(loadedUser.getNbrCnx()+1);
-                }
-                else if(loadedUser.getNbrCnx()>3){
-                    loadedUser.setBlocked(1);
-                }
             return -3;
-            }
-            else if(loadedUser.getBlocked()==1){
-                return -2;
-            }
-            else{
-                loadedUser.setNbrCnx(0);
-                user = clone(loadedUser);
-                user.setPassword(null);
-                SessionUtil.registerUser(user);
-                int res = userDeviceFacade.checkDevice(user, device);
-                if(res>0){
-                    if(res==1){
-                        userDeviceFacade.save(device, user);
-                    }
-                    return 1;
-                }else{
-                    return -1;
+        } else if (loadedUser.getBlocked() == 1) {
+            return -2;
+        } else {
+            loadedUser.setNbrCnx(0);
+            user = clone(loadedUser);
+            user.setPassword(null);
+            SessionUtil.registerUser(user);
+            int res = userDeviceFacade.checkDevice(user, device);
+            if (res > 0) {
+                if (res == 1) {
+                    userDeviceFacade.save(device, user);
                 }
+                return 1;
+            } else {
+                return -1;
             }
-        //}
+        }
     }
     
      private void clone(User userSource,User userDestination){
@@ -110,6 +100,18 @@ public class UserFacade extends AbstractFacade<User> {
     
     public void seDeconnecter(){
         SessionUtil.getSession().invalidate();
+    }
+    
+    public int verifierReponseEtTel(User user, String reponse, String tel) throws UnknownHostException {
+        User loaded = find(user.getLogin());
+        if (reponse.equals(loaded.getReponse()) && tel.equals(loaded.getTel())) {
+            userDeviceFacade.save(DeviceUtil.getDevice(), loaded);
+            return 1;
+        } else {
+            loaded.setBlocked(1);
+            edit(loaded);
+            return -1;
+        }
     }
     
 }

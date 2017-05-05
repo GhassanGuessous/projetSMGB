@@ -26,18 +26,19 @@ public class UserDeviceFacade extends AbstractFacade<UserDevice> {
 
     @PersistenceContext(unitName = "com.SMGB_projetSMGB_war_1.0-SNAPSHOTPU")
     private EntityManager em;
+    
     public static List<UserDevice> devices = new ArrayList<>();
     
-    public int saveDevice(UserDevice device){
-        if(device.getUser()!=null){
-        create(device);
-        devices.add(device);
-            System.out.println(""+device);
-        return 1;
-        }
-        return -1;
-        
-    }
+//    public int saveDevice(UserDevice device){
+//        if(device.getUser()!=null){
+//        create(device);
+//        devices.add(device);
+//            System.out.println(""+device);
+//        return 1;
+//        }
+//        return -1;
+//        
+//    }
     
     @Override
     protected EntityManager getEntityManager() {
@@ -105,9 +106,9 @@ public class UserDeviceFacade extends AbstractFacade<UserDevice> {
         return device;
     }
     
-    public void save(UserDevice device, User user){
+    public void save(UserDevice device, User user) throws java.net.UnknownHostException{
         device.setUser(user);
-        create(device);
+        create(findAdress(device));
     }
     
 }

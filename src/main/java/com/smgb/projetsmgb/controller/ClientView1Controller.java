@@ -72,7 +72,7 @@ public class ClientView1Controller implements Serializable {
 //        provideInterfaceItems = provideInterfaceItemFacade.findProvideInterfaceItemByComposant(composantSelected);
         root = composantFacade.createComposant(subDomaineSelected);
         root2 = new DefaultTreeNode("Root2", null);
-        TreeNode provideInterface = new DefaultTreeNode("hani", root2);
+        TreeNode provideInterface = new DefaultTreeNode("Vos Services Selectionnés", root2);
     }
 
     public void onProvideInterfaceItemDrop(DragDropEvent ddEvent) {

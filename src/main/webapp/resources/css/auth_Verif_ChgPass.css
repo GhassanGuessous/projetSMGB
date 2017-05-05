@@ -1,0 +1,29 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 5 mai 2017, 11:47:53
+    Author     : Ghassan
+*/
+
+.panel-default{
+    margin-top: 150px;
+    margin-left: 200px;
+    margin-right: 200px;
+}
+img{
+    border-radius: 100%;
+    width: 100px;
+    height: auto;
+}
+.panel-title{
+    text-align: center;
+}
+.btn-default{
+    float: right;
+}
+/*.Bimage{
+    background-image: url("images/locks.jpg");
+}*/

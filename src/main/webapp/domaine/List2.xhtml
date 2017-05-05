@@ -14,7 +14,7 @@
         </ui:define>
 
         <ui:define name="body">
-            <div class="container-fluid"><br></br><br></br>
+            <div class="container-fluid" style="margin-top: 40px;">
                 <div class="row"> 
                     <div class="col-md-6"> 
                         <div class="panel panel-default">
@@ -100,7 +100,7 @@
                 </div>
             </div>
             <h:form id="next2">
-                <p:commandButton action="#{domaineController.precedenListt()}" value="PREVIOUS" style="float:left;"/>
+                <h:commandButton action="#{domaineController.precedenListt()}" class="btn btn-default" value="PREVIOUS" style="float:left;"/>
             </h:form>
         </ui:define>
     </ui:composition>

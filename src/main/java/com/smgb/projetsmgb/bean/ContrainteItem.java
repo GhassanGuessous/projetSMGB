@@ -26,6 +26,7 @@ public class ContrainteItem implements Serializable {
     private Long id;
     private String attribut;
     private String critere;
+    private String nom;
     @ManyToOne
     private Contrainte contrainte;
     @ManyToOne
@@ -85,6 +86,14 @@ public class ContrainteItem implements Serializable {
 
     public void setValeurCritique(ValeurCritique valeurCritique) {
         this.valeurCritique = valeurCritique;
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
     }
     
     @Override

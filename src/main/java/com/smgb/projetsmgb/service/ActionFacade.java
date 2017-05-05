@@ -31,12 +31,12 @@ public class ActionFacade extends AbstractFacade<Action> {
         super(Action.class);
     }
     
-    public int findActionByGoal(Goal goal){
+    public Object[] findActionByGoal(Goal goal){
         List<Action> actions = em.createQuery("SELECT a FROM Action a WHERE a.goal.nom = '" + goal.getNom() + "'").getResultList();
         if(!actions.isEmpty()){
-            return -1;
+            return new Object[]{-1, actions.get(0)};
         }else{
-            return 1;
+            return new Object[]{1, null};
         }
     }
 }

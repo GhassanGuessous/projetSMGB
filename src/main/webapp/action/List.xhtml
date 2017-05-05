@@ -12,20 +12,12 @@
         </ui:define>
 
         <ui:define name="body">
-            <h:form id="mainForm"><br></br>
+            <h:form id="mainForm" style="margin-top: 40px;">
                 <p:tabView id="tabView" cache="false">
                     <p:tab title="Goal/Action">
-                        <div class="container-fluid"><br></br>
-                            <!--                            <div class="row">
-                                                            <div class="col-md-4"></div>
-                                                            
-                                                            <div class="col-md-2"><br></br><br></br><br></br><br></br>
-                                                                
-                                                            </div>
-                                                        </div>-->
+                        <div class="container-fluid" style="margin-top: 20px;">
                             <div class="row">
                                 <div class="col-md-3">
-                                    <!--<h:form id="goalForm">-->
                                     <p:growl id="growl" showDetail="true" sticky="true" />
                                     <div class="panel panel-default">
                                         <div class="panel-heading">
@@ -51,10 +43,8 @@
                                             <p:commandButton id="GoalButton" icon="ui-icon-plus" actionListener="#{actionController.saveGoal()}" update="growl" style="width: 100%"/>
                                         </div>
                                     </div>
-                                    <!--</h:form>-->
                                 </div>
                                 <div class="col-md-4">
-                                    <!--<h:form id="processusListForm">-->
                                     <div class="panel panel-default">
                                         <div class="panel-heading">
                                             <h3 class="panel-title">Processus</h3>
@@ -89,10 +79,8 @@
                                             </p:dataTable>
                                         </div>
                                     </div>
-                                    <!--</h:form>-->
                                 </div>
                                 <div class="col-md-5">
-                                    <!--<h:form id="stepsListForm">-->
                                     <div class="panel panel-default">
                                         <div class="panel-heading">
                                             <h3 class="panel-title">Steps</h3>
@@ -126,16 +114,15 @@
                                             </p:dataTable>
                                         </div>
                                     </div>
-                                    <!--</h:form>-->
                                 </div>
                             </div>
                             <h:commandButton id="suivantButton" class="btn btn-default" value="Save" actionListener="#{actionController.versContrainte()}" style="float:right;"/>
                         </div>
-
                     </p:tab>
+                    
                     <p:tab title="Contrainte" id="t2">
                         <p:growl id="growl2" showDetail="true" sticky="true" />
-                        <div class="container"><br></br>
+                        <div class="container" style="margin-top: 20px;">
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="panel panel-default">
@@ -159,6 +146,9 @@
                                         </div>
                                         <div class="panel-body">
                                             <p:panelGrid columns="2">
+                                                <p:outputLabel value="Nom:" for="nomContrainte" />
+                                                <p:inputText id="nomContrainte" value="#{actionController.contrainteItem.nom}" />
+                                                
                                                 <p:outputLabel value="Step:" for="step" />
                                                 <p:selectOneMenu id="step" value="#{actionController.step1}">
                                                     <f:selectItem itemLabel="--SELECT--" itemValue="#{null}"/>
@@ -189,7 +179,7 @@
                                 
                                 <div class="col-md-2">
                                     <h:commandButton id="createAll"  value="Save" class="btn btn-default" actionListener="#{actionController.saveAllContrainteAndItems()}" style="float:right;" >
-                                        <p:ajax update="growl2" />
+                                        <p:ajax update="growl2,datalistC" />
                                     </h:commandButton>
                                 </div>
                             </div>
@@ -202,13 +192,19 @@
                                 </div>
                                 <div class="panel-body">
                                     <p:dataTable id="datalistC" value="#{actionController.contrainteItems}" var="item"
-                                                 selectionMode="single" selection="#{actionController.contrainteItemSelected2}"
+                                                 selectionMode="single" selection="#{actionController.contrainteItemSelected}"
                                                  paginator="true"
-                                                 rowKey="#{item.id}"
+                                                 rowKey="#{item.nom}"
                                                  rows="10"
                                                  rowsPerPageTemplate="10,20,30,40,50"
                                                  >
                                         
+                                        <p:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="Nom"/>
+                                            </f:facet>
+                                            <h:outputText value="#{item.nom}"/>
+                                        </p:column>
                                         <p:column>
                                             <f:facet name="header">
                                                 <h:outputText value="Step"/>
@@ -243,13 +239,83 @@
                                 </div>
                             </div>
                         </div>
-
-                        <!--</h:form>-->
                     </p:tab>
-                    <p:tab title="Resultat">
-                        <h:panelGrid columns="2" cellpadding="10">
-                            <h:outputText value="After a break of more than 15 years..." />
-                        </h:panelGrid>
+                    
+                    <p:tab title="Resultat" id="t3">
+                        <p:growl id="growl3" showDetail="true" sticky="true" />
+                        <div class="container-fluid" style="margin-top: 20px;">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <h3 class="panel-title">Resultat/ResultatItem</h3>
+                                        </div>
+                                        <div class="panel-body">
+                                            <h:panelGrid columns="2">
+                                                <p:outputLabel value="nomResultat:" for="nomResultat" />
+                                                <p:inputText id="nomResultat" value="#{actionController.resultat.nom}" />
+                                            </h:panelGrid>
+                                            <p:separator></p:separator>
+                                            <h:panelGrid columns="2">
+                                                <p:outputLabel value="Valeur:" for="nomResultatItem" />
+                                                <p:inputText id="nomResultatItem" value="#{actionController.resultatItem.valeur}" />
+                                                <p:outputLabel value="Step:" for="stepbis" />
+                                                <p:selectOneMenu id="stepbis" value="#{actionController.resultatItem.step}" >
+                                                    <f:selectItem itemLabel=" SELECT " itemValue="#{null}"/>
+                                                    <f:selectItems value="#{actionController.findSteps()}"
+                                                                   var="stepItem"
+                                                                   itemValue="#{stepItem}" itemLabel="#{stepItem.nom}"/>
+                                                </p:selectOneMenu>
+                                            </h:panelGrid>
+                                            <p:commandButton id="createRIButton" icon="ui-icon-plus"   actionListener="#{actionController.addResultatItem()}" update="datalistR" />
+                                            <p:commandButton id="refreshButtonRI" icon="ui-icon-arrowrefresh-1-e"   actionListener="#{actionController.rafraichir()}" update="nomResultatItem,stepbis"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <h3 class="panel-title">ResultatItem List</h3>
+                                        </div>
+                                        <div class="panel-body">
+                                            <p:dataTable id="datalistR" value="#{actionController.resultatItems}" var="item"
+                                                         selectionMode="single" selection="#{actionController.selectedResultatItem}"
+                                                         paginator="true"
+                                                         rowKey="#{item.valeur}"
+                                                         rows="10"
+                                                         rowsPerPageTemplate="10,20,30,40,50"
+                                                         >
+
+
+                                                <p:column>
+                                                    <f:facet name="header">
+                                                        <h:outputText value="valeur"/>
+                                                    </f:facet>
+                                                    <h:outputText value="#{item.valeur}"/>
+                                                </p:column>
+                                                <p:column>
+                                                    <f:facet name="header">
+                                                        <h:outputText value="step"/>
+                                                    </f:facet>
+                                                    <h:outputText value="#{item.step.nom}"/>
+                                                </p:column>
+                                                <p:column>
+                                                    <f:facet name="header">
+                                                        <h:outputText value="resultat"/>
+                                                    </f:facet>
+                                                    <h:outputText value="#{item.resultat.nom}"/>
+                                                </p:column>
+                                            </p:dataTable>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <h:commandButton id="createButtonRES" class="btn btn-default" value="SAVE" action="#{actionController.saveResultatAndResultatItems()}">
+                                        <p:ajax update="growl3,datalistR"/>
+                                    </h:commandButton>
+                                </div>
+                            </div>
+                        </div>
                     </p:tab>
                 </p:tabView>
             </h:form>

@@ -2,36 +2,45 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:b="http://bootsfaces.net/ui">
 
     <h:head>
         <title>Verification</title>
         <h:outputStylesheet name="css/jsfcrud.css"/>
-        <h:outputStylesheet name="css/loginStyle.css"/>
+        <h:outputStylesheet library="css" name="auth_Verif_ChgPass.css"/>
     </h:head>
-    <h:body>
-        <h3>Verification du compte</h3>
-        <div>
-            <h:form>
-                <p:growl id="growl" sticky="true" showDetail="true" life="3000" />
-                <h:panelGrid columns="2" cellpadding="5">
-                    <h:outputLabel for="tel" value="Telephone:" />
-                    <p:inputText id="tel" value="#{userController.tel}" required="false" />
+    <h:body class="Bimage">
+        <h:form>
+            <p:growl id="growl" sticky="true" showDetail="true" life="3000" />
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Verifier votre compte</h3>
+                        </div><br></br>
+                        <div align="center">
+                            <img src="resources/images/user.png"/>
+                        </div><br></br>
+                        <div class="panel-body">
+                            <div align="center">
+                                <h:outputLabel  value="Bonjour #{userController.selected.login}" />
+                            </div>
+                            <br/><br/>
+                            <b:panelGrid columns="1">
+                                <b:inputText id="tel" value="#{userController.tel}" title="tel" required="true" placeholder="Telephone, ex: 06..."/>
 
-                    <h:outputLabel  value="Question :" />
-                    <h:outputLabel  value="#{userController.currentUserBeforeVerification.question}" />
+                                <h:outputLabel  value=" - #{userController.currentUserBeforeVerification.question}?" />
 
-                    <h:outputLabel for="reponse" value="Reponse:" />
-                    <p:inputText id="reponse" value="#{userController.reponse}"  required="true" />
-
-                    <f:facet name="footer">
-                        <p:commandButton value="Verifier" update="growl" 
-                                         action="#{userController.verifierReponseEtTel()}"/>
-                    </f:facet>
-                </h:panelGrid>
-            </h:form>
-        </div>
+                                <b:inputText id="reponse"  value="#{userController.reponse}" title="reponse" required="true" placeholder="Reponse"/>
+                            </b:panelGrid>
+                            <br></br>
+                            <b:commandButton action="#{userController.verifierReponseEtTel()}" value="Verifier" class="btn btn-default btn-md" update="growl"/><br/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </h:form>
     </h:body>
 </html>
 

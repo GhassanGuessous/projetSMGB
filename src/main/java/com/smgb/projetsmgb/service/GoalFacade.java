@@ -35,7 +35,7 @@ public class GoalFacade extends AbstractFacade<Goal> {
         super(Goal.class);
     }
 
-    public int saveGoal(Goal goal, Action action) {
+    public Object[] saveGoal(Goal goal, Action action) {
         int res = 0;
         String requete = "SELECT g FROM Goal g WHERE g.nom = '" + goal.getNom() + "'";
         requete += " AND g.domaine.id = " + goal.getDomaine().getId();
@@ -44,13 +44,14 @@ public class GoalFacade extends AbstractFacade<Goal> {
             create(goal);
             res = 1;
         }else{
-            int i = actionFacade.findActionByGoal(goal);
+            Object[] resA = actionFacade.findActionByGoal(goal);
+            int i = (int) resA[0];
             if(i < 0){
-                return -1; //goal et action existent
+                return new Object[]{-1, resA[1]}; //goal et action existent
             }
         }
         actionFacade.create(action);
-        return res;
+        return new Object[]{res, action};
 
     }
 }

@@ -5,40 +5,34 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:b="http://bootsfaces.net/ui">
     <h:head>
-        <title>Facelet Title</title>
+        <title>Authentification</title>
         <h:outputStylesheet name="css/jsfcrud.css"/>
         <h:outputStylesheet library="css" name="bootstrap.css"/>
+        <h:outputStylesheet library="css" name="auth_Verif_ChgPass.css"/>
     </h:head>
 
-    <h:body>
+    <h:body class="Bimage">
         <h:form>
             <p:growl id="growl" showDetail="true" sticky="true" />
             <div class="container-fluid">
-                <br></br><br></br><br></br><br></br><br></br><br></br>
                 <div class="row">
-                    <div class="col-md-3"></div>
-                    <div class="col-md-6" align="justify">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h3 class="panel-title" style="text-align: center">AUTHENTIFICATION</h3>
-                            </div><br></br>
-                            <div align="center">
-                                <img src="resources/images/user.png" style="border-radius: 100%; width: 100px; height: auto;"/>
-                            </div><br></br>
-                            <div class="panel-body">
-                                <b:panelGrid columns="2">
-                                    <h:outputLabel value="Login:" for="login"/>
-                                    <b:inputText id="login" value="#{userController.selected.login}" title="Login" required="true"/>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">AUTHENTIFICATION</h3>
+                        </div><br></br>
+                        <div align="center">
+                            <img src="resources/images/user.png"/>
+                        </div><br></br>
+                        <div class="panel-body">
+                            <b:panelGrid columns="1">
+                                <b:inputText id="login" value="#{userController.selected.login}" title="Login" required="true" placeholder="User name"/>
 
-                                    <h:outputLabel value="Password:" for="password"/>
-                                    <b:inputText type="password" id="password" value="#{userController.selected.password}" title="Password" required="true"/>
-                                </b:panelGrid>
-                                <br></br>
-                                <b:commandButton action="#{userController.seConnecter()}" value="Se connecter" class="btn btn-default btn-md" update="growl"/><br/>
-                            </div>
+                                <b:inputText type="password" id="password" value="#{userController.selected.password}" title="Password" required="true" placeholder="Password"/>
+                            </b:panelGrid>
+                            <br></br>
+                            <b:commandButton action="#{userController.seConnecter()}" value="Se connecter" class="btn btn-default btn-md" update="growl"/><br/>
                         </div>
                     </div>
-                    <div class="col-md-3"></div>
                 </div>
             </div>
         </h:form>

@@ -22,38 +22,38 @@ public class DomaineFacade extends AbstractFacade<Domaine> {
 
     @PersistenceContext(unitName = "com.SMGB_projetSMGB_war_1.0-SNAPSHOTPU")
     private EntityManager em;
+    
+    @EJB
+    DomaineAssocieFacade domaineAssocieFacade;
 
     @Override
     protected EntityManager getEntityManager() {
         return em;
     }
   
-    @EJB
-    DomaineAssocieFacade domaineAssocieFacade;
     public DomaineFacade() {
         super(Domaine.class);
     }
+    
     public int save(List<DomaineAssocie> domaineAssocies){
         for (DomaineAssocie domaineAssocy : domaineAssocies) {
-            /*int i = domaineAssocieFacade.findByDomaineAndNom(domaineAssocy);
-            if(i > 0){*/
+            int i = domaineAssocieFacade.findByDomaineAndNom(domaineAssocy);
+            if (i > 0) {
                 domaineAssocieFacade.create(domaineAssocy);
-             
             }
-           return 1;
-       
+        }
+        return 1;
     }
-    public int saveDomaine (Domaine domaine){
-   List<Domaine> ds= em.createQuery("SELECT d FROM Domaine d WHERE d.nom ='"+domaine.getNom()+"'").getResultList();
-         
-       if(ds.isEmpty()){
-           create(domaine);
-           return 1;
-       }
-     
+    
+    public int saveDomaine(Domaine domaine) {
+        List<Domaine> ds = em.createQuery("SELECT d FROM Domaine d WHERE d.nom ='" + domaine.getNom() + "'").getResultList();
+        if (ds.isEmpty()) {
+            create(domaine);
+            return 1;
+        }
         return -1;
-      
-}
+    }
+    
      public List<DomaineAssocie> findByDomaine (Domaine domaine) {
         return em.createQuery("SELECT ds FROM DomaineAssocie ds WHERE ds.domaine.id='" + domaine.getId() + "'").getResultList();
     }
